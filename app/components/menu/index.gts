@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+// eslint-disable-next-line no-unused-vars
 import MenuMobile from './mobile';
 import MenuDesktop from './desktop';
 
