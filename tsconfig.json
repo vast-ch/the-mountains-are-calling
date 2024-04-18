@@ -10,5 +10,11 @@
       "the-mountains-are-calling/*": ["app/*"],
       "*": ["types/*"]
     }
+  },
+  "glint": {
+    "environment": [
+      "ember-loose",
+      "ember-template-imports",
+    ]
   }
 }
