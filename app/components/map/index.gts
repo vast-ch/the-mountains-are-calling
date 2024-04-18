@@ -7,7 +7,11 @@ import MapForm from './form';
 import { action } from '@ember/object';
 import type { FormResultData } from '@frontile/forms';
 import type { EmptyObject } from '@glimmer/component/-private/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
+import { getPromiseState } from '@warp-drive/ember';
+import { getRequestState } from '@warp-drive/ember';
+import { trackedFunction } from 'reactiveweb/function';
+import { resourceFactory, resource, use } from 'ember-resources';
 
 export default class Map extends Component {
   @service mountainsStore;
@@ -27,12 +31,35 @@ export default class Map extends Component {
   lat = 46.68027;
   zoom = 15;
 
-  get data() {
+  // promise = this.mountainsStore.requestManager.request({
+  //   url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
+  // });
+
+  // @cached
+  // get data() {
+  //   const startAt = this.startDate.getTime() / 1000;
+  //   const endAt = this.endDate.getTime() / 1000;
+
+  //   console.log(this.promise);
+  //   const state = getPromiseState(this.promise);
+  //   if (state.isPending) {
+  //     return [];
+  //   }
+  //   if (state.isError) {
+  //     return [];
+  //   }
+  //   return state.result;
+  // }
+
+  data = trackedFunction(this, async () => {
+    const startAt = this.startDate.getTime() / 1000;
+    const endAt = this.endDate.getTime() / 1000;
     const promise = this.mountainsStore.requestManager.request({
-      url: 'https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json',
+      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
     });
-    return promise;
-  }
+    const data = await promise;
+    return data.content;
+  });
 
   <template>
     <MapForm
@@ -41,7 +68,9 @@ export default class Map extends Component {
       @onChange={{this.onChange}}
     />
 
-    <Request @request={{this.data}}>
+    {{log this.data.value}}
+
+    {{!-- <Request @request={{this.data}}>
       <:loading>
         Loading
       </:loading>
@@ -76,7 +105,7 @@ export default class Map extends Component {
 
       </:content>
 
-    </Request>
+    </Request> --}}
   </template>
 }
 

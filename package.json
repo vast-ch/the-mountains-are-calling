@@ -138,7 +138,8 @@
     "@ember-data/rest": "5.4.0-alpha.55",
     "@ember-data/store": "5.4.0-alpha.55",
     "@warp-drive/core-types": "0.0.0-alpha.41",
-    "ember-data-types": "5.4.0-alpha.55"
+    "ember-data-types": "5.4.0-alpha.55",
+    "reactiveweb": "^1.2.3"
   },
   "pnpm": {
     "overrides": {}
