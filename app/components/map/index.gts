@@ -5,15 +5,20 @@ import { Request } from '@warp-drive/ember';
 // @ts-expect-error No TS stuff yet
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
 import MapForm from './form';
-import { action } from '@ember/object';
-import type { FormResultData } from '@frontile/forms';
-import { tracked } from '@glimmer/tracking';
 import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds } from 'leaflet';
+import type { FormSignature } from '@frontile/forms';
+import { isEmpty } from 'ember-truth-helpers';
+import { t } from 'ember-intl';
 
 interface Signature {
-  Args: {};
+  Args: {
+    startDate: number;
+    endDate: number;
+    deviceId: string;
+    onChange: FormSignature['Args']['onChange'];
+  };
   Blocks: {};
   Element: HTMLDivElement;
 }
@@ -37,18 +42,6 @@ function bounds(locations: [[]]): LatLngBounds {
 export default class Map extends Component<Signature> {
   @service mountainsStore: any;
 
-  @tracked startDate = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000);
-  @tracked endDate = new Date();
-
-  @action onChange(data: FormResultData) {
-    this.startDate = new Date(data['startDate'] as string);
-    this.endDate = new Date(data['endDate'] as string);
-  }
-
-  lng = 7.8536;
-  lat = 46.68027;
-  zoom = 15;
-
   get request() {
     return this.mountainsStore.requestManager.request({
       url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
@@ -57,9 +50,10 @@ export default class Map extends Component<Signature> {
 
   <template>
     <MapForm
-      @startDate={{this.startDate}}
-      @endDate={{this.endDate}}
-      @onChange={{this.onChange}}
+      @startDate={{@startDate}}
+      @endDate={{@endDate}}
+      @deviceId={{@deviceId}}
+      @onChange={{@onChange}}
     />
 
     <Request @request={{this.request}}>
@@ -70,37 +64,40 @@ export default class Map extends Component<Signature> {
       <:content as |result|>
         <Filter
           @data={{result}}
-          @startDate={{this.startDate}}
-          @endDate={{this.endDate}}
+          @startDate={{@startDate}}
+          @endDate={{@endDate}}
           as |filtered|
         >
-          <LeafletMap
-            @bounds={{bounds filtered.locations}}
-            class='w-full min-h-64 flex-1'
-            as |layers|
-          >
-            <layers.tile
-              @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-            />
+          {{#if (isEmpty filtered.points)}}
+            {{t 'error.no-data-to-display'}}
+          {{else}}
+            <LeafletMap
+              @bounds={{bounds filtered.locations}}
+              class='w-full min-h-64 flex-1'
+              as |layers|
+            >
+              <layers.tile
+                @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+              />
 
-            <layers.polyline @locations={{filtered.locations}} />
+              <layers.polyline @locations={{filtered.locations}} />
 
-            {{#each filtered.points as |point index|}}
-              <layers.circle
-                @lat={{point.latitude}}
-                @lng={{point.longitude}}
-                @radius={{point.accuracy}}
-                @color={{colorGradient index filtered.points.length}}
-                as |circle|
-              >
-                <circle.popup>
-                  {{timestampToHuman point.timestamp}}
-                </circle.popup>
-              </layers.circle>
+              {{#each filtered.points as |point index|}}
+                <layers.circle
+                  @lat={{point.latitude}}
+                  @lng={{point.longitude}}
+                  @radius={{point.accuracy}}
+                  @color={{colorGradient index filtered.points.length}}
+                  as |circle|
+                >
+                  <circle.popup>
+                    {{timestampToHuman point.timestamp}}
+                  </circle.popup>
+                </layers.circle>
 
-            {{/each}}
-
-          </LeafletMap>
+              {{/each}}
+            </LeafletMap>
+          {{/if}}
         </Filter>
       </:content>
 

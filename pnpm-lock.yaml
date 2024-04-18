@@ -53,6 +53,9 @@ dependencies:
   colorjs.io:
     specifier: ^0.5.0
     version: 0.5.0
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   ember-data-types:
     specifier: 5.4.0-alpha.55
     version: 5.4.0-alpha.55
@@ -265,6 +268,9 @@ devDependencies:
   ember-template-lint:
     specifier: ^5.13.0
     version: 5.13.0
+  ember-truth-helpers:
+    specifier: ^4.0.3
+    version: 4.0.3(ember-source@5.6.0)
   eslint:
     specifier: ^8.56.0
     version: 8.57.0
@@ -6572,6 +6578,10 @@ packages:
       time-zone: 1.0.0
     dev: true
 
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
+
   /debug@2.6.9(supports-color@8.1.1):
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -7998,6 +8008,18 @@ packages:
     dependencies:
       ember-cli-babel: 7.26.11
       ember-cli-htmlbars: 5.7.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /ember-truth-helpers@4.0.3(ember-source@5.6.0):
+    resolution: {integrity: sha512-T6Ogd3pk9FxYiZfSxdjgn3Hb3Ksqgw7CD23V9qfig9jktNdkNEHo4+3PA3cSD/+3a2kdH3KmNvKyarVuzdtEkA==}
+    peerDependencies:
+      ember-source: '>=3.28.0'
+    dependencies:
+      '@embroider/addon-shim': 1.8.7
+      ember-functions-as-helper-polyfill: 2.1.2(ember-source@5.6.0)
+      ember-source: 5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)
     transitivePeerDependencies:
       - supports-color
     dev: true

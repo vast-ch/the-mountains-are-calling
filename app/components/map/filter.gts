@@ -4,8 +4,8 @@ import { hash } from '@ember/helper';
 interface MapFilterSignature {
   Args: {
     data: any[];
-    startDate: Date;
-    endDate: Date;
+    startDate: number;
+    endDate: number;
   };
   Blocks: {
     default: [points: any];
@@ -16,8 +16,8 @@ interface MapFilterSignature {
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Filter extends Component<MapFilterSignature> {
   get points() {
-    const startDate = this.args.startDate.getTime() / 1000;
-    const endDate = this.args.endDate.getTime() / 1000;
+    const startDate = this.args.startDate / 1000;
+    const endDate = this.args.endDate / 1000;
 
     return Object.values(this.args.data).filter((elm) => {
       return elm.timestamp > startDate && elm.timestamp < endDate;

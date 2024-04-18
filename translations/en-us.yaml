@@ -2,6 +2,8 @@ project:
   name: The Mountains Are Calling
 map:
   form:
-    startDate: From
-    endDate: To
-    deviceId: Device ID
+    start-date: From
+    end-date: To
+    device-id: Device ID
+error:
+  no-data-to-display: No data to display
