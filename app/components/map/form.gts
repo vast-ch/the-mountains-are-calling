@@ -23,17 +23,23 @@ export default class MapForm extends Component<MapFormSignature> {
   }
 
   <template>
-    <Form @onChange={{@onChange}} class='grid grid-cols-2 w-full gap-4 py-4'>
+    <Form @onChange={{@onChange}} class='grid grid-cols-3 w-full gap-4 py-4'>
+      <Input
+        @value=''
+        @type='text'
+        name='deviceId'
+        @label={{t 'map.form.deviceId'}}
+      />
       <Input
         @value={{this.startDateString}}
         @type='date'
-        @name='startDate'
+        name='startDate'
         @label={{t 'map.form.startDate'}}
       />
       <Input
         @value={{this.endDateString}}
         @type='date'
-        @name='endDate'
+        name='endDate'
         @label={{t 'map.form.endDate'}}
       />
     </Form>

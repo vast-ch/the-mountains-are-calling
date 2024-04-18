@@ -4,3 +4,4 @@ map:
   form:
     startDate: From
     endDate: To
+    deviceId: Device ID

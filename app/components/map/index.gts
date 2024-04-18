@@ -1,65 +1,59 @@
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
-// import { query } from '@ember-data/rest/request';
+// @ts-expect-error No TS stuff yet
 import { Request } from '@warp-drive/ember';
+// @ts-expect-error No TS stuff yet
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
 import MapForm from './form';
 import { action } from '@ember/object';
 import type { FormResultData } from '@frontile/forms';
-import type { EmptyObject } from '@glimmer/component/-private/component';
-import { cached, tracked } from '@glimmer/tracking';
-import { getPromiseState } from '@warp-drive/ember';
-import { getRequestState } from '@warp-drive/ember';
-import { trackedFunction } from 'reactiveweb/function';
-import { resourceFactory, resource, use } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
+import Filter from './filter';
+import Color from 'colorjs.io';
+import L, { LatLngBounds } from 'leaflet';
 
-export default class Map extends Component {
-  @service mountainsStore;
+interface Signature {
+  Args: {};
+  Blocks: {};
+  Element: HTMLDivElement;
+}
+
+function timestampToHuman(timestamp: number): string {
+  return new Date(timestamp).toLocaleString();
+}
+
+let oldColor = new Color('#696969');
+let newOldColor = oldColor.range('#8bbe1b');
+
+function colorGradient(index: number, max: number): string {
+  return newOldColor(index / max).toString({ format: 'hex' });
+}
+
+function bounds(locations: [[]]): LatLngBounds {
+  let ret = L.polyline(locations).getBounds();
+  return ret;
+}
+
+export default class Map extends Component<Signature> {
+  @service mountainsStore: any;
 
   @tracked startDate = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000);
   @tracked endDate = new Date();
 
-  @action onChange(
-    data: FormResultData,
-    eventType: 'input' | 'submit',
-    event: Event | SubmitEvent,
-  ) {
-    console.log({ data }, { eventType }, { event });
+  @action onChange(data: FormResultData) {
+    this.startDate = new Date(data['startDate'] as string);
+    this.endDate = new Date(data['endDate'] as string);
   }
 
   lng = 7.8536;
   lat = 46.68027;
   zoom = 15;
 
-  // promise = this.mountainsStore.requestManager.request({
-  //   url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
-  // });
-
-  // @cached
-  // get data() {
-  //   const startAt = this.startDate.getTime() / 1000;
-  //   const endAt = this.endDate.getTime() / 1000;
-
-  //   console.log(this.promise);
-  //   const state = getPromiseState(this.promise);
-  //   if (state.isPending) {
-  //     return [];
-  //   }
-  //   if (state.isError) {
-  //     return [];
-  //   }
-  //   return state.result;
-  // }
-
-  data = trackedFunction(this, async () => {
-    const startAt = this.startDate.getTime() / 1000;
-    const endAt = this.endDate.getTime() / 1000;
-    const promise = this.mountainsStore.requestManager.request({
+  get request() {
+    return this.mountainsStore.requestManager.request({
       url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
     });
-    const data = await promise;
-    return data.content;
-  });
+  }
 
   <template>
     <MapForm
@@ -68,44 +62,49 @@ export default class Map extends Component {
       @onChange={{this.onChange}}
     />
 
-    {{log this.data.value}}
-
-    {{!-- <Request @request={{this.data}}>
+    <Request @request={{this.request}}>
       <:loading>
-        Loading
+        Loading...
       </:loading>
 
       <:content as |result|>
-        {{log result}}
-
-        <LeafletMap
-          @lat={{this.lat}}
-          @lng={{this.lng}}
-          @zoom={{this.zoom}}
-          class='w-full h-64'
-          as |layers|
+        <Filter
+          @data={{result}}
+          @startDate={{this.startDate}}
+          @endDate={{this.endDate}}
+          as |filtered|
         >
-          <layers.tile
-            @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-          />
+          <LeafletMap
+            @bounds={{bounds filtered.locations}}
+            class='w-full min-h-64 flex-1'
+            as |layers|
+          >
+            <layers.tile
+              @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+            />
 
-          {{#each-in result as |key point|}}
-            <layers.marker
-              @lat={{point.latitude}}
-              @lng={{point.longitude}}
-              as |marker|
-            >
-              <marker.popup>
-                {{point.timestamp}}
-              </marker.popup>
-            </layers.marker>
-          {{/each-in}}
+            <layers.polyline @locations={{filtered.locations}} />
 
-        </LeafletMap>
+            {{#each filtered.points as |point index|}}
+              <layers.circle
+                @lat={{point.latitude}}
+                @lng={{point.longitude}}
+                @radius={{point.accuracy}}
+                @color={{colorGradient index filtered.points.length}}
+                as |circle|
+              >
+                <circle.popup>
+                  {{timestampToHuman point.timestamp}}
+                </circle.popup>
+              </layers.circle>
 
+            {{/each}}
+
+          </LeafletMap>
+        </Filter>
       </:content>
 
-    </Request> --}}
+    </Request>
   </template>
 }
 
