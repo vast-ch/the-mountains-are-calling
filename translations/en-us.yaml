@@ -1,2 +1,6 @@
 project:
-  name: "The Mountains Are Calling"
+  name: The Mountains Are Calling
+map:
+  form:
+    startDate: From
+    endDate: To
