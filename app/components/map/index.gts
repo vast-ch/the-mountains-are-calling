@@ -49,19 +49,20 @@ export default class Map extends Component<Signature> {
   }
 
   <template>
-    <MapForm
-      @startDate={{@startDate}}
-      @endDate={{@endDate}}
-      @deviceId={{@deviceId}}
-      @onChange={{@onChange}}
-    />
-
     <Request @request={{this.request}}>
       <:loading>
         Loading...
       </:loading>
 
       <:content as |result|>
+        <MapForm
+          @startDate={{@startDate}}
+          @endDate={{@endDate}}
+          @deviceId={{@deviceId}}
+          @onChange={{@onChange}}
+          @data={{result}}
+        />
+
         <Filter
           @data={{result}}
           @startDate={{@startDate}}

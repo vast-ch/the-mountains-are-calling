@@ -5,5 +5,8 @@ map:
     start-date: From
     end-date: To
     device-id: Device ID
+    min-date: Earlierst {date}
+    max-date: Latest {date}
+    do-not-share: Do not share it
 error:
   no-data-to-display: No data to display
