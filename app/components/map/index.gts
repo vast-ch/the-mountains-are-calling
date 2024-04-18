@@ -44,7 +44,7 @@ export default class Map extends Component<Signature> {
 
   get request() {
     return this.mountainsStore.requestManager.request({
-      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/location.json`,
+      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.args.deviceId}.json`,
     });
   }
 
@@ -95,8 +95,17 @@ export default class Map extends Component<Signature> {
                     {{timestampToHuman point.timestamp}}
                   </circle.popup>
                 </layers.circle>
-
               {{/each}}
+
+              <layers.marker
+                @lat={{filtered.lastKnown.latitude}}
+                @lng={{filtered.lastKnown.longitude}}
+                as |marker|
+              >
+                <marker.popup>
+                  {{timestampToHuman filtered.lastKnown.timestamp}}
+                </marker.popup>
+              </layers.marker>
             </LeafletMap>
           {{/if}}
         </Filter>

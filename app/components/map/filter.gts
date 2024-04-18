@@ -8,7 +8,7 @@ interface MapFilterSignature {
     endDate: number;
   };
   Blocks: {
-    default: [points: any];
+    default: [yields: { points: any; locations: any; lastKnown: any }];
   };
   Element: HTMLDivElement;
 }
@@ -28,8 +28,16 @@ export default class Filter extends Component<MapFilterSignature> {
     return this.points.map((point) => [point.latitude, point.longitude]);
   }
 
+  get lastKnown() {
+    return this.points[this.points.length - 1];
+  }
+
   <template>
-    {{yield (hash points=this.points locations=this.locations)}}
+    {{yield
+      (hash
+        points=this.points locations=this.locations lastKnown=this.lastKnown
+      )
+    }}
   </template>
 }
 

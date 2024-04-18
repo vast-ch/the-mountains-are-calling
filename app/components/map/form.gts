@@ -45,6 +45,7 @@ export default class MapForm extends Component<MapFormSignature> {
         @label={{t 'map.form.device-id'}}
         @description={{t 'map.form.do-not-share'}}
       />
+
       <Input
         @value={{this.startDateString}}
         @type='date'
