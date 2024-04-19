@@ -27,7 +27,7 @@ function timestampToHuman(timestamp: number): string {
   return new Date(timestamp).toLocaleString();
 }
 
-let oldColor = new Color('#696969');
+let oldColor = new Color('#5e1600');
 let newOldColor = oldColor.range('#8bbe1b');
 
 function colorGradient(index: number, max: number): string {
@@ -89,6 +89,8 @@ export default class Map extends Component<Signature> {
                   @lng={{point.longitude}}
                   @radius={{point.accuracy}}
                   @color={{colorGradient index filtered.points.length}}
+                  @opacity='0.1'
+                  @fillOpacity='0.1'
                   as |circle|
                 >
                   <circle.popup>

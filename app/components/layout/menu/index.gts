@@ -1,15 +1,20 @@
 import Component from '@glimmer/component';
-// eslint-disable-next-line no-unused-vars
 import MenuMobile from './mobile';
 import MenuDesktop from './desktop';
 
+interface Signature {
+  Args: {
+    mmw: any;
+  };
+  Blocks: {};
+  Element: HTMLDivElement;
+}
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class Menu extends Component {
+export default class Menu extends Component<Signature> {
   <template>
-    <header class='bg-white'>
-      <MenuDesktop />
-      {{! <MenuMobile /> TODO: ember-mobile-menu }}
-    </header>
+    <MenuDesktop @mmw={{@mmw}} />
+    <MenuMobile @mmw={{@mmw}} />
   </template>
 }
 

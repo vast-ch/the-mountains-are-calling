@@ -10,3 +10,8 @@ map:
     do-not-share: Do not share it
 error:
   no-data-to-display: No data to display
+menu:
+  open-main-menu: Open main menu
+route:
+  map: Map
+  settings: Settings

@@ -1,8 +1,16 @@
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+interface Signature {
+  Args: {
+    mmw: any;
+  };
+  Blocks: {};
+  Element: HTMLDivElement;
+}
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class MenuDesktop extends Component {
+export default class MenuDesktop extends Component<Signature> {
   <template>
     <nav class='flex items-center justify-between py-6' aria-label='Global'>
       <div class='flex lg:flex-1'>
@@ -19,11 +27,10 @@ export default class MenuDesktop extends Component {
         </a>
       </div>
       <div class='flex lg:hidden'>
-        <button
-          type='button'
+        <@mmw.Toggle
           class='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
         >
-          <span class='sr-only'>Open main menu</span>
+          <span class='sr-only'>{{t 'menu.open-main-menu'}}</span>
           <svg
             class='h-6 w-6'
             fill='none'
@@ -38,7 +45,8 @@ export default class MenuDesktop extends Component {
               d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
             />
           </svg>
-        </button>
+        </@mmw.Toggle>
+
       </div>
       {{! <div class='hidden lg:flex lg:gap-x-12'>
         <a
