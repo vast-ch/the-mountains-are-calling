@@ -12,6 +12,7 @@ import type { FormSignature } from '@frontile/forms';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
+import { eq } from 'ember-truth-helpers';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 
 interface Signature {
@@ -80,17 +81,20 @@ export default class Map extends Component<Signature> {
                     {{timestampToHuman point.timestamp}}
                   </circle.popup>
                 </layers.circle>
+
+                {{#if (eq point.timestamp this.settings.highlightedTimestamp)}}
+                  <layers.marker
+                    @lat={{point.latitude}}
+                    @lng={{point.longitude}}
+                    as |marker|
+                  >
+                    <marker.popup>
+                      {{timestampToHuman point.timestamp}}
+                    </marker.popup>
+                  </layers.marker>
+                {{/if}}
               {{/each}}
 
-              <layers.marker
-                @lat={{filtered.lastKnown.latitude}}
-                @lng={{filtered.lastKnown.longitude}}
-                as |marker|
-              >
-                <marker.popup>
-                  {{timestampToHuman filtered.lastKnown.timestamp}}
-                </marker.popup>
-              </layers.marker>
             </LeafletMap>
           {{/if}}
         </Filter>

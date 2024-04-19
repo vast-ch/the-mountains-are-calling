@@ -7,7 +7,7 @@ import * as dayjs from 'dayjs';
 export default class SettingsService extends Service {
   @tracked deviceId = 'location';
   @tracked date = dayjs().startOf('day');
-  @tracked highlighted: number | undefined;
+  @tracked highlightedTimestamp: number | undefined;
 
   @action onChange(data: FormResultData) {
     this.date = dayjs(data['date'] as string);
@@ -16,6 +16,11 @@ export default class SettingsService extends Service {
 
   get dateString() {
     return this.date.format('YYYY-MM-DD');
+  }
+
+  @action
+  updateHighlightedTimestamp(timestamp: number) {
+    this.highlightedTimestamp = timestamp;
   }
 }
 
