@@ -10,11 +10,16 @@ interface Signature {
   Element: HTMLDivElement;
 }
 
+const MENU_ITEMS = [
+  { label: 'route.map', route: 'index' },
+  { label: 'route.settings', route: 'settings' },
+];
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Menu extends Component<Signature> {
   <template>
-    <MenuDesktop @mmw={{@mmw}} />
-    <MenuMobile @mmw={{@mmw}} />
+    <MenuDesktop @mmw={{@mmw}} @items={{MENU_ITEMS}} />
+    <MenuMobile @mmw={{@mmw}} @items={{MENU_ITEMS}} />
   </template>
 }
 

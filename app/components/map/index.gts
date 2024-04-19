@@ -11,14 +11,10 @@ import L, { LatLngBounds } from 'leaflet';
 import type { FormSignature } from '@frontile/forms';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
+import type SettingsService from 'the-mountains-are-calling/services/settings';
 
 interface Signature {
-  Args: {
-    startDate: number;
-    endDate: number;
-    deviceId: string;
-    onChange: FormSignature['Args']['onChange'];
-  };
+  Args: {};
   Blocks: {};
   Element: HTMLDivElement;
 }
@@ -41,10 +37,11 @@ function bounds(locations: [[]]): LatLngBounds {
 
 export default class Map extends Component<Signature> {
   @service mountainsStore: any;
+  @service declare settings: SettingsService;
 
   get request() {
     return this.mountainsStore.requestManager.request({
-      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.args.deviceId}.json`,
+      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.settings.deviceId}.json`,
     });
   }
 
@@ -55,18 +52,18 @@ export default class Map extends Component<Signature> {
       </:loading>
 
       <:content as |result|>
-        <MapForm
+        {{!-- <MapForm
           @startDate={{@startDate}}
           @endDate={{@endDate}}
           @deviceId={{@deviceId}}
           @onChange={{@onChange}}
           @data={{result}}
-        />
+        /> --}}
 
         <Filter
           @data={{result}}
-          @startDate={{@startDate}}
-          @endDate={{@endDate}}
+          @startDate={{this.settings.startDate}}
+          @endDate={{this.settings.endDate}}
           as |filtered|
         >
           {{#if (isEmpty filtered.points)}}
