@@ -16,7 +16,7 @@ interface Signature {
 export default class Layout extends Component<Signature> {
   <template>
     <MobileMenuWrapper as |mmw|>
-      <div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full flex flex-col'>
+      <div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-lvh flex flex-col'>
 
         <header class='bg-white'>
           <Menu @mmw={{mmw}} />
