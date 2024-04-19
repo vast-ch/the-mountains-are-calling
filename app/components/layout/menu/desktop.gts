@@ -1,3 +1,4 @@
+import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -49,28 +50,21 @@ export default class MenuDesktop extends Component<Signature> {
         </@mmw.Toggle>
 
       </div>
-      {{! <div class='hidden lg:flex lg:gap-x-12'>
-        <a
-          href='#'
-          class='text-sm font-semibold leading-6 text-gray-900'
-        >Product</a>
-        <a
-          href='#'
-          class='text-sm font-semibold leading-6 text-gray-900'
-        >Features</a>
-        <a
-          href='#'
-          class='text-sm font-semibold leading-6 text-gray-900'
-        >Marketplace</a>
-        <a
-          href='#'
-          class='text-sm font-semibold leading-6 text-gray-900'
-        >Company</a>
+      <div class='hidden lg:flex lg:gap-x-12'>
+        {{#each @items as |item|}}
+          <LinkTo
+            class='text-sm font-semibold leading-6 text-gray-900'
+            @activeClass='text-sky-700 underline'
+            @route={{item.route}}
+          >
+            {{t item.label}}
+          </LinkTo>
+        {{/each}}
       </div>
-      <div class='hidden lg:flex lg:flex-1 lg:justify-end'>
+      {{! <div class='hidden lg:flex lg:flex-1 lg:justify-end'>
         <a href='#' class='text-sm font-semibold leading-6 text-gray-900'>Log in
           <span aria-hidden='true'>&rarr;</span></a>
-      </div> }}
+      </div>  }}
     </nav>
   </template>
 }

@@ -5,18 +5,17 @@ import type { FormResultData } from '@frontile/forms';
 import * as dayjs from 'dayjs';
 
 export default class SettingsService extends Service {
-  @tracked deviceId = 'demo';
-  @tracked startDate = dayjs().subtract(1, 'week').startOf('day').valueOf();
-  @tracked endDate = dayjs().endOf('day').valueOf();
+  @tracked deviceId = 'location';
+  @tracked date = dayjs().startOf('day');
+  @tracked highlighted: number | undefined;
 
   @action onChange(data: FormResultData) {
-    this.startDate = dayjs(data['startDate'] as string)
-      .startOf('day')
-      .valueOf();
-    this.endDate = dayjs(data['endDate'] as string)
-      .endOf('day')
-      .valueOf();
+    this.date = dayjs(data['date'] as string);
     this.deviceId = data['deviceId'] as string;
+  }
+
+  get dateString() {
+    return this.date.format('YYYY-MM-DD');
   }
 }
 

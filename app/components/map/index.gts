@@ -12,15 +12,12 @@ import type { FormSignature } from '@frontile/forms';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
+import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 
 interface Signature {
   Args: {};
   Blocks: {};
   Element: HTMLDivElement;
-}
-
-function timestampToHuman(timestamp: number): string {
-  return new Date(timestamp).toLocaleString();
 }
 
 let oldColor = new Color('#5e1600');
@@ -52,20 +49,9 @@ export default class Map extends Component<Signature> {
       </:loading>
 
       <:content as |result|>
-        {{!-- <MapForm
-          @startDate={{@startDate}}
-          @endDate={{@endDate}}
-          @deviceId={{@deviceId}}
-          @onChange={{@onChange}}
-          @data={{result}}
-        /> --}}
+        <Filter @data={{result}} as |filtered|>
+          <MapForm @data={{filtered.points}} />
 
-        <Filter
-          @data={{result}}
-          @startDate={{this.settings.startDate}}
-          @endDate={{this.settings.endDate}}
-          as |filtered|
-        >
           {{#if (isEmpty filtered.points)}}
             {{t 'error.no-data-to-display'}}
           {{else}}

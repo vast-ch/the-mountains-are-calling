@@ -1,13 +1,12 @@
 project:
   name: The Mountains Are Calling
-map:
-  form:
-    start-date: From
-    end-date: To
-    device-id: Device ID
-    min-date: Earlierst {date}
-    max-date: Latest {date}
-    do-not-share: Do not share it
+settings:
+  date:
+    label: Date
+    description: Date to examine
+  device-id:
+    label: Device ID
+    description: Do not share it
 error:
   no-data-to-display: No data to display
 menu:
