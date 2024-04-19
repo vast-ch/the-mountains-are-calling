@@ -43,6 +43,7 @@ Based on the idea of *simple*, location sharing first introduced in [Google Lati
 
 - TODO
 
+
 ## Name
 
 > The mountains are calling and I must go.

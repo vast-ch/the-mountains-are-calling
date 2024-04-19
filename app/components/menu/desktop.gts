@@ -6,13 +6,16 @@ export default class MenuDesktop extends Component {
   <template>
     <nav class='flex items-center justify-between py-6' aria-label='Global'>
       <div class='flex lg:flex-1'>
-        <a href='#' class='-m-1.5 p-1.5'>
-          <span class='font-extrabold'>{{t 'project.name'}}</span>
-          {{! <img
-            class='h-8 w-auto'
-            src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-            alt=''
-          /> }}
+        <a href='#' class='-m-1.5 p-1.5 flex flex-row gap-4 items-end'>
+          {{! TODO: make this EmberResponsiveImage }}
+          <img
+            class='h-8 w-8'
+            src='/assets/icons/appicon-512.png'
+            alt='The Mountains Are Calling logo'
+          />
+          <h1
+            class='text-sky-500 font-extrabold font-mono hidden sm:inline sm:text-2xl'
+          >{{t 'project.name'}}</h1>
         </a>
       </div>
       <div class='flex lg:hidden'>
