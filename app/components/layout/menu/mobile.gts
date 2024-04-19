@@ -6,7 +6,7 @@ import { t } from 'ember-intl';
 interface Signature {
   Args: {
     mmw: any;
-    items: [{ label: string; route: string }];
+    items: { label: string; route: string }[];
   };
   Blocks: {};
   Element: HTMLDivElement;
