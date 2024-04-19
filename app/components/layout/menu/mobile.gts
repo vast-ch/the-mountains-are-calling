@@ -16,7 +16,7 @@ interface Signature {
 export default class MenuMobile extends Component<Signature> {
   <template>
     <@mmw.MobileMenu
-      @type='left'
+      @type='right'
       @maskEnabled='true'
       @shadowEnabled='true'
       as |mm|
