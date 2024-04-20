@@ -6,6 +6,18 @@ module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
 
+    'ember-cli-image-transformer': {
+      images: [
+        {
+          inputFilename: 'lib/images/favicon.svg',
+          outputFileName: 'appicon-',
+          convertTo: 'png',
+          destination: 'assets/icons/',
+          sizes: [32, 192, 280, 512],
+        },
+      ],
+    },
+
     // Add options here
     babel: {
       plugins: [

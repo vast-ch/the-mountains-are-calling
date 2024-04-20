@@ -16,5 +16,6 @@
       "ember-loose",
       "ember-template-imports",
     ]
-  }
+  },
+  "exclude": ["blueprints"],
 }

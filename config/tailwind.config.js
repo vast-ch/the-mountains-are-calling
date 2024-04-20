@@ -1,5 +1,7 @@
 const path = require('path');
 
+const { frontile, safelist } = require('@frontile/theme/plugin');
+
 const appRoot = path.join(__dirname, '../');
 const libraries = [
   /* someLibraryName */
@@ -16,9 +18,16 @@ module.exports = {
     ...libraryPaths.map(
       (libraryPath) => `${libraryPath}/**/*.{js,ts,hbs,gjs,gts,html}`,
     ),
+    './node_modules/@frontile/theme/dist/**/*.{js,ts}',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [frontile()],
+  safelist: [
+    ...safelist,
+
+    // Power Select
+    { pattern: /^ember-power-select/ },
+  ],
 };

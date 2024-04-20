@@ -1,2 +1,16 @@
 project:
   name: The Mountains Are Calling
+settings:
+  date:
+    label: Date
+    description: Date to examine
+  device-id:
+    label: Device ID
+    description: Do not share it
+error:
+  no-data-to-display: No data to display
+menu:
+  open-main-menu: Open main menu
+route:
+  map: Map
+  settings: Settings
