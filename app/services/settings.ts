@@ -3,19 +3,29 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import type { FormResultData } from '@frontile/forms';
 import * as dayjs from 'dayjs';
+//@ts-expect-error No TS yet
+import { trackedInLocalStorage } from 'ember-tracked-local-storage';
 
 export default class SettingsService extends Service {
-  @tracked deviceId = 'location';
-  @tracked date = dayjs().startOf('day');
+  @trackedInLocalStorage({ defaultValue: 'demo' }) declare deviceId: string;
+  @trackedInLocalStorage({ defaultValue: dayjs().startOf('day').toString() })
+  declare date: string;
+
   @tracked highlightedTimestamp: number | undefined;
 
   @action onChange(data: FormResultData) {
-    this.date = dayjs(data['date'] as string);
+    this.date = dayjs(data['date'] as string)
+      .startOf('day')
+      .toISOString();
     this.deviceId = data['deviceId'] as string;
   }
 
-  get dateString() {
-    return this.date.format('YYYY-MM-DD');
+  get dateShort() {
+    return dayjs(this.date).format('YYYY-MM-DD');
+  }
+
+  get dateDayJs() {
+    return dayjs(this.date);
   }
 
   @action

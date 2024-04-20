@@ -28,7 +28,7 @@ export default class Settings extends Component<SettingsSignature> {
       />
 
       <Input
-        @value={{this.settings.dateString}}
+        @value={{this.settings.dateShort}}
         @type='date'
         name='date'
         @label={{t 'settings.date.label'}}
