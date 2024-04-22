@@ -88,7 +88,7 @@ export default class Map extends Component<Signature> {
                     @lng={{point.longitude}}
                     as |marker|
                   >
-                    <marker.popup>
+                    <marker.popup @popupOpen='true'>
                       {{timestampToHuman point.timestamp}}
                     </marker.popup>
                   </layers.marker>
