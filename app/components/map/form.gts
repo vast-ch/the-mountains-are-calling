@@ -1,13 +1,19 @@
 import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
-import { ButtonGroup } from '@frontile/buttons';
+import { Button, ButtonGroup } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
+import { Form } from '@frontile/forms';
+import { Input } from '@frontile/forms';
+import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
 import { LinkTo } from '@ember/routing';
+import { on } from '@ember/modifier';
+//@ts-ignore No TS stuff yet
+import HeroIcon from 'ember-heroicons/components/hero-icon';
 
 interface MapFormSignature {
   Args: {
@@ -44,12 +50,25 @@ export default class MapForm extends Component<MapFormSignature> {
   @service declare settings: SettingsService;
 
   <template>
-    <div>
-      <LinkTo
-        @route='settings'
-        class='inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 hover:bg-sky-100 hover:border-sky-500'
-      >{{this.settings.dateShort}}
-      </LinkTo>
+    <div class='flex flex-row gap-4'>
+      <Button
+        {{on 'click' (fn this.settings.addDays -1)}}
+        @appearance='outlined'
+      >
+        <HeroIcon class='h-4' @icon='chevron-left' />
+      </Button>
+      <Input
+        @value={{this.settings.dateShort}}
+        @type='date'
+        @classes={{hash base='flex-1'}}
+        @onChange={{fn (mut this.settings.date)}}
+      />
+      <Button
+        {{on 'click' (fn this.settings.addDays 1)}}
+        @appearance='outlined'
+      >
+        <HeroIcon class='h-4' @icon='chevron-right' />
+      </Button>
     </div>
 
     <div class='overflow-x-scroll py-4'>

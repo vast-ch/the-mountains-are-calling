@@ -7,26 +7,48 @@ import * as dayjs from 'dayjs';
 import { trackedInLocalStorage } from 'ember-tracked-local-storage';
 
 export default class SettingsService extends Service {
-  @trackedInLocalStorage({ defaultValue: 'demo' }) declare deviceId: string;
-  @trackedInLocalStorage({ defaultValue: dayjs().startOf('day').toString() })
-  declare date: string;
+  // .date
+  @trackedInLocalStorage({
+    keyName: 'date',
+    defaultValue: dayjs().startOf('day').toISOString(),
+  })
+  declare _date: string;
 
-  @tracked highlightedTimestamp: number | undefined;
-
-  @action onChange(data: FormResultData) {
-    this.date = dayjs(data['date'] as string)
-      .startOf('day')
-      .toISOString();
-    this.deviceId = data['deviceId'] as string;
+  get date(): dayjs.Dayjs {
+    return dayjs(this._date);
+  }
+  set date(newDate: string | dayjs.Dayjs) {
+    if (typeof newDate === 'string') {
+      // dayjs gives _current_ date _only_ for `dayjs(undefined)
+      this._date = dayjs(newDate || undefined)
+        .startOf('day')
+        .toISOString();
+    } else {
+      this._date = newDate.startOf('day').toISOString();
+    }
   }
 
   get dateShort() {
     return dayjs(this.date).format('YYYY-MM-DD');
   }
 
-  get dateDayJs() {
-    return dayjs(this.date);
+  @action
+  addDays(amount: number) {
+    this.date = this.date.add(amount, 'days');
   }
+
+  // .deviceId
+  @trackedInLocalStorage({ keyName: 'deviceId', defaultValue: 'demo' })
+  declare _deviceId: string;
+  get deviceId() {
+    return this._deviceId;
+  }
+  set deviceId(newDeviceId: string) {
+    this._deviceId = newDeviceId;
+  }
+
+  // .highlightedTimestamp
+  @tracked highlightedTimestamp: number | undefined;
 
   @action
   updateHighlightedTimestamp(timestamp: number) {

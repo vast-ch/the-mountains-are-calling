@@ -19,8 +19,8 @@ export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
   get points() {
-    const dayStart = this.settings.dateDayJs.valueOf() / 1000;
-    const dayEnd = this.settings.dateDayJs.endOf('day').valueOf() / 1000;
+    const dayStart = this.settings.date.valueOf() / 1000;
+    const dayEnd = this.settings.date.endOf('day').valueOf() / 1000;
 
     return Object.values(this.args.data).filter((elm) => {
       return elm.timestamp > dayStart && elm.timestamp < dayEnd;
