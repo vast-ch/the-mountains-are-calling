@@ -23,17 +23,15 @@ interface MapFormSignature {
 }
 
 const COLORS = [
-  'bg-amber-950 text-white',
-  'bg-amber-900 text-white',
-  'bg-amber-800 text-white',
-  'bg-amber-700 text-white',
-  'bg-amber-600',
-  'bg-amber-500',
-  'bg-amber-400',
-  'bg-amber-300',
-  'bg-amber-200',
-  'bg-amber-100',
-  'bg-amber-50',
+  'border-amber-950',
+  'border-amber-900',
+  'border-amber-800',
+  'border-amber-700',
+  'border-amber-600',
+  'border-amber-500',
+  'border-amber-400',
+  'border-amber-300',
+  'border-amber-200',
 ];
 
 function getSunColor(timestamp: number, latitude: number, longitude: number) {
@@ -82,11 +80,11 @@ export default class MapForm extends Component<MapFormSignature> {
             @onChange={{(fn
               this.settings.updateHighlightedTimestamp point.timestamp
             )}}
-            @class={{getSunColor
+            @class='{{getSunColor
               point.timestamp
               point.latitude
               point.longitude
-            }}
+            }} border-2'
           >{{timestampToTime point.timestamp}}</g.ToggleButton>
         {{/each}}
       </ButtonGroup>
