@@ -19,8 +19,8 @@ interface Signature {
   Element: HTMLDivElement;
 }
 
-let oldColor = new Color('#64748b');
-let newOldColor = oldColor.range('#7dd3fc');
+let oldColor = new Color('#dc2626');
+let newOldColor = oldColor.range('#84cc16');
 
 function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
