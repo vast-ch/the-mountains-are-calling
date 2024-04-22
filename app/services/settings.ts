@@ -5,7 +5,7 @@ import * as dayjs from 'dayjs';
 //@ts-expect-error No TS yet
 import { trackedInLocalStorage } from 'ember-tracked-local-storage';
 
-interface Point {
+export interface Point {
   latitude: number;
   longitude: number;
   timestamp: number;

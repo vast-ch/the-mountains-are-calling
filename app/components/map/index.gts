@@ -8,11 +8,9 @@ import MapForm from './form';
 import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds } from 'leaflet';
-import type { FormSignature } from '@frontile/forms';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { eq } from 'ember-truth-helpers';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 
 interface Signature {
@@ -21,8 +19,8 @@ interface Signature {
   Element: HTMLDivElement;
 }
 
-let oldColor = new Color('#5e1600');
-let newOldColor = oldColor.range('#8bbe1b');
+let oldColor = new Color('#64748b');
+let newOldColor = oldColor.range('#7dd3fc');
 
 function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
@@ -65,7 +63,12 @@ export default class Map extends Component<Signature> {
                 @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
               />
 
-              <layers.polyline @locations={{filtered.locations}} />
+              {{#each filtered.locations as |line index|}}
+                <layers.polyline
+                  @locations={{line}}
+                  @color={{colorGradient index filtered.locations.length}}
+                />
+              {{/each}}
 
               {{#let this.settings.highlightedPoint as |point|}}
                 {{#if point}}

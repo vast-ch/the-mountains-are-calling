@@ -2,11 +2,12 @@ import Component from '@glimmer/component';
 import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import * as dayjs from 'dayjs';
+import type { LatLng } from 'leaflet';
+import type { Point } from 'the-mountains-are-calling/services/settings';
 
 interface MapFilterSignature {
   Args: {
-    data: any[];
+    data: Point[];
   };
   Blocks: {
     default: [yields: { points: any; locations: any; lastKnown: any }];
@@ -27,8 +28,15 @@ export default class Filter extends Component<MapFilterSignature> {
     });
   }
 
-  get locations() {
-    return this.points.map((point) => [point.latitude, point.longitude]);
+  get locations(): ((number[] | undefined)[] | undefined)[] {
+    return this.points
+      .map((elm) => [elm.latitude, elm.longitude])
+      .map((element, index, array) => {
+        if (index < array.length - 1) {
+          return [element, array[index + 1]];
+        }
+      })
+      .filter((pair) => pair !== undefined);
   }
 
   get lastKnown() {
