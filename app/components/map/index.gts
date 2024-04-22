@@ -60,13 +60,14 @@ export default class Map extends Component<Signature> {
               as |layers|
             >
               <layers.tile
-                @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+                @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
 
               {{#each filtered.locations as |line index|}}
                 <layers.polyline
                   @locations={{line}}
                   @color={{colorGradient index filtered.locations.length}}
+                  @weight='10'
                 />
               {{/each}}
 
@@ -84,8 +85,17 @@ export default class Map extends Component<Signature> {
                 {{/if}}
               {{/let}}
 
-              {{#if this.settings.isAccuracyVisible}}
-                {{#each filtered.points as |point index|}}
+              {{#each filtered.points as |point index|}}
+                <layers.marker
+                  @lat={{point.latitude}}
+                  @lng={{point.longitude}}
+                  as |marker|
+                >
+                  <marker.popup>
+                    {{timestampToHuman point.timestamp}}
+                  </marker.popup>
+                </layers.marker>
+                {{#if this.settings.isAccuracyVisible}}
                   <layers.circle
                     @lat={{point.latitude}}
                     @lng={{point.longitude}}
@@ -100,8 +110,8 @@ export default class Map extends Component<Signature> {
                     </circle.popup>
                   </layers.circle>
 
-                {{/each}}
-              {{/if}}
+                {{/if}}
+              {{/each}}
 
             </LeafletMap>
           {{/if}}

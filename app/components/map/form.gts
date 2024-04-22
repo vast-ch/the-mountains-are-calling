@@ -14,6 +14,7 @@ import { LinkTo } from '@ember/routing';
 import { on } from '@ember/modifier';
 //@ts-ignore No TS stuff yet
 import HeroIcon from 'ember-heroicons/components/hero-icon';
+import { action } from '@ember/object';
 
 interface MapFormSignature {
   Args: {
@@ -47,6 +48,10 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class MapForm extends Component<MapFormSignature> {
   @service declare settings: SettingsService;
 
+  @action onIntersection(a, b, c) {
+    console.log(a, b, c);
+  }
+
   <template>
     <div class='flex flex-row gap-4'>
       <Button
@@ -70,7 +75,10 @@ export default class MapForm extends Component<MapFormSignature> {
     </div>
 
     <div class='overflow-x-scroll py-4'>
-      <ButtonGroup as |g|>
+      {{!-- <div class='relative' {{observeIntersection this.onIntersection}}>
+        hello
+      </div> --}}
+      <ButtonGroup class='relative' as |g|>
         {{#each @data as |point|}}
           <g.ToggleButton
             @isSelected={{eq point.timestamp this.settings.highlightedPoint}}
