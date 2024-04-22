@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { Form } from '@frontile/forms';
+import { Checkbox } from '@frontile/forms';
 import { Input } from '@frontile/forms';
 import { t } from 'ember-intl';
 import { inject as service } from '@ember/service';
@@ -33,6 +33,14 @@ export default class Settings extends Component<SettingsSignature> {
         @label={{t 'settings.date.label'}}
         @description={{t 'settings.date.description'}}
         @onChange={{fn (mut this.settings.date)}}
+      />
+
+      <Checkbox
+        @checked={{this.settings.isAccuracyVisible}}
+        name='isAccuracyVisible'
+        @label={{t 'settings.is-accuracy-visible.label'}}
+        @description={{t 'settings.is-accuracy-visible.description'}}
+        @onChange={{fn (mut this.settings.isAccuracyVisible)}}
       />
     </div>
   </template>

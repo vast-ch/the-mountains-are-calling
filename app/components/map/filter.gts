@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import type { LatLng } from 'leaflet';
 import type { Point } from 'the-mountains-are-calling/services/settings';
 
 interface MapFilterSignature {

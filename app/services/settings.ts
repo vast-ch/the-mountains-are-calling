@@ -55,6 +55,16 @@ export default class SettingsService extends Service {
 
   // .highlightedPoint
   @tracked highlightedPoint: Point | undefined;
+
+  // .isAccuracyVisible
+  @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: true })
+  declare _isAccuracyVisible: string;
+  get isAccuracyVisible() {
+    return this._isAccuracyVisible === 'true';
+  }
+  set isAccuracyVisible(newValue: boolean) {
+    this._isAccuracyVisible = Boolean(newValue).toString();
+  }
 }
 
 // Don't remove this declaration: this is what enables TypeScript to resolve

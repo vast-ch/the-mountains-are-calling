@@ -35,7 +35,7 @@ export default class Map extends Component<Signature> {
   @service mountainsStore: any;
   @service declare settings: SettingsService;
 
-  get request() {
+  get request(): number[] {
     return this.mountainsStore.requestManager.request({
       url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.settings.deviceId}.json`,
     });
@@ -84,22 +84,24 @@ export default class Map extends Component<Signature> {
                 {{/if}}
               {{/let}}
 
-              {{#each filtered.points as |point index|}}
-                <layers.circle
-                  @lat={{point.latitude}}
-                  @lng={{point.longitude}}
-                  @radius={{point.accuracy}}
-                  @color={{colorGradient index filtered.points.length}}
-                  @opacity='0.1'
-                  @fillOpacity='0.1'
-                  as |circle|
-                >
-                  <circle.popup>
-                    {{timestampToHuman point.timestamp}}
-                  </circle.popup>
-                </layers.circle>
+              {{#if this.settings.isAccuracyVisible}}
+                {{#each filtered.points as |point index|}}
+                  <layers.circle
+                    @lat={{point.latitude}}
+                    @lng={{point.longitude}}
+                    @radius={{point.accuracy}}
+                    @color={{colorGradient index filtered.points.length}}
+                    @opacity='0.1'
+                    @fillOpacity='0.1'
+                    as |circle|
+                  >
+                    <circle.popup>
+                      {{timestampToHuman point.timestamp}}
+                    </circle.popup>
+                  </layers.circle>
 
-              {{/each}}
+                {{/each}}
+              {{/if}}
 
             </LeafletMap>
           {{/if}}
