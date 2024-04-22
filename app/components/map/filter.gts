@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import * as dayjs from 'dayjs';
+import type { Point } from 'the-mountains-are-calling/services/settings';
 
 interface MapFilterSignature {
   Args: {
-    data: any[];
+    data: Point[];
   };
   Blocks: {
     default: [yields: { points: any; locations: any; lastKnown: any }];
@@ -19,16 +19,23 @@ export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
   get points() {
-    const dayStart = this.settings.dateDayJs.valueOf() / 1000;
-    const dayEnd = this.settings.dateDayJs.endOf('day').valueOf() / 1000;
+    const dayStart = this.settings.date.valueOf() / 1000;
+    const dayEnd = this.settings.date.endOf('day').valueOf() / 1000;
 
     return Object.values(this.args.data).filter((elm) => {
       return elm.timestamp > dayStart && elm.timestamp < dayEnd;
     });
   }
 
-  get locations() {
-    return this.points.map((point) => [point.latitude, point.longitude]);
+  get locations(): ((number[] | undefined)[] | undefined)[] {
+    return this.points
+      .map((elm) => [elm.latitude, elm.longitude])
+      .map((element, index, array) => {
+        if (index < array.length - 1) {
+          return [element, array[index + 1]];
+        }
+      })
+      .filter((pair) => pair !== undefined);
   }
 
   get lastKnown() {

@@ -7,6 +7,9 @@ settings:
   device-id:
     label: Device ID
     description: Do not share it
+  is-accuracy-visible:
+    label: Show accuracy
+    description: Circle of uncertanity around given position
 error:
   no-data-to-display: No data to display
 menu:
@@ -14,3 +17,4 @@ menu:
 route:
   map: Map
   settings: Settings
+back: Back

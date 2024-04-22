@@ -8,11 +8,9 @@ import MapForm from './form';
 import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds } from 'leaflet';
-import type { FormSignature } from '@frontile/forms';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { eq } from 'ember-truth-helpers';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 
 interface Signature {
@@ -21,8 +19,8 @@ interface Signature {
   Element: HTMLDivElement;
 }
 
-let oldColor = new Color('#5e1600');
-let newOldColor = oldColor.range('#8bbe1b');
+let oldColor = new Color('#64748b');
+let newOldColor = oldColor.range('#7dd3fc');
 
 function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
@@ -37,7 +35,7 @@ export default class Map extends Component<Signature> {
   @service mountainsStore: any;
   @service declare settings: SettingsService;
 
-  get request() {
+  get request(): number[] {
     return this.mountainsStore.requestManager.request({
       url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.settings.deviceId}.json`,
     });
@@ -62,36 +60,56 @@ export default class Map extends Component<Signature> {
               as |layers|
             >
               <layers.tile
-                @url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+                @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
 
-              <layers.polyline @locations={{filtered.locations}} />
+              {{#each filtered.locations as |line index|}}
+                <layers.polyline
+                  @locations={{line}}
+                  @color={{colorGradient index filtered.locations.length}}
+                  @weight='10'
+                />
+              {{/each}}
 
-              {{#each filtered.points as |point index|}}
-                <layers.circle
-                  @lat={{point.latitude}}
-                  @lng={{point.longitude}}
-                  @radius={{point.accuracy}}
-                  @color={{colorGradient index filtered.points.length}}
-                  @opacity='0.1'
-                  @fillOpacity='0.1'
-                  as |circle|
-                >
-                  <circle.popup>
-                    {{timestampToHuman point.timestamp}}
-                  </circle.popup>
-                </layers.circle>
-
-                {{#if (eq point.timestamp this.settings.highlightedTimestamp)}}
+              {{#let this.settings.highlightedPoint as |point|}}
+                {{#if point}}
                   <layers.marker
                     @lat={{point.latitude}}
                     @lng={{point.longitude}}
                     as |marker|
                   >
-                    <marker.popup>
+                    <marker.popup @popupOpen='true'>
                       {{timestampToHuman point.timestamp}}
                     </marker.popup>
                   </layers.marker>
+                {{/if}}
+              {{/let}}
+
+              {{#each filtered.points as |point index|}}
+                <layers.marker
+                  @lat={{point.latitude}}
+                  @lng={{point.longitude}}
+                  as |marker|
+                >
+                  <marker.popup>
+                    {{timestampToHuman point.timestamp}}
+                  </marker.popup>
+                </layers.marker>
+                {{#if this.settings.isAccuracyVisible}}
+                  <layers.circle
+                    @lat={{point.latitude}}
+                    @lng={{point.longitude}}
+                    @radius={{point.accuracy}}
+                    @color={{colorGradient index filtered.points.length}}
+                    @opacity='0.1'
+                    @fillOpacity='0.1'
+                    as |circle|
+                  >
+                    <circle.popup>
+                      {{timestampToHuman point.timestamp}}
+                    </circle.popup>
+                  </layers.circle>
+
                 {{/if}}
               {{/each}}
 

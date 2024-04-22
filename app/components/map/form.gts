@@ -1,13 +1,20 @@
 import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
-import { ButtonGroup } from '@frontile/buttons';
+import { Button, ButtonGroup } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
+import { Form } from '@frontile/forms';
+import { Input } from '@frontile/forms';
+import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
 import { LinkTo } from '@ember/routing';
+import { on } from '@ember/modifier';
+//@ts-ignore No TS stuff yet
+import HeroIcon from 'ember-heroicons/components/hero-icon';
+import { action } from '@ember/object';
 
 interface MapFormSignature {
   Args: {
@@ -17,17 +24,15 @@ interface MapFormSignature {
 }
 
 const COLORS = [
-  'bg-amber-950 text-white',
-  'bg-amber-900 text-white',
-  'bg-amber-800 text-white',
-  'bg-amber-700 text-white',
-  'bg-amber-600',
-  'bg-amber-500',
-  'bg-amber-400',
-  'bg-amber-300',
-  'bg-amber-200',
-  'bg-amber-100',
-  'bg-amber-50',
+  'border-amber-950',
+  'border-amber-900',
+  'border-amber-800',
+  'border-amber-700',
+  'border-amber-600',
+  'border-amber-500',
+  'border-amber-400',
+  'border-amber-300',
+  'border-amber-200',
 ];
 
 function getSunColor(timestamp: number, latitude: number, longitude: number) {
@@ -43,31 +48,46 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class MapForm extends Component<MapFormSignature> {
   @service declare settings: SettingsService;
 
+  @action onIntersection(a, b, c) {
+    console.log(a, b, c);
+  }
+
   <template>
-    <div>
-      <LinkTo
-        @route='settings'
-        class='inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 hover:bg-sky-100 hover:border-sky-500'
-      >{{this.settings.dateShort}}
-      </LinkTo>
+    <div class='flex flex-row gap-4'>
+      <Button
+        {{on 'click' (fn this.settings.addDays -1)}}
+        @appearance='outlined'
+      >
+        <HeroIcon class='h-4' @icon='chevron-left' />
+      </Button>
+      <Input
+        @value={{this.settings.dateShort}}
+        @type='date'
+        @classes={{hash base='flex-1'}}
+        @onChange={{fn (mut this.settings.date)}}
+      />
+      <Button
+        {{on 'click' (fn this.settings.addDays 1)}}
+        @appearance='outlined'
+      >
+        <HeroIcon class='h-4' @icon='chevron-right' />
+      </Button>
     </div>
 
     <div class='overflow-x-scroll py-4'>
-      <ButtonGroup as |g|>
+      {{!-- <div class='relative' {{observeIntersection this.onIntersection}}>
+        hello
+      </div> --}}
+      <ButtonGroup class='relative' as |g|>
         {{#each @data as |point|}}
           <g.ToggleButton
-            @isSelected={{eq
-              point.timestamp
-              this.settings.highlightedTimestamp
-            }}
-            @onChange={{(fn
-              this.settings.updateHighlightedTimestamp point.timestamp
-            )}}
-            @class={{getSunColor
+            @isSelected={{eq point.timestamp this.settings.highlightedPoint}}
+            @onChange={{(fn (mut this.settings.highlightedPoint) point)}}
+            @class='{{getSunColor
               point.timestamp
               point.latitude
               point.longitude
-            }}
+            }} border-2'
           >{{timestampToTime point.timestamp}}</g.ToggleButton>
         {{/each}}
       </ButtonGroup>
