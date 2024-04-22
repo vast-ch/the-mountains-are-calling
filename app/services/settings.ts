@@ -1,10 +1,16 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import type { FormResultData } from '@frontile/forms';
 import * as dayjs from 'dayjs';
 //@ts-expect-error No TS yet
 import { trackedInLocalStorage } from 'ember-tracked-local-storage';
+
+interface Point {
+  latitude: number;
+  longitude: number;
+  timestamp: number;
+  accuracy: number;
+}
 
 export default class SettingsService extends Service {
   // .date
@@ -47,13 +53,8 @@ export default class SettingsService extends Service {
     this._deviceId = newDeviceId;
   }
 
-  // .highlightedTimestamp
-  @tracked highlightedTimestamp: number | undefined;
-
-  @action
-  updateHighlightedTimestamp(timestamp: number) {
-    this.highlightedTimestamp = timestamp;
-  }
+  // .highlightedPoint
+  @tracked highlightedPoint: Point | undefined;
 }
 
 // Don't remove this declaration: this is what enables TypeScript to resolve

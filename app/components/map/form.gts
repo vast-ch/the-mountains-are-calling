@@ -73,13 +73,8 @@ export default class MapForm extends Component<MapFormSignature> {
       <ButtonGroup as |g|>
         {{#each @data as |point|}}
           <g.ToggleButton
-            @isSelected={{eq
-              point.timestamp
-              this.settings.highlightedTimestamp
-            }}
-            @onChange={{(fn
-              this.settings.updateHighlightedTimestamp point.timestamp
-            )}}
+            @isSelected={{eq point.timestamp this.settings.highlightedPoint}}
+            @onChange={{(fn (mut this.settings.highlightedPoint) point)}}
             @class='{{getSunColor
               point.timestamp
               point.latitude

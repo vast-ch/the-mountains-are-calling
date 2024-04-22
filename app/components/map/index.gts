@@ -67,6 +67,20 @@ export default class Map extends Component<Signature> {
 
               <layers.polyline @locations={{filtered.locations}} />
 
+              {{#let this.settings.highlightedPoint as |point|}}
+                {{#if point}}
+                  <layers.marker
+                    @lat={{point.latitude}}
+                    @lng={{point.longitude}}
+                    as |marker|
+                  >
+                    <marker.popup @popupOpen='true'>
+                      {{timestampToHuman point.timestamp}}
+                    </marker.popup>
+                  </layers.marker>
+                {{/if}}
+              {{/let}}
+
               {{#each filtered.points as |point index|}}
                 <layers.circle
                   @lat={{point.latitude}}
@@ -82,17 +96,6 @@ export default class Map extends Component<Signature> {
                   </circle.popup>
                 </layers.circle>
 
-                {{#if (eq point.timestamp this.settings.highlightedTimestamp)}}
-                  <layers.marker
-                    @lat={{point.latitude}}
-                    @lng={{point.longitude}}
-                    as |marker|
-                  >
-                    <marker.popup @popupOpen='true'>
-                      {{timestampToHuman point.timestamp}}
-                    </marker.popup>
-                  </layers.marker>
-                {{/if}}
               {{/each}}
 
             </LeafletMap>
