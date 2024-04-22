@@ -295,6 +295,9 @@ devDependencies:
   ember-resources:
     specifier: ^7.0.0
     version: 7.0.0(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.6.0)
+  ember-scroll-modifiers:
+    specifier: ^7.1.1
+    version: 7.1.1(@glint/template@1.4.0)(ember-source@5.6.0)(webpack@5.91.0)
   ember-source:
     specifier: ~5.6.0
     version: 5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)
@@ -8692,6 +8695,24 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /ember-scroll-modifiers@7.1.1(@glint/template@1.4.0)(ember-source@5.6.0)(webpack@5.91.0):
+    resolution: {integrity: sha512-U+x5Hr9iTEfUnssgWJfipls1dTl7v0HnrK9CsnLhmNFvvnLWftM4n7UNZAxM66y0pr+WAgTDQGIKbyNS8q5W9A==}
+    engines: {node: 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^4.0.0 || ^5.0.0
+    dependencies:
+      ember-auto-import: 2.7.2(@glint/template@1.4.0)(webpack@5.91.0)
+      ember-cli-babel: 7.26.11
+      ember-cli-htmlbars: 6.3.0
+      ember-modifier: 4.1.0(ember-source@5.6.0)
+      ember-source: 5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)
+      intersection-observer-admin: 0.3.3
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+      - webpack
+    dev: true
+
   /ember-set-body-class@1.0.2:
     resolution: {integrity: sha512-SEsTwFp9SHTg4LgebhkUuLgYWg1VZD7I1QcrV2sTY583wu216OThoSs5szvS/KgSc1xD1Z22TFvOb848t2hGfw==}
     engines: {node: 10.* || 12.* || >= 14.*}
@@ -10958,6 +10979,10 @@ packages:
       es-errors: 1.3.0
       hasown: 2.0.2
       side-channel: 1.0.6
+
+  /intersection-observer-admin@0.3.3:
+    resolution: {integrity: sha512-aKMJPw/8cxybcgYTbnwGn87VgSFbSNNqeChRJahD+ai+jtwlCOdIcEvtuBd2BWO9bPuylVgeQVmGGfX2aS1NIg==}
+    dev: true
 
   /intl-messageformat@10.5.11:
     resolution: {integrity: sha512-eYq5fkFBVxc7GIFDzpFQkDOZgNayNTQn4Oufe8jw6YY6OHVw70/4pA3FyCsQ0Gb2DnvEJEMmN2tOaXUGByM+kg==}
