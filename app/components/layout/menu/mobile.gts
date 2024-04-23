@@ -22,8 +22,6 @@ export default class MenuMobile extends Component<Signature> {
       as |mm|
     >
       <div role='dialog' aria-modal='true'>
-        <div class='fixed inset-0 z-10'></div>
-        <button type='button'>Home</button>
         <div
           class='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'
         >
@@ -33,7 +31,7 @@ export default class MenuMobile extends Component<Signature> {
               class='-m-2.5 rounded-md p-2.5 text-gray-700'
               {{on 'click' mm.actions.close}}
             >
-              <span class='sr-only'>Close menu</span>
+              <span class='sr-only'>{{t 'menu.close-menu'}}</span>
               <svg
                 class='h-6 w-6'
                 fill='none'

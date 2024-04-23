@@ -10,10 +10,16 @@ settings:
   is-accuracy-visible:
     label: Show accuracy
     description: Circle of uncertanity around given position
+map:
+  highlighted:
+    label: ⏰
+  loading: Loading...
 error:
   no-data-to-display: No data to display
 menu:
   open-main-menu: Open main menu
+  close-menu: Close menu
+  global: Global
 route:
   map: Map
   settings: Settings

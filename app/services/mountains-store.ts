@@ -1,6 +1,10 @@
 import Service from '@ember/service';
 import { service } from '@ember/service';
 
+// import Store from 'ember-data/store';
+// TODO: Should we convert this to ember-data Store?
+// export default class MountainsStoreService extends Store {
+
 export default class MountainsStoreService extends Service {
   //@ts-expect-error No TS yet
   @service requestManager;

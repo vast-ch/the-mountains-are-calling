@@ -7,11 +7,12 @@ import LeafletMap from 'ember-leaflet/components/leaflet-map';
 import MapForm from './form';
 import Filter from './filter';
 import Color from 'colorjs.io';
-import L, { LatLngBounds } from 'leaflet';
+import L, { LatLngBounds, Point } from 'leaflet';
 import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
+import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 
 interface Signature {
   Args: {};
@@ -35,16 +36,18 @@ export default class Map extends Component<Signature> {
   @service mountainsStore: any;
   @service declare settings: SettingsService;
 
+  autoPanPadding = new Point(50, 50);
+
   get request(): number[] {
-    return this.mountainsStore.requestManager.request({
-      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.settings.deviceId}.json`,
-    });
+    return this.mountainsStore.requestManager.request(
+      firebaseQuery(this.settings.deviceId),
+    );
   }
 
   <template>
     <Request @request={{this.request}}>
       <:loading>
-        Loading...
+        {{t 'map.loading'}}
       </:loading>
 
       <:content as |result|>
@@ -78,7 +81,10 @@ export default class Map extends Component<Signature> {
                     @lng={{point.longitude}}
                     as |marker|
                   >
-                    <marker.popup @popupOpen='true'>
+                    <marker.popup
+                      @popupOpen='true'
+                      @autoPanPadding={{this.autoPanPadding}}
+                    >
                       {{timestampToHuman point.timestamp}}
                     </marker.popup>
                   </layers.marker>
@@ -89,12 +95,7 @@ export default class Map extends Component<Signature> {
                 <layers.marker
                   @lat={{point.latitude}}
                   @lng={{point.longitude}}
-                  as |marker|
-                >
-                  <marker.popup>
-                    {{timestampToHuman point.timestamp}}
-                  </marker.popup>
-                </layers.marker>
+                />
                 {{#if this.settings.isAccuracyVisible}}
                   <layers.circle
                     @lat={{point.latitude}}
@@ -103,13 +104,7 @@ export default class Map extends Component<Signature> {
                     @color={{colorGradient index filtered.points.length}}
                     @opacity='0.1'
                     @fillOpacity='0.1'
-                    as |circle|
-                  >
-                    <circle.popup>
-                      {{timestampToHuman point.timestamp}}
-                    </circle.popup>
-                  </layers.circle>
-
+                  />
                 {{/if}}
               {{/each}}
 
