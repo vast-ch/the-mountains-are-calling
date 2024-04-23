@@ -17,6 +17,7 @@ export default class Settings extends Component<SettingsSignature> {
 
   <template>
     <div class='grid grid-cols-1 sm:grid-cols-2 w-full gap-4 py-4'>
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
         @value={{this.settings.deviceId}}
         @type='text'
@@ -26,6 +27,7 @@ export default class Settings extends Component<SettingsSignature> {
         @onChange={{fn (mut this.settings.deviceId)}}
       />
 
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
         @value={{this.settings.dateShort}}
         @type='date'

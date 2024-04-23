@@ -14,6 +14,7 @@ import { action } from '@ember/object';
 //@ts-expect-error No TS yet
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import type { Point } from 'the-mountains-are-calling/services/settings';
+import { t } from 'ember-intl';
 
 interface MapFormSignature {
   Args: {
@@ -59,6 +60,7 @@ export default class MapForm extends Component<MapFormSignature> {
       >
         <HeroIcon class='h-4' @icon='chevron-left' />
       </Button>
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
         @value={{this.settings.dateShort}}
         @type='date'
@@ -79,7 +81,7 @@ export default class MapForm extends Component<MapFormSignature> {
       <div
         class='w-28 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
       >
-        ⏰
+        {{t 'map.highlighted.label'}}
       </div>
 
       <div

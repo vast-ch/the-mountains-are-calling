@@ -12,7 +12,6 @@ import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
-import { hash } from '@ember/helper';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 
 interface Signature {
@@ -48,7 +47,7 @@ export default class Map extends Component<Signature> {
   <template>
     <Request @request={{this.request}}>
       <:loading>
-        Loading...
+        {{t 'map.loading'}}
       </:loading>
 
       <:content as |result|>

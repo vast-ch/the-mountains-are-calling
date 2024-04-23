@@ -14,14 +14,17 @@ interface Signature {
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class MenuDesktop extends Component<Signature> {
   <template>
-    <nav class='flex items-center justify-between py-6' aria-label='Global'>
+    <nav
+      class='flex items-center justify-between py-6'
+      aria-label={{t 'menu.global'}}
+    >
       <div class='flex lg:flex-1'>
         <a href='#' class='-m-1.5 p-1.5 flex flex-row gap-4 items-end'>
           {{! TODO: make this EmberResponsiveImage }}
           <img
             class='h-8 w-8'
             src='/assets/icons/appicon-512.png'
-            alt='The Mountains Are Calling logo'
+            alt={{t 'project.name'}}
           />
           <h1 class='text-sky-500 font-extrabold font-mono sm:text-2xl'>{{t
               'project.name'
