@@ -80,7 +80,7 @@ export default class MapForm extends Component<MapFormSignature> {
       class='grid [grid-template-areas:"stack"] justify-items-center items-start py-2'
     >
       <div
-        class='w-28 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
+        class='w-24 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
       >
         {{t 'map.highlighted.label'}}
       </div>
