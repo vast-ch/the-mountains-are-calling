@@ -83,7 +83,7 @@ export default class MapForm extends Component<MapFormSignature> {
       </div>
 
       <div
-        class='overflow-x-scroll mt-8 py-2 snap-x w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll pt-10 py-2 snap-x w-full [grid-area:stack] flex flex-row gap-x-4'
       >
         <div><div class='[width:50vw] text-right'></div></div>
         {{#each @data as |point|}}
