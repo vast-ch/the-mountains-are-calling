@@ -1,6 +1,4 @@
-//@ts-expect-error TS shenanigans
 import RequestManager from '@ember-data/request';
-//@ts-expect-error TS shenanigans
 import Fetch from '@ember-data/request/fetch';
 import FirebaseHandler from '../handlers/firebase';
 

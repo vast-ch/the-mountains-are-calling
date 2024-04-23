@@ -238,6 +238,9 @@ devDependencies:
   ember-scroll-modifiers:
     specifier: ^7.1.1
     version: 7.1.1(@glint/template@1.4.0)(ember-source@5.6.0)(webpack@5.91.0)
+  ember-set-helper:
+    specifier: ^3.0.1
+    version: 3.0.1(@babel/core@7.24.4)
   ember-source:
     specifier: ~5.6.0
     version: 5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)
@@ -8332,6 +8335,16 @@ packages:
     dependencies:
       ember-cli-babel: 7.26.11
     transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /ember-set-helper@3.0.1(@babel/core@7.24.4):
+    resolution: {integrity: sha512-Ord3CuttDiF88wiNpHNDjf4aFKPnHSkpeK7zFfH9nV7YdDFSJissDCZEg42A0ReWY1WuqWbc2hMl5XkgupdyZQ==}
+    dependencies:
+      '@embroider/addon-shim': 1.8.7
+      decorator-transforms: 1.2.1(@babel/core@7.24.4)
+    transitivePeerDependencies:
+      - '@babel/core'
       - supports-color
     dev: true
 

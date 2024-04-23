@@ -4,7 +4,7 @@ import { Input } from '@frontile/forms';
 import { t } from 'ember-intl';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn } from '@ember/helper';
+import set from 'ember-set-helper/helpers/set';
 
 interface SettingsSignature {
   Args: {};
@@ -24,7 +24,7 @@ export default class Settings extends Component<SettingsSignature> {
         name='deviceId'
         @label={{t 'settings.device-id.label'}}
         @description={{t 'settings.device-id.description'}}
-        @onChange={{fn (mut this.settings.deviceId)}}
+        @onChange={{set this.settings 'deviceId'}}
       />
 
       {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
@@ -34,7 +34,7 @@ export default class Settings extends Component<SettingsSignature> {
         name='date'
         @label={{t 'settings.date.label'}}
         @description={{t 'settings.date.description'}}
-        @onChange={{fn (mut this.settings.date)}}
+        @onChange={{set this.settings 'date'}}
       />
 
       <Checkbox
@@ -42,7 +42,7 @@ export default class Settings extends Component<SettingsSignature> {
         name='isAccuracyVisible'
         @label={{t 'settings.is-accuracy-visible.label'}}
         @description={{t 'settings.is-accuracy-visible.description'}}
-        @onChange={{fn (mut this.settings.isAccuracyVisible)}}
+        @onChange={{set this.settings 'isAccuracyVisible'}}
       />
     </div>
   </template>

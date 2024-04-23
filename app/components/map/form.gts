@@ -15,6 +15,7 @@ import { action } from '@ember/object';
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import type { Point } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
+import set from 'ember-set-helper/helpers/set';
 
 interface MapFormSignature {
   Args: {
@@ -65,7 +66,7 @@ export default class MapForm extends Component<MapFormSignature> {
         @value={{this.settings.dateShort}}
         @type='date'
         @classes={{hash base='flex-1'}}
-        @onChange={{fn (mut this.settings.date)}}
+        @onChange={{set this.settings 'date'}}
       />
       <Button
         {{on 'click' (fn this.settings.addDays 1)}}
