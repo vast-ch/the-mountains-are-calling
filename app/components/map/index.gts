@@ -13,6 +13,8 @@ import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
+//@ts-ignore HeroIcon nope
+import HeroIcon from 'ember-heroicons/components/hero-icon';
 
 interface Signature {
   Args: {};
@@ -55,7 +57,12 @@ export default class Map extends Component<Signature> {
           <MapForm @data={{filtered.points}} />
 
           {{#if (isEmpty filtered.points)}}
-            {{t 'error.no-data-to-display'}}
+            <div class='w-full py-32 flex justify-center items-center'>
+              <div class='flex flex-col'>
+                <HeroIcon @icon='inbox' class='h-16' />
+                {{t 'error.no-data-to-display'}}
+              </div>
+            </div>
           {{else}}
             <LeafletMap
               @bounds={{getBounds filtered.locations}}
