@@ -3,45 +3,14 @@ import {
   type NextFn,
   type RequestContext,
 } from '@ember-data/request';
+import type { Point } from 'the-mountains-are-calling/services/settings';
 
 export interface Response {
   content: Location;
 }
 
 interface Location {
-  results: Result[];
-}
-
-interface Result {
-  attrs: Attrs;
-  id: number;
-  weight: number;
-}
-
-interface Attrs {
-  detail: string;
-  featureId: string;
-  geom_quadindex: string;
-  geom_st_box2d: string;
-  label: string;
-  lat: number;
-  lon: number;
-  num: number;
-  objectclass: string;
-  origin: string;
-  rank: number;
-  x: number;
-  y: number;
-  zoomlevel: number;
-}
-
-export interface GeoModel extends Attrs {
-  id: number;
-  labelPlainText: string;
-}
-
-export interface GeoResponse {
-  content: GeoModel[];
+  results: Point[];
 }
 
 const FirebaseHandler: Handler = {

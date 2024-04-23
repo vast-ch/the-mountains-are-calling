@@ -27,7 +27,7 @@ function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
 }
 
-function bounds(locations: [[]]): LatLngBounds {
+function getBounds(locations: [[]]): LatLngBounds {
   let ret = L.polyline(locations).getBounds();
   return ret;
 }
@@ -38,7 +38,7 @@ export default class Map extends Component<Signature> {
 
   autoPanPadding = new Point(50, 50);
 
-  get request(): number[] {
+  get request() {
     return this.mountainsStore.requestManager.request(
       firebaseQuery(this.settings.deviceId),
     );
@@ -58,7 +58,7 @@ export default class Map extends Component<Signature> {
             {{t 'error.no-data-to-display'}}
           {{else}}
             <LeafletMap
-              @bounds={{bounds filtered.locations}}
+              @bounds={{getBounds filtered.locations}}
               class='w-full min-h-64 flex-1'
               as |layers|
             >
