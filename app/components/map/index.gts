@@ -13,6 +13,7 @@ import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 import { hash } from '@ember/helper';
+import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 
 interface Signature {
   Args: {};
@@ -39,9 +40,9 @@ export default class Map extends Component<Signature> {
   autoPanPadding = new Point(50, 50);
 
   get request(): number[] {
-    return this.mountainsStore.requestManager.request({
-      url: `https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${this.settings.deviceId}.json`,
-    });
+    return this.mountainsStore.requestManager.request(
+      firebaseQuery(this.settings.deviceId),
+    );
   }
 
   <template>

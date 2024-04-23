@@ -2,11 +2,12 @@
 import RequestManager from '@ember-data/request';
 //@ts-expect-error TS shenanigans
 import Fetch from '@ember-data/request/fetch';
+import FirebaseHandler from '../handlers/firebase';
 
 export default class RequestManagerService extends RequestManager {
   constructor(args?: Record<string | symbol, unknown>) {
     super(args);
-    this.use([Fetch]);
+    this.use([FirebaseHandler, Fetch]);
   }
 }
 
