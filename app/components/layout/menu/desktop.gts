@@ -23,9 +23,9 @@ export default class MenuDesktop extends Component<Signature> {
             src='/assets/icons/appicon-512.png'
             alt='The Mountains Are Calling logo'
           />
-          <h1
-            class='text-sky-500 font-extrabold font-mono hidden sm:inline sm:text-2xl'
-          >{{t 'project.name'}}</h1>
+          <h1 class='text-sky-500 font-extrabold font-mono sm:text-2xl'>{{t
+              'project.name'
+            }}</h1>
         </a>
       </div>
       <div class='flex lg:hidden'>
