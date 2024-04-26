@@ -13,34 +13,73 @@ export interface Point {
 }
 
 export default class SettingsService extends Service {
-  // ===== .date =====
+  // ===== .dateFrom =====
   @trackedInLocalStorage({
-    keyName: 'date',
+    keyName: 'dateFrom',
     defaultValue: dayjs().startOf('day').toISOString(),
   })
-  declare _date: string;
+  declare _dateFrom: string;
 
   get dateFrom(): dayjs.Dayjs {
-    return dayjs(this._date);
+    return dayjs(this._dateFrom);
   }
   set dateFrom(newDate: string | dayjs.Dayjs) {
     if (typeof newDate === 'string') {
       // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      this._date = dayjs(newDate || undefined)
+      this._dateFrom = dayjs(newDate || undefined)
         .startOf('day')
         .toISOString();
     } else {
-      this._date = newDate.startOf('day').toISOString();
+      this._dateFrom = newDate.startOf('day').toISOString();
     }
   }
 
-  get dateShort() {
+  get dateFromShort() {
     return dayjs(this.dateFrom).format('YYYY-MM-DD');
   }
 
+  // ===== .dateTo =====
+  @trackedInLocalStorage({
+    keyName: 'dateTo',
+    defaultValue: dayjs().add(1, 'day').startOf('day').toISOString(),
+  })
+  declare _dateTo: string;
+
+  get dateTo(): dayjs.Dayjs {
+    return dayjs(this._dateTo);
+  }
+  set dateTo(newDate: string | dayjs.Dayjs) {
+    if (typeof newDate === 'string') {
+      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
+      this._dateTo = dayjs(newDate || undefined)
+        .startOf('day')
+        .toISOString();
+    } else {
+      this._dateTo = newDate.startOf('day').toISOString();
+    }
+  }
+
+  get dateToShort() {
+    return dayjs(this.dateTo).format('YYYY-MM-DD');
+  }
+
+  // ===== .date ======
+  // Getter is shorthand for dateFrom
+  // Setter will set dateFrom to current value and dateTo to +1 day
+  get date() {
+    return this.dateFrom;
+  }
+  set date(newDate: string | dayjs.Dayjs) {
+    const value = dayjs(newDate);
+    this.dateFrom = value;
+    this.dateTo = value.add(1, 'day').startOf('day');
+  }
+
+  // ===== .addDays() =====
   @action
   addDays(amount: number) {
     this.dateFrom = this.dateFrom.add(amount, 'days');
+    this.dateTo = this.dateTo.add(amount, 'days');
   }
 
   // ===== .deviceId =====

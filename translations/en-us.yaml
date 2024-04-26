@@ -1,9 +1,15 @@
 project:
   name: The Mountains Are Calling
 settings:
+  date-from:
+    label: From
+    description: Start date
+  date-to:
+    label: To
+    description: End date
   date:
     label: Date
-    description: Date to examine
+    description: Exact day
   device-id:
     label: Device ID
     description: Do not share it
