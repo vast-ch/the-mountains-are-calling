@@ -20,10 +20,10 @@ export default class SettingsService extends Service {
   })
   declare _date: string;
 
-  get date(): dayjs.Dayjs {
+  get dateFrom(): dayjs.Dayjs {
     return dayjs(this._date);
   }
-  set date(newDate: string | dayjs.Dayjs) {
+  set dateFrom(newDate: string | dayjs.Dayjs) {
     if (typeof newDate === 'string') {
       // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
       this._date = dayjs(newDate || undefined)
@@ -35,12 +35,12 @@ export default class SettingsService extends Service {
   }
 
   get dateShort() {
-    return dayjs(this.date).format('YYYY-MM-DD');
+    return dayjs(this.dateFrom).format('YYYY-MM-DD');
   }
 
   @action
   addDays(amount: number) {
-    this.date = this.date.add(amount, 'days');
+    this.dateFrom = this.dateFrom.add(amount, 'days');
   }
 
   // ===== .deviceId =====
