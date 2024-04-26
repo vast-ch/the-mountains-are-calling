@@ -1,21 +1,16 @@
 import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
-import { Button } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { fn, hash } from '@ember/helper';
-import { Input } from '@frontile/forms';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
-import { on } from '@ember/modifier';
 //@ts-ignore No TS stuff yet
-import HeroIcon from 'ember-heroicons/components/hero-icon';
 import { action } from '@ember/object';
 //@ts-expect-error No TS yet
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import type { Point } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
-import set from 'ember-set-helper/helpers/set';
 
 interface PointSelectorSignature {
   Args: {

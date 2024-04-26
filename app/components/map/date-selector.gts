@@ -2,8 +2,7 @@ import Component from '@glimmer/component';
 import { Button } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn, hash } from '@ember/helper';
-import { Input } from '@frontile/forms';
+import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 //@ts-ignore No TS stuff yet
 import HeroIcon from 'ember-heroicons/components/hero-icon';
