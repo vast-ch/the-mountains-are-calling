@@ -1,15 +1,24 @@
 project:
   name: The Mountains Are Calling
 settings:
+  date-from:
+    label: From
+    description: Start date
+  date-to:
+    label: To
+    description: End date
   date:
     label: Date
-    description: Date to examine
+    description: Exact day
   device-id:
     label: Device ID
     description: Do not share it
   is-accuracy-visible:
     label: Show accuracy
     description: Circle of uncertanity around given position
+  has-one-day-selection:
+    label: Simple date selector
+    description: Select given day, instead of a from-to pair
 map:
   highlighted:
     label: ⏰

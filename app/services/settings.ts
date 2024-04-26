@@ -13,37 +13,76 @@ export interface Point {
 }
 
 export default class SettingsService extends Service {
-  // .date
+  // ===== .dateFrom =====
   @trackedInLocalStorage({
-    keyName: 'date',
+    keyName: 'dateFrom',
     defaultValue: dayjs().startOf('day').toISOString(),
   })
-  declare _date: string;
+  declare _dateFrom: string;
 
-  get date(): dayjs.Dayjs {
-    return dayjs(this._date);
+  get dateFrom(): dayjs.Dayjs {
+    return dayjs(this._dateFrom);
   }
-  set date(newDate: string | dayjs.Dayjs) {
+  set dateFrom(newDate: string | dayjs.Dayjs) {
     if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)
-      this._date = dayjs(newDate || undefined)
+      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
+      this._dateFrom = dayjs(newDate || undefined)
         .startOf('day')
         .toISOString();
     } else {
-      this._date = newDate.startOf('day').toISOString();
+      this._dateFrom = newDate.startOf('day').toISOString();
     }
   }
 
-  get dateShort() {
-    return dayjs(this.date).format('YYYY-MM-DD');
+  get dateFromShort() {
+    return dayjs(this.dateFrom).format('YYYY-MM-DD');
   }
 
+  // ===== .dateTo =====
+  @trackedInLocalStorage({
+    keyName: 'dateTo',
+    defaultValue: dayjs().add(1, 'day').startOf('day').toISOString(),
+  })
+  declare _dateTo: string;
+
+  get dateTo(): dayjs.Dayjs {
+    return dayjs(this._dateTo);
+  }
+  set dateTo(newDate: string | dayjs.Dayjs) {
+    if (typeof newDate === 'string') {
+      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
+      this._dateTo = dayjs(newDate || undefined)
+        .startOf('day')
+        .toISOString();
+    } else {
+      this._dateTo = newDate.startOf('day').toISOString();
+    }
+  }
+
+  get dateToShort() {
+    return dayjs(this.dateTo).format('YYYY-MM-DD');
+  }
+
+  // ===== .date ======
+  // Getter is shorthand for dateFrom
+  // Setter will set dateFrom to current value and dateTo to +1 day
+  get date() {
+    return this.dateFrom;
+  }
+  set date(newDate: string | dayjs.Dayjs) {
+    const value = dayjs(newDate);
+    this.dateFrom = value;
+    this.dateTo = value.add(1, 'day').startOf('day');
+  }
+
+  // ===== .addDays() =====
   @action
   addDays(amount: number) {
-    this.date = this.date.add(amount, 'days');
+    this.dateFrom = this.dateFrom.add(amount, 'days');
+    this.dateTo = this.dateTo.add(amount, 'days');
   }
 
-  // .deviceId
+  // ===== .deviceId =====
   @trackedInLocalStorage({ keyName: 'deviceId', defaultValue: 'demo' })
   declare _deviceId: string;
   get deviceId() {
@@ -53,10 +92,10 @@ export default class SettingsService extends Service {
     this._deviceId = newDeviceId;
   }
 
-  // .highlightedPoint
+  // ===== .highlightedPoint =====
   @tracked highlightedPoint: Point | undefined;
 
-  // .isAccuracyVisible
+  // ===== .isAccuracyVisible =====
   @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: true })
   declare _isAccuracyVisible: string;
   get isAccuracyVisible() {
@@ -64,6 +103,20 @@ export default class SettingsService extends Service {
   }
   set isAccuracyVisible(newValue: boolean) {
     this._isAccuracyVisible = Boolean(newValue).toString();
+  }
+
+  // ===== .hasOneDaySelection =====
+  @trackedInLocalStorage({ keyName: 'hasOneDaySelection', defaultValue: true })
+  declare _hasOneDaySelection: string;
+  get hasOneDaySelection() {
+    return this._hasOneDaySelection === 'true';
+  }
+  set hasOneDaySelection(newValue: boolean) {
+    // When we're going to "one day seleciton" we need to sync from&to dates
+    if (newValue === true) {
+      this.date = this.dateFrom;
+    }
+    this._hasOneDaySelection = Boolean(newValue).toString();
   }
 }
 

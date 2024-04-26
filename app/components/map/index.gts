@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 import { Request } from '@warp-drive/ember';
 // @ts-expect-error No TS stuff yet
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
-import MapForm from './form';
 import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds, Point } from 'leaflet';
@@ -15,6 +14,8 @@ import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-hum
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 //@ts-ignore HeroIcon nope
 import HeroIcon from 'ember-heroicons/components/hero-icon';
+import DateSelector from './date-selector';
+import PointSelector from './point-selector';
 
 interface Signature {
   Args: {};
@@ -54,7 +55,10 @@ export default class Map extends Component<Signature> {
 
       <:content as |result|>
         <Filter @data={{result}} as |filtered|>
-          <MapForm @data={{filtered.points}} />
+          <div class='flex flex-col gap-2 pb-2'>
+            <DateSelector />
+            <PointSelector @data={{filtered.points}} />
+          </div>
 
           {{#if (isEmpty filtered.points)}}
             <div class='w-full py-32 flex justify-center items-center'>

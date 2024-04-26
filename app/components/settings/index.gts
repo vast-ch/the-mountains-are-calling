@@ -5,6 +5,7 @@ import { t } from 'ember-intl';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import set from 'ember-set-helper/helpers/set';
+import Dates from '../dates';
 
 interface SettingsSignature {
   Args: {};
@@ -16,7 +17,7 @@ export default class Settings extends Component<SettingsSignature> {
   @service declare settings: SettingsService;
 
   <template>
-    <div class='grid grid-cols-1 sm:grid-cols-2 w-full gap-4 py-4'>
+    <div class='flex flex-col w-full md:w-1/2 gap-4 py-4'>
       {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
         @value={{this.settings.deviceId}}
@@ -27,14 +28,14 @@ export default class Settings extends Component<SettingsSignature> {
         @onChange={{set this.settings 'deviceId'}}
       />
 
-      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-      <Input
-        @value={{this.settings.dateShort}}
-        @type='date'
-        name='date'
-        @label={{t 'settings.date.label'}}
-        @description={{t 'settings.date.description'}}
-        @onChange={{set this.settings 'date'}}
+      <Dates />
+
+      <Checkbox
+        @checked={{this.settings.hasOneDaySelection}}
+        name='hasOneDaySelection'
+        @label={{t 'settings.has-one-day-selection.label'}}
+        @description={{t 'settings.has-one-day-selection.description'}}
+        @onChange={{set this.settings 'hasOneDaySelection'}}
       />
 
       <Checkbox
