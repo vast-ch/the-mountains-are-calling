@@ -43,7 +43,11 @@ export default class Map extends Component<Signature> {
 
   get request() {
     return this.mountainsStore.requestManager.request(
-      firebaseQuery(this.settings.deviceId),
+      firebaseQuery(
+        this.settings.deviceId,
+        this.settings.dateFrom,
+        this.settings.dateTo,
+      ),
     );
   }
 
