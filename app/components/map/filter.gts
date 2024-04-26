@@ -22,7 +22,7 @@ export default class Filter extends Component<MapFilterSignature> {
     const dayStart = this.settings.dateFrom.valueOf() / 1000;
     const dayEnd = this.settings.dateTo.valueOf() / 1000;
 
-    return Object.values(this.args.data || {}).filter((elm) => {
+    return this.args.data.filter((elm) => {
       return elm.timestamp > dayStart && elm.timestamp < dayEnd;
     });
   }
