@@ -22,15 +22,7 @@ export default class Filter extends Component<MapFilterSignature> {
     const dayStart = this.settings.date.valueOf() / 1000;
     const dayEnd = this.settings.date.endOf('day').valueOf() / 1000;
 
-    // prevent ember-data error: Expected a non-null value, but got null
-    try {
-      this.args.data;
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
-
-    return Object.values(this.args.data).filter((elm) => {
+    return Object.values(this.args.data || {}).filter((elm) => {
       return elm.timestamp > dayStart && elm.timestamp < dayEnd;
     });
   }

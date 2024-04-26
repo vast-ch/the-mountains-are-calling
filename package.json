@@ -48,7 +48,7 @@
     "@types/rsvp": "^4.0.9",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
-    "@warp-drive/ember": "0.0.0-alpha.18",
+    "@warp-drive/ember": "0.0.0-alpha.19",
     "autoprefixer": "^10.0.2",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.2",
