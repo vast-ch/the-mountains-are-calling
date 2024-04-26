@@ -16,6 +16,7 @@ import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import HeroIcon from 'ember-heroicons/components/hero-icon';
 import DateSelector from './date-selector';
 import PointSelector from './point-selector';
+import { icon } from 'ember-leaflet/helpers/icon';
 
 interface Signature {
   Args: {};
@@ -34,6 +35,15 @@ function getBounds(locations: [[]]): LatLngBounds {
   let ret = L.polyline(locations).getBounds();
   return ret;
 }
+
+const currentMarker = icon([], {
+  iconUrl: '/images/pin-svgrepo-com.svg',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41],
+});
 
 export default class Map extends Component<Signature> {
   @service mountainsStore: any;
@@ -94,6 +104,7 @@ export default class Map extends Component<Signature> {
                   <layers.marker
                     @lat={{point.latitude}}
                     @lng={{point.longitude}}
+                    @icon={{currentMarker}}
                     as |marker|
                   >
                     <marker.popup
