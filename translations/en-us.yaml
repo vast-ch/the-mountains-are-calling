@@ -23,6 +23,7 @@ map:
   highlighted:
     label: ⏰
   loading: Loading...
+  accuracy: ± {value}
 error:
   no-data-to-display: No data to display
 menu:

@@ -8,7 +8,7 @@ import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds, Point } from 'leaflet';
 import { isEmpty } from 'ember-truth-helpers';
-import { t } from 'ember-intl';
+import { formatNumber, t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
@@ -16,7 +16,13 @@ import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import HeroIcon from 'ember-heroicons/components/hero-icon';
 import DateSelector from './date-selector';
 import PointSelector from './point-selector';
+//@ts-ignore No TS
 import { icon } from 'ember-leaflet/helpers/icon';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
+
+// TODO: Is there a better place?
+dayjs.extend(relativeTime);
 
 interface Signature {
   Args: {};
@@ -59,6 +65,13 @@ export default class Map extends Component<Signature> {
         this.settings.dateTo,
       ),
     );
+  }
+
+  get highlightedPointRelative() {
+    if (!this.settings.highlightedPoint) {
+      return undefined;
+    }
+    return dayjs(this.settings.highlightedPoint.timestamp * 1000).fromNow();
   }
 
   <template>
@@ -111,7 +124,22 @@ export default class Map extends Component<Signature> {
                       @popupOpen='true'
                       @autoPanPadding={{this.autoPanPadding}}
                     >
-                      {{timestampToHuman point.timestamp}}
+                      <ul>
+                        <li>{{timestampToHuman point.timestamp}}</li>
+                        {{#if this.highlightedPointRelative}}
+                          <li>{{this.highlightedPointRelative}}</li>
+                        {{/if}}
+                        <li>{{t
+                            'map.accuracy'
+                            value=(formatNumber
+                              point.accuracy
+                              style='unit'
+                              unit='meter'
+                              maximumFractionDigits=0
+                            )
+                          }}
+                        </li>
+                      </ul>
                     </marker.popup>
                   </layers.marker>
                 {{/if}}
