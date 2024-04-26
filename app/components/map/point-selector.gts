@@ -17,7 +17,7 @@ import type { Point } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 
-interface MapFormSignature {
+interface PointSelectorSignature {
   Args: {
     data: any[];
   };
@@ -46,7 +46,7 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
   return COLORS[i];
 }
 
-export default class MapForm extends Component<MapFormSignature> {
+export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
   @action onEnter(point: Point) {
@@ -54,30 +54,8 @@ export default class MapForm extends Component<MapFormSignature> {
   }
 
   <template>
-    <div class='flex flex-row gap-4'>
-      <Button
-        {{on 'click' (fn this.settings.addDays -1)}}
-        @appearance='outlined'
-      >
-        <HeroIcon class='h-4' @icon='chevron-left' />
-      </Button>
-      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-      <Input
-        @value={{this.settings.dateShort}}
-        @type='date'
-        @classes={{hash base='flex-1'}}
-        @onChange={{set this.settings 'date'}}
-      />
-      <Button
-        {{on 'click' (fn this.settings.addDays 1)}}
-        @appearance='outlined'
-      >
-        <HeroIcon class='h-4' @icon='chevron-right' />
-      </Button>
-    </div>
-
     <div
-      class='grid [grid-template-areas:"stack"] justify-items-center items-start py-2'
+      class='grid [grid-template-areas:"stack"] justify-items-center items-start'
     >
       <div
         class='w-24 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
@@ -112,6 +90,6 @@ export default class MapForm extends Component<MapFormSignature> {
 
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry {
-    MapForm: typeof MapForm;
+    MapForm: typeof PointSelector;
   }
 }

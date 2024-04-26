@@ -44,6 +44,14 @@ export default class Settings extends Component<SettingsSignature> {
         @description={{t 'settings.is-accuracy-visible.description'}}
         @onChange={{set this.settings 'isAccuracyVisible'}}
       />
+
+      <Checkbox
+        @checked={{this.settings.hasOneDaySelection}}
+        name='hasOneDaySelection'
+        @label={{t 'settings.has-one-day-selection.label'}}
+        @description={{t 'settings.has-one-day-selection.description'}}
+        @onChange={{set this.settings 'hasOneDaySelection'}}
+      />
     </div>
   </template>
 }

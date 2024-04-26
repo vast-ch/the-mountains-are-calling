@@ -13,7 +13,7 @@ export interface Point {
 }
 
 export default class SettingsService extends Service {
-  // .date
+  // ===== .date =====
   @trackedInLocalStorage({
     keyName: 'date',
     defaultValue: dayjs().startOf('day').toISOString(),
@@ -25,7 +25,7 @@ export default class SettingsService extends Service {
   }
   set date(newDate: string | dayjs.Dayjs) {
     if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)
+      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
       this._date = dayjs(newDate || undefined)
         .startOf('day')
         .toISOString();
@@ -43,7 +43,7 @@ export default class SettingsService extends Service {
     this.date = this.date.add(amount, 'days');
   }
 
-  // .deviceId
+  // ===== .deviceId =====
   @trackedInLocalStorage({ keyName: 'deviceId', defaultValue: 'demo' })
   declare _deviceId: string;
   get deviceId() {
@@ -53,10 +53,10 @@ export default class SettingsService extends Service {
     this._deviceId = newDeviceId;
   }
 
-  // .highlightedPoint
+  // ===== .highlightedPoint =====
   @tracked highlightedPoint: Point | undefined;
 
-  // .isAccuracyVisible
+  // ===== .isAccuracyVisible =====
   @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: true })
   declare _isAccuracyVisible: string;
   get isAccuracyVisible() {
@@ -64,6 +64,16 @@ export default class SettingsService extends Service {
   }
   set isAccuracyVisible(newValue: boolean) {
     this._isAccuracyVisible = Boolean(newValue).toString();
+  }
+
+  // ===== .hasOneDaySelection =====
+  @trackedInLocalStorage({ keyName: 'hasOneDaySelection', defaultValue: true })
+  declare _hasOneDaySelection: string;
+  get hasOneDaySelection() {
+    return this._hasOneDaySelection === 'true';
+  }
+  set hasOneDaySelection(newValue: boolean) {
+    this._hasOneDaySelection = Boolean(newValue).toString();
   }
 }
 

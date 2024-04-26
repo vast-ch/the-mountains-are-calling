@@ -10,6 +10,9 @@ settings:
   is-accuracy-visible:
     label: Show accuracy
     description: Circle of uncertanity around given position
+  has-one-day-selection:
+    label: Simple date selector
+    description: Select given day, instead of a from-to pair
 map:
   highlighted:
     label: ⏰
