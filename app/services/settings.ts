@@ -82,6 +82,19 @@ export default class SettingsService extends Service {
     this.dateTo = this.dateTo.add(amount, 'days');
   }
 
+  // ===== .provider =====
+  @trackedInLocalStorage({
+    keyName: 'provider',
+    defaultValue: 'firebase-realtime-database',
+  })
+  declare _provider: string;
+  get provider(): string {
+    return this._provider;
+  }
+  set provider(newProvider: string[]) {
+    this._provider = newProvider[0] || 'firebase-realtime-database';
+  }
+
   // ===== .deviceId =====
   @trackedInLocalStorage({ keyName: 'deviceId', defaultValue: 'demo' })
   declare _deviceId: string;

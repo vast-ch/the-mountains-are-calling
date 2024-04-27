@@ -1,26 +1,47 @@
 import Component from '@glimmer/component';
 import { Checkbox } from '@frontile/forms';
 import { Input } from '@frontile/forms';
-import { t } from 'ember-intl';
+import { type IntlService, t } from 'ember-intl';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import set from 'ember-set-helper/helpers/set';
+import { Select } from '@frontile/forms';
+import { array } from '@ember/helper';
 
 interface SettingsSignature {
   Args: {};
   Element: HTMLDivElement;
 }
 
-// eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Settings extends Component<SettingsSignature> {
   @service declare settings: SettingsService;
+  @service declare intl: IntlService;
+
+  PROVIDERS = [
+    {
+      key: 'firebase-realtime-database',
+      label: this.intl.t('providers.firebase-realtime-database'),
+    },
+  ];
 
   <template>
     <div class='flex flex-col w-full md:w-1/2 gap-4 py-4'>
+      <Select
+        @label={{t 'settings.provider.label'}}
+        @description={{t 'settings.provider.description'}}
+        @placeholder={{t 'settings.provider.placeholder'}}
+        @selectionMode='single'
+        @items={{this.PROVIDERS}}
+        @allowEmpty={{false}}
+        @intent='primary'
+        @selectedKeys={{array this.settings.provider}}
+        @onSelectionChange={{set this.settings 'provider'}}
+      />
+
       {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
         @value={{this.settings.deviceId}}
-        @type='text'
+        @type='password'
         name='deviceId'
         @label={{t 'settings.device-id.label'}}
         @description={{t 'settings.device-id.description'}}
