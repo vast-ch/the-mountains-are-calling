@@ -12,11 +12,13 @@ export interface Point {
   accuracy: number;
 }
 
+const DEMO_DATE = '2024-04-18';
+
 export default class SettingsService extends Service {
   // ===== .dateFrom =====
   @trackedInLocalStorage({
     keyName: 'dateFrom',
-    defaultValue: dayjs().startOf('day').toISOString(),
+    defaultValue: dayjs(DEMO_DATE).startOf('day').toISOString(),
   })
   declare _dateFrom: string;
 
@@ -41,7 +43,7 @@ export default class SettingsService extends Service {
   // ===== .dateTo =====
   @trackedInLocalStorage({
     keyName: 'dateTo',
-    defaultValue: dayjs().add(1, 'day').startOf('day').toISOString(),
+    defaultValue: dayjs(DEMO_DATE).add(1, 'day').startOf('day').toISOString(),
   })
   declare _dateTo: string;
 
@@ -113,7 +115,7 @@ export default class SettingsService extends Service {
   @tracked highlightedPoint: Point | undefined;
 
   // ===== .isAccuracyVisible =====
-  @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: true })
+  @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: 'true' })
   declare _isAccuracyVisible: string;
   get isAccuracyVisible() {
     return this._isAccuracyVisible === 'true';
@@ -123,7 +125,10 @@ export default class SettingsService extends Service {
   }
 
   // ===== .hasOneDaySelection =====
-  @trackedInLocalStorage({ keyName: 'hasOneDaySelection', defaultValue: true })
+  @trackedInLocalStorage({
+    keyName: 'hasOneDaySelection',
+    defaultValue: 'true',
+  })
   declare _hasOneDaySelection: string;
   get hasOneDaySelection() {
     return this._hasOneDaySelection === 'true';
