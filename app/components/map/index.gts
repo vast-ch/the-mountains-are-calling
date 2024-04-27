@@ -42,8 +42,17 @@ function getBounds(locations: [[]]): LatLngBounds {
   return ret;
 }
 
-const currentMarker = icon([], {
-  iconUrl: '/images/pin-svgrepo-com.svg',
+const pinHighlighted = icon([], {
+  iconUrl: '/images/pin-highlighted.svg',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41],
+});
+
+const pinStandard = icon([], {
+  iconUrl: '/images/pin-standard.svg',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -117,7 +126,7 @@ export default class Map extends Component<Signature> {
                   <layers.marker
                     @lat={{point.latitude}}
                     @lng={{point.longitude}}
-                    @icon={{currentMarker}}
+                    @icon={{pinHighlighted}}
                     as |marker|
                   >
                     <marker.popup
@@ -157,6 +166,7 @@ export default class Map extends Component<Signature> {
                 <layers.marker
                   @lat={{point.latitude}}
                   @lng={{point.longitude}}
+                  @icon={{pinStandard}}
                 />
               {{/each}}
 
