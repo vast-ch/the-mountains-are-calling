@@ -17,35 +17,37 @@ export default class Settings extends Component<SettingsSignature> {
   @service declare settings: SettingsService;
   @service declare intl: IntlService;
 
-  PROVIDERS = [
-    {
-      key: 'firebase-realtime-database',
-      label: this.intl.t('providers.firebase-realtime-database'),
-    },
-  ];
+  get providerIds() {
+    return [
+      {
+        key: 'firebase-realtime-database',
+        label: this.intl.t('provider-ids.firebase-realtime-database'),
+      },
+    ];
+  }
 
   <template>
     <div class='flex flex-col w-full md:w-1/2 gap-4 py-4'>
       <Select
-        @label={{t 'settings.provider.label'}}
-        @description={{t 'settings.provider.description'}}
-        @placeholder={{t 'settings.provider.placeholder'}}
+        @label={{t 'settings.provider-id.label'}}
+        @description={{t 'settings.provider-id.description'}}
+        @placeholder={{t 'settings.provider-id.placeholder'}}
         @selectionMode='single'
-        @items={{this.PROVIDERS}}
+        @items={{this.providerIds}}
         @allowEmpty={{false}}
         @intent='primary'
-        @selectedKeys={{array this.settings.provider}}
-        @onSelectionChange={{set this.settings 'provider'}}
+        @selectedKeys={{array this.settings.providerId}}
+        @onSelectionChange={{set this.settings 'providerId'}}
       />
 
       {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
-        @value={{this.settings.deviceId}}
-        @type='password'
-        name='deviceId'
-        @label={{t 'settings.device-id.label'}}
-        @description={{t 'settings.device-id.description'}}
-        @onChange={{set this.settings 'deviceId'}}
+        @value={{this.settings.deviceUrl}}
+        @type='text'
+        name='deviceUrl'
+        @label={{t 'settings.device-url.label'}}
+        @description={{t 'settings.device-url.description'}}
+        @onChange={{set this.settings 'deviceUrl'}}
       />
 
       <Checkbox

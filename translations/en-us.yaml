@@ -10,16 +10,16 @@ settings:
   date:
     label: Date
     description: Exact day
-  device-id:
-    label: Device ID
-    description: Secret ID that is used to secure your location data
+  device-url:
+    label: Provider URL
+    description: URL where the data is stored
   is-accuracy-visible:
     label: Show accuracy
     description: Circle of uncertanity around given position
   has-one-day-selection:
     label: Simple date selector
     description: Select given day, instead of a from-to pair
-  provider:
+  provider-id:
     label: Provider
     description: Where are the data stored
     placeholder: --Select a value--
@@ -38,5 +38,5 @@ route:
   map: Map
   settings: Settings
 back: Back
-providers:
+provider-ids:
   firebase-realtime-database: Firebase Realtime Database
