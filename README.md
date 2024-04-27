@@ -11,6 +11,10 @@ Based on the idea of *simple*, location sharing first introduced in [Google Lati
   - No app installation necessary.
   - Although the default setup shares the location data to **our servers**, the project is fully [Open Source](https://en.wikipedia.org/wiki/Open_source) with detailed manual on how to self host. So you can have the data completely under control.
 
+## Demo
+
+[https://the-mountains-are-calling.netlify.app/](https://the-mountains-are-calling.netlify.app/)
+
 ## Screenshots
 
 ![Application Screenshot](docs/screenshot.png)
