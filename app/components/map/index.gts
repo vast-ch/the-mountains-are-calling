@@ -142,6 +142,14 @@ export default class Map extends Component<Signature> {
                       </ul>
                     </marker.popup>
                   </layers.marker>
+
+                  {{#if this.settings.isAccuracyVisible}}
+                    <layers.circle
+                      @lat={{point.latitude}}
+                      @lng={{point.longitude}}
+                      @radius={{point.accuracy}}
+                    />
+                  {{/if}}
                 {{/if}}
               {{/let}}
 
@@ -150,16 +158,6 @@ export default class Map extends Component<Signature> {
                   @lat={{point.latitude}}
                   @lng={{point.longitude}}
                 />
-                {{#if this.settings.isAccuracyVisible}}
-                  <layers.circle
-                    @lat={{point.latitude}}
-                    @lng={{point.longitude}}
-                    @radius={{point.accuracy}}
-                    @color={{colorGradient index filtered.points.length}}
-                    @opacity='0.1'
-                    @fillOpacity='0.1'
-                  />
-                {{/if}}
               {{/each}}
 
             </LeafletMap>
