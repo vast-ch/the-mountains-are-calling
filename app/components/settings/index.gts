@@ -5,7 +5,6 @@ import { t } from 'ember-intl';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import set from 'ember-set-helper/helpers/set';
-import Dates from '../dates';
 
 interface SettingsSignature {
   Args: {};
@@ -27,8 +26,6 @@ export default class Settings extends Component<SettingsSignature> {
         @description={{t 'settings.device-id.description'}}
         @onChange={{set this.settings 'deviceId'}}
       />
-
-      <Dates />
 
       <Checkbox
         @checked={{this.settings.hasOneDaySelection}}
