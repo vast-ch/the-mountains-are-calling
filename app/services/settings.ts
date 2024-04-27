@@ -82,14 +82,31 @@ export default class SettingsService extends Service {
     this.dateTo = this.dateTo.add(amount, 'days');
   }
 
-  // ===== .deviceId =====
-  @trackedInLocalStorage({ keyName: 'deviceId', defaultValue: 'demo' })
-  declare _deviceId: string;
-  get deviceId() {
-    return this._deviceId;
+  // ===== .providerId =====
+  @trackedInLocalStorage({
+    keyName: 'providerId',
+    defaultValue: 'firebase-realtime-database',
+  })
+  declare _providerId: string;
+  get providerId(): string {
+    return this._providerId;
   }
-  set deviceId(newDeviceId: string) {
-    this._deviceId = newDeviceId;
+  set provider(newProviderId: string[]) {
+    this._providerId = newProviderId[0] || 'firebase-realtime-database';
+  }
+
+  // ===== .deviceUrl =====
+  @trackedInLocalStorage({
+    keyName: 'deviceUrl',
+    defaultValue:
+      'https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/demo.json',
+  })
+  declare _deviceUrl: string;
+  get deviceUrl() {
+    return this._deviceUrl;
+  }
+  set deviceUrl(newDeviceUrl: string) {
+    this._deviceUrl = newDeviceUrl;
   }
 
   // ===== .highlightedPoint =====

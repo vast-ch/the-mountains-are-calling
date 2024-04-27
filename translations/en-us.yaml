@@ -10,15 +10,19 @@ settings:
   date:
     label: Date
     description: Exact day
-  device-id:
-    label: Device ID
-    description: Do not share it
+  device-url:
+    label: Provider URL
+    description: URL where the data is stored
   is-accuracy-visible:
     label: Show accuracy
     description: Circle of uncertanity around given position
   has-one-day-selection:
     label: Simple date selector
     description: Select given day, instead of a from-to pair
+  provider-id:
+    label: Provider
+    description: Where are the data stored
+    placeholder: --Select a value--
 map:
   highlighted:
     label: ⏰
@@ -34,3 +38,5 @@ route:
   map: Map
   settings: Settings
 back: Back
+provider-ids:
+  firebase-realtime-database: Firebase Realtime Database
