@@ -4,7 +4,9 @@ export function firebaseQuery(
   deviceUrl: string = '',
   dateFrom: Dayjs,
   dateTo: Dayjs,
+  counter: number,
 ) {
+  console.log({ counter });
   const cacheOptions = {};
   const headers = new Headers();
   const queryParams = new URLSearchParams({
