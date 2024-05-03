@@ -65,6 +65,18 @@ export default class Settings extends Component<SettingsSignature> {
         @description={{t 'settings.is-accuracy-visible.description'}}
         @onChange={{set this.settings 'isAccuracyVisible'}}
       />
+
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
+      <Input
+        @value={{this.settings.refreshInterval}}
+        @type='number'
+        min='0'
+        step='1'
+        name='refreshInterval'
+        @label={{t 'settings.refresh-interval.label'}}
+        @description={{t 'settings.refresh-interval.description'}}
+        @onChange={{set this.settings 'refreshInterval'}}
+      />
     </div>
   </template>
 }

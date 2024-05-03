@@ -111,6 +111,19 @@ export default class SettingsService extends Service {
     this._deviceUrl = newDeviceUrl;
   }
 
+  // ===== .refreshInterval =====
+  @trackedInLocalStorage({
+    keyName: 'refreshInterval',
+    defaultValue: '0',
+  })
+  declare _refreshInterval: string;
+  get refreshInterval() {
+    return Number.parseInt(this._refreshInterval);
+  }
+  set refreshInterval(newrefreshInterval: number) {
+    this._refreshInterval = newrefreshInterval.toString();
+  }
+
   // ===== .highlightedPoint =====
   @tracked highlightedPoint: Point | undefined;
 

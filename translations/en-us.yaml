@@ -23,6 +23,9 @@ settings:
     label: Provider
     description: Where are the data stored
     placeholder: --Select a value--
+  refresh-interval:
+    label: Refresh interval
+    description: In seconds, input zero to disable auto refresh
 map:
   highlighted:
     label: ⏰

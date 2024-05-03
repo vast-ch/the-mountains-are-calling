@@ -4,6 +4,7 @@ import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import { use, cell, resource, type Reactive } from 'ember-resources';
 import { Cell } from '@starbeam/universal';
+import dayjs from 'dayjs';
 
 export type ClockNakedSignature = {
   percentage: Cell<number>;
@@ -20,29 +21,38 @@ interface Signature {
   Element: HTMLDivElement;
 }
 
-const Clock = resource(({ on }) => {
-  const counter = cell(0);
-  const percentage = cell(0);
-
-  const timer = setInterval(() => {
-    percentage.set((percentage.current + 1) % 100);
-    if (percentage.current === 0) {
-      counter.set(counter.current + 1);
-    }
-  }, 1000);
-
-  on.cleanup(() => {
-    clearInterval(timer);
-  });
-
-  return { percentage, counter };
-});
-
 export default class Refresher extends Component<Signature> {
   @service mountainsStore: any;
   @service declare settings: SettingsService;
 
-  clock = use(this, Clock);
+  clock = use(
+    this,
+    resource(({ on }) => {
+      const counter = cell(0);
+      const percentage = cell(0);
+
+      let lastCountTime = dayjs();
+
+      const timer = setInterval(() => {
+        const diff = dayjs().diff(lastCountTime);
+        let newPercentage =
+          (diff / (this.settings.refreshInterval * 1000)) * 100;
+
+        if (newPercentage >= 100) {
+          lastCountTime = dayjs();
+          counter.set(counter.current + 1);
+          newPercentage = 0;
+        }
+        percentage.set(newPercentage);
+      }, 1000);
+
+      on.cleanup(() => {
+        clearInterval(timer);
+      });
+
+      return { percentage, counter };
+    }),
+  );
 
   get request() {
     return this.mountainsStore.requestManager.request(
