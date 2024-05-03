@@ -76,12 +76,14 @@ export default class Map extends Component<Signature> {
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
-          <ProgressBar
-            @progress={{l.refresher.current.percentage.current}}
-            @size='xs'
-            @radius='full'
-            @showValueLabel={{false}}
-          />
+          {{#if this.settings.refreshInterval}}
+            <ProgressBar
+              @progress={{l.refresher.current.percentage.current}}
+              @size='xs'
+              @radius='full'
+              @showValueLabel={{false}}
+            />
+          {{/if}}
           <DateSelector />
           <PointSelector @data={{filtered.points}} />
         </div>

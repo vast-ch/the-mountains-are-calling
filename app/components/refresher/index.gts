@@ -34,16 +34,20 @@ export default class Refresher extends Component<Signature> {
       let lastCountTime = dayjs();
 
       const timer = setInterval(() => {
-        const diff = dayjs().diff(lastCountTime);
-        let newPercentage =
-          (diff / (this.settings.refreshInterval * 1000)) * 100;
+        const { refreshInterval } = this.settings;
 
-        if (newPercentage >= 100) {
-          lastCountTime = dayjs();
-          counter.set(counter.current + 1);
-          newPercentage = 0;
+        if (refreshInterval) {
+          const diff = dayjs().diff(lastCountTime);
+          let newPercentage =
+            (diff / (this.settings.refreshInterval * 1000)) * 100;
+
+          if (newPercentage >= 100) {
+            lastCountTime = dayjs();
+            counter.set(counter.current + 1);
+            newPercentage = 0;
+          }
+          percentage.set(newPercentage);
         }
-        percentage.set(newPercentage);
       }, 1000);
 
       on.cleanup(() => {
