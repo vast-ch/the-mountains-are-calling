@@ -4,7 +4,6 @@ export function firebaseQuery(
   deviceUrl: string = '',
   dateFrom: Dayjs,
   dateTo: Dayjs,
-  counter: number,
 ) {
   const cacheOptions = {};
   const headers = new Headers();
@@ -12,7 +11,6 @@ export function firebaseQuery(
     orderBy: '"timestamp"',
     startAt: dateFrom.unix().toString(),
     endAt: dateTo.unix().toString(),
-    counter: counter.toString(),
   }).toString();
 
   return {

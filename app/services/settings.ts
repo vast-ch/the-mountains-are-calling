@@ -123,6 +123,9 @@ export default class SettingsService extends Service {
   set refreshInterval(newrefreshInterval: number) {
     this._refreshInterval = newrefreshInterval.toString();
   }
+  get refreshIntervalMs() {
+    return this.refreshInterval * 1000;
+  }
 
   // ===== .highlightedPoint =====
   @tracked highlightedPoint: Point | undefined;
