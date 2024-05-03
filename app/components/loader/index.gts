@@ -41,7 +41,6 @@ export default class Loader extends Component<Signature> {
     <Request
       @request={{this.request}}
       @autorefresh={{gt this.settings.refreshInterval 0}}
-      @autorefreshThreshold={{this.settings.refreshIntervalMs}}
       @autorefreshBehavior='refresh'
     >
       <:loading>
