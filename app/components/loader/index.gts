@@ -7,6 +7,7 @@ import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import { hash } from '@ember/helper';
 import { gt } from 'ember-truth-helpers';
+import Interval from '../interval';
 
 interface Signature {
   Args: {};
@@ -36,6 +37,7 @@ export default class Loader extends Component<Signature> {
 
   <template>
     {{log this.settings.refreshIntervalMs}}
+    {{log (gt this.settings.refreshInterval 0)}}
     <Request
       @request={{this.request}}
       @autorefresh={{gt this.settings.refreshInterval 0}}
@@ -46,7 +48,11 @@ export default class Loader extends Component<Signature> {
         {{t 'map.loading'}}
       </:loading>
 
-      <:content as |result|>
+      <:content as |result state|>
+        <Interval
+          @period={{this.settings.refreshInterval}}
+          @fn={{state.refresh}}
+        />
         {{yield (hash result=result)}}
       </:content>
     </Request>
