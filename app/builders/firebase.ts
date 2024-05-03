@@ -6,13 +6,13 @@ export function firebaseQuery(
   dateTo: Dayjs,
   counter: number,
 ) {
-  console.log({ counter });
   const cacheOptions = {};
   const headers = new Headers();
   const queryParams = new URLSearchParams({
     orderBy: '"timestamp"',
     startAt: dateFrom.unix().toString(),
     endAt: dateTo.unix().toString(),
+    counter: counter.toString(),
   }).toString();
 
   return {

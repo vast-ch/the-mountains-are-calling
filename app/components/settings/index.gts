@@ -70,8 +70,8 @@ export default class Settings extends Component<SettingsSignature> {
       <Input
         @value={{this.settings.refreshInterval}}
         @type='number'
-        min='0'
-        step='1'
+        min={{0}}
+        step={{15}}
         name='refreshInterval'
         @label={{t 'settings.refresh-interval.label'}}
         @description={{t 'settings.refresh-interval.description'}}
