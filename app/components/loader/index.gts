@@ -30,7 +30,6 @@ export default class Loader extends Component<Signature> {
 
   @action
   request(counter: number) {
-    console.log({ counter });
     return this.mountainsStore.requestManager.request(
       firebaseQuery(
         this.settings.deviceUrl,
@@ -43,7 +42,10 @@ export default class Loader extends Component<Signature> {
 
   <template>
     <Refresher as |r|>
-      <Request @request={{(this.request r.current.counter.current)}}>
+      <Request
+        @request={{(this.request r.current.counter.current)}}
+        @autorefreshBehavior='reload'
+      >
         <:loading>
           {{t 'map.loading'}}
         </:loading>
