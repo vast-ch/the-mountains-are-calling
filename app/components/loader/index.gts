@@ -36,8 +36,6 @@ export default class Loader extends Component<Signature> {
   }
 
   <template>
-    {{log this.settings.refreshIntervalMs}}
-    {{log (gt this.settings.refreshInterval 0)}}
     <Request
       @request={{this.request}}
       @autorefresh={{gt this.settings.refreshInterval 0}}

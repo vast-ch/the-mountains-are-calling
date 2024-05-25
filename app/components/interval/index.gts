@@ -21,7 +21,6 @@ export default class Interval extends Component<Signature> {
         if (this.args.period) {
           const diff = dayjs().diff(lastRefreshTime, 'seconds');
 
-          console.log(diff);
           if (diff >= this.args.period) {
             lastRefreshTime = dayjs();
             this.args.fn();
