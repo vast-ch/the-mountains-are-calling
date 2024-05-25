@@ -1,5 +1,4 @@
 import Service from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import * as dayjs from 'dayjs';
 //@ts-expect-error No TS yet
@@ -35,6 +34,16 @@ export default class SettingsService extends Service {
 
   get fallbackDateTo() {
     return DEMO_DATE_TO;
+  }
+
+  // ===== .highlightedPoint =====
+  get highlightedPoint(): number {
+    return Number.parseFloat(this.qp['highlightedPoint'] as string);
+  }
+  set highlightedPoint(newPoint: number) {
+    this.router.transitionTo({
+      queryParams: { highlightedPoint: newPoint.toString() },
+    });
   }
 
   // ===== .dateFrom =====
@@ -144,9 +153,6 @@ export default class SettingsService extends Service {
   get refreshIntervalMs() {
     return this.refreshInterval * 1000;
   }
-
-  // ===== .highlightedPoint =====
-  @tracked highlightedPoint: Point | undefined;
 
   // ===== .isAccuracyVisible =====
   @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: 'true' })

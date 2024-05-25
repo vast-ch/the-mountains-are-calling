@@ -16,7 +16,6 @@ import PointSelector from './point-selector';
 //@ts-ignore No TS
 import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { ProgressBar } from '@frontile/status';
 import dayjs from 'dayjs';
 import Loader from '../loader';
 
@@ -64,6 +63,13 @@ export default class Map extends Component<Signature> {
   @service declare settings: SettingsService;
 
   autoPanPadding = new Point(50, 50);
+
+  pickHighlightedPoint(
+    points: Point[],
+    highlightedPointTimestamp: number,
+  ): Point | undefined {
+    return points.find((p) => p.timestamp === highlightedPointTimestamp);
+  }
 
   get highlightedPointRelative() {
     if (!this.settings.highlightedPoint) {

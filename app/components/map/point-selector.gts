@@ -45,7 +45,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
   @action onEnter(point: Point) {
-    this.settings.highlightedPoint = point;
+    this.settings.highlightedPoint = point.timestamp;
   }
 
   <template>
