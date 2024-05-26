@@ -6,11 +6,11 @@ export default class IndexController extends Controller {
     {
       dateFrom: { type: 'string' as const },
       dateTo: { type: 'string' as const },
-      highlightedPoint: { type: 'string' as const },
+      highlightedPin: { type: 'string' as const },
     },
   ];
 
   @tracked dateFrom = '';
   @tracked dateTo = '';
-  @tracked highlightedPoint = '';
+  @tracked highlightedPin = '';
 }

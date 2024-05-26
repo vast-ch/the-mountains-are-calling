@@ -9,8 +9,11 @@ import SunCalc from 'suncalc';
 import { action } from '@ember/object';
 //@ts-expect-error No TS yet
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
+//@ts-expect-error No TS yet
+import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
 
 interface PointSelectorSignature {
   Args: {
@@ -64,6 +67,14 @@ export default class PointSelector extends Component<PointSelectorSignature> {
         <div><div class='[width:50vw] text-right'></div></div>
         {{#each @data as |point|}}
           <div
+            {{(if
+              (eq point.timestamp this.settings.highlightedPin)
+              (modifier
+                scrollIntoView
+                shouldScroll=true
+                options=(hash behavior='instant')
+              )
+            )}}
             {{didIntersect
               onEnter=(fn this.onEnter point)
               options=(hash rootMargin='0% -49% 0% -49%' threshold=0)

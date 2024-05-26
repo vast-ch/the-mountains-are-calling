@@ -46,6 +46,7 @@ export default class Loader extends Component<Signature> {
       </:loading>
 
       <:content as |result state|>
+        {{! TODO: Does this make sense given that we have autorefresh above? }}
         <Interval
           @period={{this.settings.refreshInterval}}
           @fn={{state.refresh}}
