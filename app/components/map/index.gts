@@ -72,11 +72,8 @@ export default class Map extends Component<Signature> {
     return points.find((p) => p.timestamp === highlightedPinTimestamp);
   }
 
-  get highlightedPinRelative() {
-    if (!this.settings.highlightedPin) {
-      return undefined;
-    }
-    return dayjs(this.settings.highlightedPin.timestamp * 1000).fromNow();
+  highlightedPinRelative(pin: Pin): string {
+    return dayjs(pin.timestamp * 1000).fromNow();
   }
 
   <template>
@@ -131,9 +128,7 @@ export default class Map extends Component<Signature> {
                   >
                     <ul>
                       <li>{{timestampToHuman pin.timestamp}}</li>
-                      {{#if this.highlightedPinRelative}}
-                        <li>{{this.highlightedPinRelative}}</li>
-                      {{/if}}
+                      <li>{{this.highlightedPinRelative pin}}</li>
                       <li>{{t
                           'map.accuracy'
                           value=(formatNumber
