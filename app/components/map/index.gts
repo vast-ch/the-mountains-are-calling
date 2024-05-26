@@ -76,8 +76,6 @@ export default class Map extends Component<Signature> {
     return dayjs(pin.timestamp * 1000).fromNow();
   }
 
-  }
-
   <template>
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
