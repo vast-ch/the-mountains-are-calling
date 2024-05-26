@@ -3,14 +3,14 @@ import {
   type NextFn,
   type RequestContext,
 } from '@ember-data/request';
-import type { Point } from 'the-mountains-are-calling/services/settings';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 export interface Response {
   content: Location;
 }
 
 interface Location {
-  results: Point[];
+  results: Pin[];
 }
 
 const FirebaseHandler: Handler = {

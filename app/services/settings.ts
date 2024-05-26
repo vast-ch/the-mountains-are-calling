@@ -6,7 +6,7 @@ import { trackedInLocalStorage } from 'ember-tracked-local-storage';
 import { inject as service } from '@ember/service';
 import type RouterService from '@ember/routing/router-service';
 
-export interface Point {
+export interface Pin {
   latitude: number;
   longitude: number;
   timestamp: number;
@@ -37,12 +37,12 @@ export default class SettingsService extends Service {
   }
 
   // ===== .highlightedPoint =====
-  get highlightedPoint(): number {
-    return Number.parseFloat(this.qp['highlightedPoint'] as string);
+  get highlightedPin(): number {
+    return Number.parseFloat(this.qp['highlightedPin'] as string);
   }
-  set highlightedPoint(newPoint: number) {
+  set highlightedPin(newPin: number) {
     this.router.transitionTo({
-      queryParams: { highlightedPoint: newPoint.toString() },
+      queryParams: { highlightedPin: newPin.toString() },
     });
   }
 

@@ -18,6 +18,7 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -64,18 +65,18 @@ export default class Map extends Component<Signature> {
 
   autoPanPadding = new Point(50, 50);
 
-  pickHighlightedPoint(
-    points: Point[],
-    highlightedPointTimestamp: number,
-  ): Point | undefined {
-    return points.find((p) => p.timestamp === highlightedPointTimestamp);
+  pickHighlightedPin(
+    points: Pin[],
+    highlightedPinTimestamp: number,
+  ): Pin | undefined {
+    return points.find((p) => p.timestamp === highlightedPinTimestamp);
   }
 
-  get highlightedPointRelative() {
-    if (!this.settings.highlightedPoint) {
+  get highlightedPinRelative() {
+    if (!this.settings.highlightedPin) {
       return undefined;
     }
-    return dayjs(this.settings.highlightedPoint.timestamp * 1000).fromNow();
+    return dayjs(this.settings.highlightedPin.timestamp * 1000).fromNow();
   }
 
   <template>
@@ -83,10 +84,10 @@ export default class Map extends Component<Signature> {
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
           <DateSelector />
-          <PointSelector @data={{filtered.points}} />
+          <PointSelector @data={{filtered.pins}} />
         </div>
 
-        {{#if (isEmpty filtered.points)}}
+        {{#if (isEmpty filtered.pins)}}
           <div class='w-full py-32 flex justify-center items-center'>
             <div class='flex flex-col'>
               <HeroIcon @icon='inbox' class='h-16' />
@@ -111,11 +112,16 @@ export default class Map extends Component<Signature> {
               />
             {{/each}}
 
-            {{#let this.settings.highlightedPoint as |point|}}
-              {{#if point}}
+            {{#let
+              (this.pickHighlightedPin
+                filtered.pins this.settings.highlightedPin
+              )
+              as |pin|
+            }}
+              {{#if pin}}
                 <layers.marker
-                  @lat={{point.latitude}}
-                  @lng={{point.longitude}}
+                  @lat={{pin.latitude}}
+                  @lng={{pin.longitude}}
                   @icon={{pinHighlighted}}
                   as |marker|
                 >
@@ -124,14 +130,14 @@ export default class Map extends Component<Signature> {
                     @autoPanPadding={{this.autoPanPadding}}
                   >
                     <ul>
-                      <li>{{timestampToHuman point.timestamp}}</li>
-                      {{#if this.highlightedPointRelative}}
-                        <li>{{this.highlightedPointRelative}}</li>
+                      <li>{{timestampToHuman pin.timestamp}}</li>
+                      {{#if this.highlightedPinRelative}}
+                        <li>{{this.highlightedPinRelative}}</li>
                       {{/if}}
                       <li>{{t
                           'map.accuracy'
                           value=(formatNumber
-                            point.accuracy
+                            pin.accuracy
                             style='unit'
                             unit='meter'
                             maximumFractionDigits=0
@@ -144,18 +150,18 @@ export default class Map extends Component<Signature> {
 
                 {{#if this.settings.isAccuracyVisible}}
                   <layers.circle
-                    @lat={{point.latitude}}
-                    @lng={{point.longitude}}
-                    @radius={{point.accuracy}}
+                    @lat={{pin.latitude}}
+                    @lng={{pin.longitude}}
+                    @radius={{pin.accuracy}}
                   />
                 {{/if}}
               {{/if}}
             {{/let}}
 
-            {{#each filtered.points as |point index|}}
+            {{#each filtered.pins as |pin index|}}
               <layers.marker
-                @lat={{point.latitude}}
-                @lng={{point.longitude}}
+                @lat={{pin.latitude}}
+                @lng={{pin.longitude}}
                 @icon={{pinStandard}}
               />
             {{/each}}

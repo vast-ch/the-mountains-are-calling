@@ -9,7 +9,7 @@ import SunCalc from 'suncalc';
 import { action } from '@ember/object';
 //@ts-expect-error No TS yet
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
-import type { Point } from 'the-mountains-are-calling/services/settings';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
 
 interface PointSelectorSignature {
@@ -44,8 +44,8 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  @action onEnter(point: Point) {
-    this.settings.highlightedPoint = point.timestamp;
+  @action onEnter(point: Pin) {
+    this.settings.highlightedPin = point.timestamp;
   }
 
   <template>

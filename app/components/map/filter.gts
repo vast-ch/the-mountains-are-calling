@@ -2,14 +2,14 @@ import Component from '@glimmer/component';
 import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import type { Point } from 'the-mountains-are-calling/services/settings';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 interface MapFilterSignature {
   Args: {
-    data: Point[];
+    data: Pin[];
   };
   Blocks: {
-    default: [yields: { points: any; locations: any; lastKnown: any }];
+    default: [yields: { pins: any; locations: any; lastKnown: any }];
   };
   Element: HTMLDivElement;
 }
@@ -18,7 +18,7 @@ interface MapFilterSignature {
 export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
-  get points() {
+  get pins() {
     const dayStart = this.settings.dateFrom.valueOf() / 1000;
     const dayEnd = this.settings.dateTo.valueOf() / 1000;
 
@@ -28,7 +28,7 @@ export default class Filter extends Component<MapFilterSignature> {
   }
 
   get locations(): ((number[] | undefined)[] | undefined)[] {
-    return this.points
+    return this.pins
       .map((elm) => [elm.latitude, elm.longitude])
       .map((element, index, array) => {
         if (index < array.length - 1) {
@@ -39,14 +39,12 @@ export default class Filter extends Component<MapFilterSignature> {
   }
 
   get lastKnown() {
-    return this.points[this.points.length - 1];
+    return this.pins[this.pins.length - 1];
   }
 
   <template>
     {{yield
-      (hash
-        points=this.points locations=this.locations lastKnown=this.lastKnown
-      )
+      (hash pins=this.pins locations=this.locations lastKnown=this.lastKnown)
     }}
   </template>
 }
