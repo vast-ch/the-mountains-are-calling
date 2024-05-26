@@ -72,7 +72,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
               (modifier
                 scrollIntoView
                 shouldScroll=true
-                options=(hash behavior='smooth')
+                options=(hash behavior='smooth' inline='center')
               )
             )}}
             {{didIntersect

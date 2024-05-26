@@ -76,20 +76,9 @@ export default class Map extends Component<Signature> {
     return dayjs(pin.timestamp * 1000).fromNow();
   }
 
-  get tmp() {
-    return [
-      { timestamp: 1, latitude: 1, longitude: 1 },
-      { timestamp: 2, latitude: 2, longitude: 2 },
-      { timestamp: 3, latitude: 3, longitude: 3 },
-    ];
   }
 
   <template>
-    foo
-
-    <PointSelector @data={{this.tmp}} />
-
-    bar
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>

@@ -27,17 +27,9 @@ export default class Loader extends Component<Signature> {
   @service declare settings: SettingsService;
 
   get request() {
-    console.log(
-      'request',
-      this.settings.deviceUrl,
-      this.settings.dateFrom,
-      this.settings.dateTo,
-    );
     return this.mountainsStore.requestManager.request(
       firebaseQuery(
         this.settings.deviceUrl,
-        // dayjs().subtract(3, 'day'),
-        // dayjs(),
         this.settings.dateFrom,
         this.settings.dateTo,
       ),
@@ -47,7 +39,7 @@ export default class Loader extends Component<Signature> {
   <template>
     <Request
       @request={{this.request}}
-      {{!-- @autorefresh={{gt this.settings.refreshInterval 0}} --}}
+      @autorefresh={{gt this.settings.refreshInterval 0}}
       @autorefreshBehavior='refresh'
     >
       <:loading>
