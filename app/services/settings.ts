@@ -5,6 +5,7 @@ import * as dayjs from 'dayjs';
 import { trackedInLocalStorage } from 'ember-tracked-local-storage';
 import { inject as service } from '@ember/service';
 import type RouterService from '@ember/routing/router-service';
+import { tracked } from '@glimmer/tracking';
 
 export interface Pin {
   latitude: number;
@@ -37,14 +38,16 @@ export default class SettingsService extends Service {
   }
 
   // ===== .highlightedPoint =====
-  get highlightedPin(): number {
-    return Number.parseFloat(this.qp['highlightedPin'] as string);
-  }
-  set highlightedPin(newPin: number) {
-    this.router.transitionTo({
-      queryParams: { highlightedPin: newPin.toString() },
-    });
-  }
+  // get highlightedPin(): number {
+  //   return Number.parseFloat(this.qp['highlightedPin'] as string);
+  // }
+  // set highlightedPin(newPin: number) {
+  //   this.router.replaceWith({
+  //     queryParams: { highlightedPin: newPin.toString() },
+  //   });
+  // }
+
+  @tracked highlightedPin = 0;
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
