@@ -36,9 +36,10 @@ const FirebaseHandler: Handler = {
         };
       });
 
-      console.log({ sortedContent });
-
       const jsonApiLikeData = {
+        links: {
+          self: context.request.url,
+        },
         data: contedWithIds,
       };
 

@@ -27,6 +27,7 @@ export default class Loader extends Component<Signature> {
   @service declare settings: SettingsService;
 
   get request() {
+    console.log('re-firing request');
     return this.mountainsStore.request(
       firebaseQuery(
         this.settings.deviceUrl,
