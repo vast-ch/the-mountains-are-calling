@@ -1,11 +1,8 @@
-import Service from '@ember/service';
-import { service } from '@ember/service';
+// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
+import Store from 'ember-data/store';
+import { inject as service } from '@ember/service';
 
-// import Store from 'ember-data/store';
-// TODO: Should we convert this to ember-data Store?
-// export default class MountainsStoreService extends Store {
-
-export default class MountainsStoreService extends Service {
+export default class MountainsStoreService extends Store {
   //@ts-expect-error No TS yet
   @service requestManager;
 }

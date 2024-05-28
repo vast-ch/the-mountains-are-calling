@@ -26,7 +26,23 @@ const FirebaseHandler: Handler = {
         (a, b) => a.timestamp - b.timestamp,
       );
 
-      return sortedContent as T;
+      // JSON-API requires us to have IDs
+      // Timestamps should be unique-enough
+      const contedWithIds = sortedContent.map((elm) => {
+        return {
+          type: 'pin',
+          id: elm.timestamp,
+          attributes: elm,
+        };
+      });
+
+      console.log({ sortedContent });
+
+      const jsonApiLikeData = {
+        data: contedWithIds,
+      };
+
+      return jsonApiLikeData as T;
     } catch (e) {
       console.log('FirebaseHandler.request().catch()', { e });
       throw e;

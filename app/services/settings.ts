@@ -38,16 +38,16 @@ export default class SettingsService extends Service {
   }
 
   // ===== .highlightedPoint =====
-  // get highlightedPin(): number {
-  //   return Number.parseFloat(this.qp['highlightedPin'] as string);
-  // }
-  // set highlightedPin(newPin: number) {
-  //   this.router.replaceWith({
-  //     queryParams: { highlightedPin: newPin.toString() },
-  //   });
-  // }
+  get highlightedPin(): number {
+    return Number.parseFloat(this.qp['highlightedPin'] as string);
+  }
+  set highlightedPin(newPin: number) {
+    this.router.replaceWith({
+      queryParams: { highlightedPin: newPin.toString() },
+    });
+  }
 
-  @tracked highlightedPin = 0;
+  // @tracked highlightedPin = 0;
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
