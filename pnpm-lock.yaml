@@ -9,35 +9,35 @@ importers:
   .:
     dependencies:
       '@ember-data-types/adapter':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/graph':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/json-api':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/legacy-compat':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/model':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/request':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/request-utils':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/serializer':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/store':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data-types/tracking':
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       '@ember-data/adapter':
         specifier: 5.4.0-alpha.73
         version: 5.4.0-alpha.73(@ember-data/legacy-compat@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/json-api@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@ember/test-waiters@3.1.0)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)
@@ -60,8 +60,8 @@ importers:
         specifier: 5.4.0-alpha.73
         version: 5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))
       '@ember-data/rest':
-        specifier: 5.4.0-alpha.57
-        version: 5.4.0-alpha.57(@babel/core@7.24.4)(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)
       '@ember-data/serializer':
         specifier: 5.4.0-alpha.73
         version: 5.4.0-alpha.73(@ember-data/legacy-compat@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/json-api@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@ember/test-waiters@3.1.0)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)
@@ -90,8 +90,8 @@ importers:
         specifier: 5.4.0-alpha.73
         version: 5.4.0-alpha.73(@ember/string@3.1.1)(@ember/test-helpers@3.3.0(@glint/template@1.4.0)(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0))(webpack@5.91.0))(@ember/test-waiters@3.1.0)(@glint/template@1.4.0)(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0))(qunit@2.20.1)
       ember-data-types:
-        specifier: 5.4.0-alpha.55
-        version: 5.4.0-alpha.55
+        specifier: 5.4.0-alpha.73
+        version: 5.4.0-alpha.73
       reactiveweb:
         specifier: ^1.2.3
         version: 1.2.3(@babel/core@7.24.4)(@ember/test-waiters@3.1.0)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0))
@@ -1050,35 +1050,35 @@ packages:
   '@domtree/minimal@0.9.3':
     resolution: {integrity: sha512-8Ee8HHO9CuNLcwbOTYjVoI2MnrrHTNEZzrom29xlGDKE99OHzA7eSGcd9xd1Kkn60T27AOJZEu7mtQR/NEPkwQ==}
 
-  '@ember-data-types/adapter@5.4.0-alpha.55':
-    resolution: {integrity: sha512-hwyDrc740488ONsJdobxlbu3+axWABY8TdjNDDLykV70kVWXYHa+G7JUHsen2vRaX0pLM/xhw90RsAwo4pDIBA==}
+  '@ember-data-types/adapter@5.4.0-alpha.73':
+    resolution: {integrity: sha512-INTFbSKnxMTQSF8J9oR7ObNtiVZHShjz8dLlghKCwrDYN2HIqbb5UgVvyzszp3tdXS589PefHVB3qPn7RcpFnw==}
 
-  '@ember-data-types/graph@5.4.0-alpha.55':
-    resolution: {integrity: sha512-nJS768gr3KSmn2j2Yn47YjXs4k1R0kGnKKg0xncMQ3xHrl5IU145dwS59DKChNh6h8WpTFKrVhn1Wu9eW68UJg==}
+  '@ember-data-types/graph@5.4.0-alpha.73':
+    resolution: {integrity: sha512-k2RxI4lhDNKs90trZx7Qbx+ARNXqz/XaJkyqyxIiaELd/pdxn53VxwuJY3pMdw9n98h+2sRMTtl8M5E2EoJzlQ==}
 
-  '@ember-data-types/json-api@5.4.0-alpha.55':
-    resolution: {integrity: sha512-ngg+8EraMPeJvoo9waP+vj24kGtVujB7Pio2wgrQIlQ+JVwbG2WEkyuBIJamMdID12Uphpb0MZzAebI68Z8ETw==}
+  '@ember-data-types/json-api@5.4.0-alpha.73':
+    resolution: {integrity: sha512-OSZhharjEAqI05yO94Ky4b4e1857aenf5aVVn81Nw1qGVIqHy+Twe2a7Gj5/CbzwsFKYb4JVUq6CVKDUj86qRQ==}
 
-  '@ember-data-types/legacy-compat@5.4.0-alpha.55':
-    resolution: {integrity: sha512-UGyNuFJdKPnvom1xc2YbzLN6A/CvEchJrny/rTIxuTqoYuRfkwoaSz08ftvRcDSkhtAYvQl4muKALki0/A+RFg==}
+  '@ember-data-types/legacy-compat@5.4.0-alpha.73':
+    resolution: {integrity: sha512-z9TULzwAvVZsgL5pvb8MUK6QRLWcBr0feuJe5PQEXpXVIEaorgM9MfLvKlEzJFZzFwciRdy6z6oIwyNFONzNLA==}
 
-  '@ember-data-types/model@5.4.0-alpha.55':
-    resolution: {integrity: sha512-4wOLXqofhnmJHuhTqWZWaZ8DNAdcaxGm+sZ2w2gjpgLzCD0AOf1Y8nH5ta/R015pXzZd489RnJ8zO/sTIrG93A==}
+  '@ember-data-types/model@5.4.0-alpha.73':
+    resolution: {integrity: sha512-vKozrMCl+TyG802UTYodm2O40EBwv0lq9mxPWwOIUHyNG/tXmSth2aM/0/HRmhpcpg+9+AC0QjJBkQ+VYWCg5Q==}
 
-  '@ember-data-types/request-utils@5.4.0-alpha.55':
-    resolution: {integrity: sha512-khDJ6/S37dlL6KjQ0n9dMM+wIzbVHHM2NbOtdgKZgbsKnYdaSmpYkm5KbpG7dkeXkqzvSwRT964CH7TTa/Q8HA==}
+  '@ember-data-types/request-utils@5.4.0-alpha.73':
+    resolution: {integrity: sha512-zT9h0TP1DDplKX6guZHEul03SLJJzwRVBoeQ99Nxwi5wJXJBto4j8ariD4+j00gLbio2rnmSOMkvBANGhEYAXA==}
 
-  '@ember-data-types/request@5.4.0-alpha.55':
-    resolution: {integrity: sha512-f4DdGP78mrVPwLhB0aCVerIPRWB3HBtP6Vg082gmAaUr3pKHbdgU3DcgFhaq8GS4ehv+Bcu6rXcaYBoVIPDsdw==}
+  '@ember-data-types/request@5.4.0-alpha.73':
+    resolution: {integrity: sha512-KZfIb2+uLo4rYJTCmu7iHqyjuSuvy1Bv1XHXrYL6171oYjN8jGuWHuGTkctq2DvPWcWRu/7voT+tEbFm1oIC4Q==}
 
-  '@ember-data-types/serializer@5.4.0-alpha.55':
-    resolution: {integrity: sha512-iBGn2bJvEgk0mvI2E1q90zTHa6CCTvIgK5eepZtjltobccY3qJFo0MnO0HwXGIekcP9qIAeP6A5PaC6h7U3Hdw==}
+  '@ember-data-types/serializer@5.4.0-alpha.73':
+    resolution: {integrity: sha512-slITHrvw6uXFfTntZFWQaMlfyLVQRW3cHQF/AHkSi9UCh5XMBUQYWdF1llQ4lpWJMLK0+Rid7ScJBb2xGlj1+w==}
 
-  '@ember-data-types/store@5.4.0-alpha.55':
-    resolution: {integrity: sha512-tUitbEzvmxAADNWxWoGiadCA+du96rHENiMLLm/gMx24APBSdKowG+RcWf/H9QRqeYFI5JqL+BCLPPyQ7tquyw==}
+  '@ember-data-types/store@5.4.0-alpha.73':
+    resolution: {integrity: sha512-uWnGkfNUt0OzfM3+Ktd6soYjt76P6/ElnaxzUD0GW5GdQKHTlSHLandEPzn+2J9V7w6jdNquAoGFkmIZyYFlcw==}
 
-  '@ember-data-types/tracking@5.4.0-alpha.55':
-    resolution: {integrity: sha512-dCqjSAah6GZWLuZezKKUP6lWarNYL3ikIku6a1Um13Fc2OIZXFGJo5K+vJNHV+l50UEkaCPeosgn8nK/s9q5nA==}
+  '@ember-data-types/tracking@5.4.0-alpha.73':
+    resolution: {integrity: sha512-tEU8Zc8a/FknagAygGC3XB8I2GlAOgb1b74/HKaj/vhOmsZcVhIasP+/Z8sxyFP20vvwcM0Le9hzvwRBh2S6BA==}
 
   '@ember-data/adapter@5.4.0-alpha.73':
     resolution: {integrity: sha512-/VSKdE0P+BQWWUE9eah2MHBZEiHsCLqzezleJ4ZVP/70OrnSGwsJgy0OBly+dwRpsWfvrCHNpWVQt8AkjH4+8Q==}
@@ -1169,14 +1169,14 @@ packages:
     peerDependencies:
       '@warp-drive/core-types': 0.0.0-alpha.59
 
-  '@ember-data/rest@5.4.0-alpha.57':
-    resolution: {integrity: sha512-WITp7Pvzsws74vvaJmkmm7IylutWEYIxORgBpZpXRUBpGSLFUdip0foeAPOexaV2oVb3HW9UMpbQbeCbCXpRzQ==}
-    engines: {node: '>= 18.20.2'}
+  '@ember-data/rest@5.4.0-alpha.73':
+    resolution: {integrity: sha512-doq6zLi82Qlc+pk9jnbab0uBV7Yj7VJ9d/UlNqa9zeLpEMlO5HjW1ZLThsWsmGOzHVma8A6SPcr1DbWrphhxBw==}
+    engines: {node: '>= 22.1.0'}
     peerDependencies:
-      '@ember-data/request-utils': 5.4.0-alpha.57
+      '@ember-data/request-utils': 5.4.0-alpha.73
       '@ember-data/store': ^4.12.0 || ^5.0.0
       '@ember/string': ^3.1.1
-      '@warp-drive/core-types': 0.0.0-alpha.43
+      '@warp-drive/core-types': 0.0.0-alpha.59
       ember-inflector: ^4.0.2
 
   '@ember-data/rfc395-data@0.0.4':
@@ -3873,8 +3873,8 @@ packages:
   ember-css-transitions@4.4.0:
     resolution: {integrity: sha512-Ztnj7+TDpe8F4//VIB2fQJS4ZlPZPmbJXJMPENrZ3Kr262+wMXFM1NlCHfIfheyg1gTI/04AcdAhnK58JkAmQg==}
 
-  ember-data-types@5.4.0-alpha.55:
-    resolution: {integrity: sha512-yWpQGsf51h1l+2VzjwZrb8bhZal25M8nI/h94X9CAAS7Y354Um7G2Ii8xU9XpiEUz3LwlumJb2ioRf8WB4I3uQ==}
+  ember-data-types@5.4.0-alpha.73:
+    resolution: {integrity: sha512-mscKgFbDLl27TqbNJ4BmnEKX0Pxo7YS+rPQ2dtWaVEDykqYHPQr0cQntDJQ0fShqoHnqI11xxIzKfI1878Hi8A==}
 
   ember-data@5.4.0-alpha.73:
     resolution: {integrity: sha512-KF2KGY+3xfRwONdCVlN2xvIyQanz6mRFUG2VWAijBNzdpdfRMgBOAdunvrM5jYtdOniM4AC4X4A1DDrUVEGBxQ==}
@@ -9007,25 +9007,25 @@ snapshots:
     dependencies:
       '@domtree/interface': 0.9.3
 
-  '@ember-data-types/adapter@5.4.0-alpha.55': {}
+  '@ember-data-types/adapter@5.4.0-alpha.73': {}
 
-  '@ember-data-types/graph@5.4.0-alpha.55': {}
+  '@ember-data-types/graph@5.4.0-alpha.73': {}
 
-  '@ember-data-types/json-api@5.4.0-alpha.55': {}
+  '@ember-data-types/json-api@5.4.0-alpha.73': {}
 
-  '@ember-data-types/legacy-compat@5.4.0-alpha.55': {}
+  '@ember-data-types/legacy-compat@5.4.0-alpha.73': {}
 
-  '@ember-data-types/model@5.4.0-alpha.55': {}
+  '@ember-data-types/model@5.4.0-alpha.73': {}
 
-  '@ember-data-types/request-utils@5.4.0-alpha.55': {}
+  '@ember-data-types/request-utils@5.4.0-alpha.73': {}
 
-  '@ember-data-types/request@5.4.0-alpha.55': {}
+  '@ember-data-types/request@5.4.0-alpha.73': {}
 
-  '@ember-data-types/serializer@5.4.0-alpha.55': {}
+  '@ember-data-types/serializer@5.4.0-alpha.73': {}
 
-  '@ember-data-types/store@5.4.0-alpha.55': {}
+  '@ember-data-types/store@5.4.0-alpha.73': {}
 
-  '@ember-data-types/tracking@5.4.0-alpha.55': {}
+  '@ember-data-types/tracking@5.4.0-alpha.73': {}
 
   ? '@ember-data/adapter@5.4.0-alpha.73(@ember-data/legacy-compat@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/json-api@5.4.0-alpha.73(@ember-data/graph@5.4.0-alpha.73(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@ember/test-waiters@3.1.0)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)'
   : dependencies:
@@ -9140,16 +9140,17 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  '@ember-data/rest@5.4.0-alpha.57(@babel/core@7.24.4)(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)':
+  '@ember-data/rest@5.4.0-alpha.73(@ember-data/request-utils@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/store@5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-inflector@4.0.2)':
     dependencies:
       '@ember-data/request-utils': 5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))
       '@ember-data/store': 5.4.0-alpha.73(@ember-data/request@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0)))(@ember-data/tracking@5.4.0-alpha.73(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0)))(@ember/string@3.1.1)(@glint/template@1.4.0)(@warp-drive/core-types@0.0.0-alpha.59(@glint/template@1.4.0))
       '@ember/string': 3.1.1
+      '@embroider/macros': 1.16.2(@glint/template@1.4.0)
+      '@warp-drive/build-config': 0.0.0-alpha.10(@glint/template@1.4.0)
       '@warp-drive/core-types': 0.0.0-alpha.59(@glint/template@1.4.0)
-      ember-cli-babel: 8.2.0(@babel/core@7.24.4)
       ember-inflector: 4.0.2
     transitivePeerDependencies:
-      - '@babel/core'
+      - '@glint/template'
       - supports-color
 
   '@ember-data/rfc395-data@0.0.4': {}
@@ -13364,7 +13365,7 @@ snapshots:
       - ember-source
       - supports-color
 
-  ember-data-types@5.4.0-alpha.55: {}
+  ember-data-types@5.4.0-alpha.73: {}
 
   ember-data@5.4.0-alpha.73(@ember/string@3.1.1)(@ember/test-helpers@3.3.0(@glint/template@1.4.0)(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0))(webpack@5.91.0))(@ember/test-waiters@3.1.0)(@glint/template@1.4.0)(ember-source@5.6.0(@babel/core@7.24.4)(@glimmer/component@1.1.2(@babel/core@7.24.4))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.91.0))(qunit@2.20.1):
     dependencies:
