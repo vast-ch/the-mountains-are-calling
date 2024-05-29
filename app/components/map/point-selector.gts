@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
+import { Button } from '@frontile/buttons';
 import { fn, hash } from '@ember/helper';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
@@ -14,6 +15,7 @@ import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
+import { on } from '@ember/modifier';
 
 interface PointSelectorSignature {
   Args: {
@@ -66,7 +68,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
       >
         <div><div class='[width:50vw] text-right'></div></div>
         {{#each @data as |point|}}
-          <div
+          <Button
             {{(if
               (eq point.timestamp this.settings.highlightedPin)
               (modifier
@@ -75,17 +77,21 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                 options=(hash behavior='smooth' inline='center')
               )
             )}}
-            {{didIntersect
+            {{!-- {{didIntersect
               onEnter=(fn this.onEnter point)
               options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
+            }} --}}
+            {{on 'click' (fn this.onEnter point)}}
+            @appearance='minimal'
+            @class='{{getSunColor
+              point.timestamp
+              point.latitude
+              point.longitude
             }}
-            class='{{getSunColor
-                point.timestamp
-                point.latitude
-                point.longitude
-              }}
               border-2 snap-center px-4 py-2 rounded bg-white'
-          >{{timestampToTime point.timestamp}}</div>
+          >
+            {{timestampToTime point.timestamp}}
+          </Button>
         {{/each}}
         <div><div class='[width:50vw]'></div></div>
       </div>
