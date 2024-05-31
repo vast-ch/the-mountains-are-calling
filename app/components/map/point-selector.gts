@@ -3,6 +3,7 @@ import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { Button } from '@frontile/buttons';
+import { tracked } from '@glimmer/tracking';
 import { fn, hash } from '@ember/helper';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
@@ -49,8 +50,18 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  @action onEnter(point: Pin) {
-    this.settings.highlightedPin = point.timestamp;
+  @tracked intersectedPin: Pin | undefined = undefined;
+
+  @action updateHighlightedPin(pin: Pin | undefined) {
+    this.settings.highlightedPin = pin?.timestamp;
+  }
+
+  @action onIntersect(pin: Pin) {
+    this.intersectedPin = pin;
+  }
+
+  @action onScrollEnd() {
+    this.updateHighlightedPin(this.intersectedPin);
   }
 
   <template>
@@ -64,7 +75,8 @@ export default class PointSelector extends Component<PointSelectorSignature> {
       </div>
 
       <div
-        class='overflow-x-scroll pt-10 py-2 snap-x w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll pt-10 snap-x py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
+        {{on 'scrollend' (fn this.onScrollEnd)}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
         {{#each @data as |point|}}
@@ -77,11 +89,11 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                 options=(hash behavior='smooth' inline='center')
               )
             )}}
-            {{!-- {{didIntersect
-              onEnter=(fn this.onEnter point)
+            {{didIntersect
+              onEnter=(fn this.onIntersect point)
               options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
-            }} --}}
-            {{on 'click' (fn this.onEnter point)}}
+            }}
+            {{on 'click' (fn this.updateHighlightedPin point)}}
             @appearance='minimal'
             @class='{{getSunColor
               point.timestamp

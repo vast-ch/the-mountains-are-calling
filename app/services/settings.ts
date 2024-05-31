@@ -38,12 +38,12 @@ export default class SettingsService extends Service {
   }
 
   // ===== .highlightedPoint =====
-  get highlightedPin(): number {
+  get highlightedPin(): number | undefined {
     return Number.parseFloat(this.qp['highlightedPin'] as string);
   }
-  set highlightedPin(newPin: number) {
+  set highlightedPin(newPin: number | undefined) {
     this.router.replaceWith({
-      queryParams: { highlightedPin: newPin.toString() },
+      queryParams: { highlightedPin: newPin ? newPin.toString() : undefined },
     });
   }
 
