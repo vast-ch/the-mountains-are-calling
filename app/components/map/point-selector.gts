@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { Button } from '@frontile/buttons';
 import { tracked } from '@glimmer/tracking';
+import { ButtonGroup } from '@frontile/buttons';
+
 import { fn, hash } from '@ember/helper';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
@@ -42,7 +44,7 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
   const calc = SunCalc.getPosition(now, latitude, longitude);
   const l = COLORS.length;
 
-  const i = Math.floor(((calc.altitude + 1) / 2) * l);
+  const i = Math.floor(((calc.altitude + 1) / 2) * l) - 1;
 
   return COLORS[i];
 }
@@ -68,46 +70,49 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     <div
       class='grid [grid-template-areas:"stack"] justify-items-center items-start'
     >
-      <div
-        class='w-24 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
-      >
-        {{t 'map.highlighted.label'}}
-      </div>
 
       <div
-        class='overflow-x-scroll pt-10 snap-x py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll snap-x py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
         {{on 'scrollend' (fn this.onScrollEnd)}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
-        {{#each @data as |point|}}
-          <Button
-            {{(if
-              (eq point.timestamp this.settings.highlightedPin)
-              (modifier
-                scrollIntoView
-                shouldScroll=true
-                options=(hash behavior='smooth' inline='center')
-              )
-            )}}
-            {{didIntersect
-              onEnter=(fn this.onIntersect point)
-              options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
-            }}
-            {{on 'click' (fn this.updateHighlightedPin point)}}
-            @appearance='minimal'
-            @class='{{getSunColor
-              point.timestamp
-              point.latitude
-              point.longitude
-            }}
-              border-2 snap-center px-4 py-2 rounded bg-white'
-          >
-            {{timestampToTime point.timestamp}}
-          </Button>
-        {{/each}}
+
+        <ButtonGroup as |g|>
+          {{#each @data as |point|}}
+            <g.ToggleButton
+              @isSelected={{eq point.timestamp this.settings.highlightedPin}}
+              @onChange={{fn this.updateHighlightedPin point}}
+              {{(if
+                (eq point.timestamp this.settings.highlightedPin)
+                (modifier
+                  scrollIntoView
+                  shouldScroll=true
+                  options=(hash behavior='smooth' inline='center')
+                )
+              )}}
+              {{didIntersect
+                onEnter=(fn this.onIntersect point)
+                options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
+              }}
+              @class='{{getSunColor
+                point.timestamp
+                point.latitude
+                point.longitude
+              }}
+               snap-center mx-4'
+            >
+              {{timestampToTime point.timestamp}}
+            </g.ToggleButton>
+          {{/each}}
+        </ButtonGroup>
         <div><div class='[width:50vw]'></div></div>
+
       </div>
 
+      <div
+        class='w-24 border-x-2 border-y-2 border-gray-400 rounded [grid-area:stack] h-full'
+      >
+      </div>
     </div>
   </template>
 }
