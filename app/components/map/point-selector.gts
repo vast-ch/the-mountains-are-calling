@@ -82,14 +82,10 @@ export default class PointSelector extends Component<PointSelectorSignature> {
             <g.ToggleButton
               @isSelected={{eq point.timestamp this.settings.highlightedPin}}
               @onChange={{fn this.updateHighlightedPin point}}
-              {{(if
-                (eq point.timestamp this.settings.highlightedPin)
-                (modifier
-                  scrollIntoView
-                  shouldScroll=true
-                  options=(hash behavior='smooth' inline='center')
-                )
-              )}}
+              {{scrollIntoView
+                shouldScroll=(eq point.timestamp this.settings.highlightedPin)
+                options=(hash behavior='smooth' inline='center')
+              }}
               {{didIntersect
                 onEnter=(fn this.onIntersect point)
                 options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
