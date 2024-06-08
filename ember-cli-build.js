@@ -2,7 +2,9 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function (defaults) {
+module.exports = async function (defaults) {
+  const { setConfig } = await import('@warp-drive/build-config');
+
   const app = new EmberApp(defaults, {
     'ember-cli-babel': { enableTypeScriptTransform: true },
 
@@ -28,6 +30,8 @@ module.exports = function (defaults) {
       ],
     },
   });
+
+  setConfig(app, __dirname, {});
 
   const { Webpack } = require('@embroider/webpack');
   return require('@embroider/compat').compatBuild(app, Webpack, {

@@ -3,14 +3,14 @@ import {
   type NextFn,
   type RequestContext,
 } from '@ember-data/request';
-import type { Point } from 'the-mountains-are-calling/services/settings';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 export interface Response {
   content: Location;
 }
 
 interface Location {
-  results: Point[];
+  results: Pin[];
 }
 
 const FirebaseHandler: Handler = {
@@ -26,7 +26,24 @@ const FirebaseHandler: Handler = {
         (a, b) => a.timestamp - b.timestamp,
       );
 
-      return sortedContent as T;
+      // JSON-API requires us to have IDs
+      // Timestamps should be unique-enough
+      const contedWithIds = sortedContent.map((elm) => {
+        return {
+          type: 'pin',
+          id: elm.timestamp,
+          attributes: elm,
+        };
+      });
+
+      const jsonApiLikeData = {
+        links: {
+          self: context.request.url,
+        },
+        data: contedWithIds,
+      };
+
+      return jsonApiLikeData as T;
     } catch (e) {
       console.log('FirebaseHandler.request().catch()', { e });
       throw e;

@@ -1,68 +1,98 @@
 import Service from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import * as dayjs from 'dayjs';
 //@ts-expect-error No TS yet
 import { trackedInLocalStorage } from 'ember-tracked-local-storage';
+import { inject as service } from '@ember/service';
+import type RouterService from '@ember/routing/router-service';
+import { tracked } from '@glimmer/tracking';
 
-export interface Point {
+export interface Pin {
   latitude: number;
   longitude: number;
   timestamp: number;
   accuracy: number;
 }
 
-const DEMO_DATE = '2024-04-18';
+interface Dict<T> {
+  [key: string]: T;
+}
+
+const DEMO_DATE_FROM = '2024-04-18';
+const DEMO_DATE_TO = '2024-04-19';
+const QP_FORMAT = 'YYYY-MM-DD';
 
 export default class SettingsService extends Service {
-  // ===== .dateFrom =====
-  @trackedInLocalStorage({
-    keyName: 'dateFrom',
-    defaultValue: dayjs(DEMO_DATE).startOf('day').toISOString(),
-  })
-  declare _dateFrom: string;
+  @service declare router: RouterService;
 
+  get qp(): Dict<unknown> {
+    return this.router.currentRoute?.queryParams || {};
+  }
+
+  get fallbackDateFrom() {
+    return DEMO_DATE_FROM;
+  }
+
+  get fallbackDateTo() {
+    return DEMO_DATE_TO;
+  }
+
+  // ===== .highlightedPoint =====
+  get highlightedPin(): number | undefined {
+    return Number.parseFloat(this.qp['highlightedPin'] as string);
+  }
+  set highlightedPin(newPin: number | undefined) {
+    this.router.replaceWith({
+      queryParams: { highlightedPin: newPin ? newPin.toString() : undefined },
+    });
+  }
+
+  // @tracked highlightedPin = 0;
+
+  // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
-    return dayjs(this._dateFrom);
+    return dayjs((this.qp['dateFrom'] as string) || this.fallbackDateFrom);
   }
   set dateFrom(newDate: string | dayjs.Dayjs) {
+    let dateFrom;
+
     if (typeof newDate === 'string') {
       // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      this._dateFrom = dayjs(newDate || undefined)
-        .startOf('day')
-        .toISOString();
+      dateFrom = dayjs(newDate || undefined);
     } else {
-      this._dateFrom = newDate.startOf('day').toISOString();
+      dateFrom = newDate;
     }
+
+    this.router.transitionTo({
+      queryParams: { dateFrom: dateFrom.startOf('day').format(QP_FORMAT) },
+    });
   }
 
   get dateFromShort() {
-    return dayjs(this.dateFrom).format('YYYY-MM-DD');
+    return this.dateFrom.format('YYYY-MM-DD');
   }
 
   // ===== .dateTo =====
-  @trackedInLocalStorage({
-    keyName: 'dateTo',
-    defaultValue: dayjs(DEMO_DATE).add(1, 'day').startOf('day').toISOString(),
-  })
-  declare _dateTo: string;
-
   get dateTo(): dayjs.Dayjs {
-    return dayjs(this._dateTo);
+    return dayjs((this.qp['dateTo'] as string) || this.fallbackDateTo);
   }
   set dateTo(newDate: string | dayjs.Dayjs) {
+    let dateTo;
+
     if (typeof newDate === 'string') {
       // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      this._dateTo = dayjs(newDate || undefined)
-        .startOf('day')
-        .toISOString();
+      dateTo = dayjs(newDate || undefined);
     } else {
-      this._dateTo = newDate.startOf('day').toISOString();
+      dateTo = newDate;
     }
+
+    this.router.transitionTo({
+      queryParams: { dateTo: dateTo.startOf('day').format(QP_FORMAT) },
+    });
   }
 
   get dateToShort() {
-    return dayjs(this.dateTo).format('YYYY-MM-DD');
+    return this.dateTo.format('YYYY-MM-DD');
   }
 
   // ===== .date ======
@@ -111,8 +141,21 @@ export default class SettingsService extends Service {
     this._deviceUrl = newDeviceUrl;
   }
 
-  // ===== .highlightedPoint =====
-  @tracked highlightedPoint: Point | undefined;
+  // ===== .refreshInterval =====
+  @trackedInLocalStorage({
+    keyName: 'refreshInterval',
+    defaultValue: '0',
+  })
+  declare _refreshInterval: string;
+  get refreshInterval() {
+    return Number.parseInt(this._refreshInterval);
+  }
+  set refreshInterval(newrefreshInterval: number) {
+    this._refreshInterval = newrefreshInterval.toString();
+  }
+  get refreshIntervalMs() {
+    return this.refreshInterval * 1000;
+  }
 
   // ===== .isAccuracyVisible =====
   @trackedInLocalStorage({ keyName: 'isAccuracyVisible', defaultValue: 'true' })

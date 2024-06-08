@@ -2,6 +2,10 @@ import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
+import { Button } from '@frontile/buttons';
+import { tracked } from '@glimmer/tracking';
+import { ButtonGroup } from '@frontile/buttons';
+
 import { fn, hash } from '@ember/helper';
 //@ts-expect-error No TS yet
 import SunCalc from 'suncalc';
@@ -9,8 +13,12 @@ import SunCalc from 'suncalc';
 import { action } from '@ember/object';
 //@ts-expect-error No TS yet
 import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
-import type { Point } from 'the-mountains-are-calling/services/settings';
+//@ts-expect-error No TS yet
+import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
+import { on } from '@ember/modifier';
 
 interface PointSelectorSignature {
   Args: {
@@ -36,7 +44,7 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
   const calc = SunCalc.getPosition(now, latitude, longitude);
   const l = COLORS.length;
 
-  const i = Math.floor(((calc.altitude + 1) / 2) * l);
+  const i = Math.floor(((calc.altitude + 1) / 2) * l) - 1;
 
   return COLORS[i];
 }
@@ -44,41 +52,63 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  @action onEnter(point: Point) {
-    this.settings.highlightedPoint = point;
+  @tracked intersectedPin: Pin | undefined = undefined;
+
+  @action updateHighlightedPin(pin: Pin | undefined) {
+    this.settings.highlightedPin = pin?.timestamp;
+  }
+
+  @action onIntersect(pin: Pin) {
+    this.intersectedPin = pin;
+  }
+
+  @action onScrollEnd() {
+    this.updateHighlightedPin(this.intersectedPin);
   }
 
   <template>
     <div
       class='grid [grid-template-areas:"stack"] justify-items-center items-start'
     >
-      <div
-        class='w-24 pt-2 border border-gray-400 rounded [grid-area:stack] text-center h-full'
-      >
-        {{t 'map.highlighted.label'}}
-      </div>
 
       <div
-        class='overflow-x-scroll pt-10 py-2 snap-x w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll snap-x py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
+        {{on 'scrollend' (fn this.onScrollEnd)}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
-        {{#each @data as |point|}}
-          <div
-            {{didIntersect
-              onEnter=(fn this.onEnter point)
-              options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
-            }}
-            class='{{getSunColor
+
+        <ButtonGroup as |g|>
+          {{#each @data as |point|}}
+            <g.ToggleButton
+              @isSelected={{eq point.timestamp this.settings.highlightedPin}}
+              @onChange={{fn this.updateHighlightedPin point}}
+              {{scrollIntoView
+                shouldScroll=(eq point.timestamp this.settings.highlightedPin)
+                options=(hash behavior='smooth' inline='center')
+              }}
+              {{didIntersect
+                onEnter=(fn this.onIntersect point)
+                options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
+              }}
+              @class='{{getSunColor
                 point.timestamp
                 point.latitude
                 point.longitude
               }}
-              border-2 snap-center px-4 py-2 rounded bg-white'
-          >{{timestampToTime point.timestamp}}</div>
-        {{/each}}
+               snap-center mx-4'
+            >
+              {{timestampToTime point.timestamp}}
+            </g.ToggleButton>
+          {{/each}}
+        </ButtonGroup>
         <div><div class='[width:50vw]'></div></div>
+
       </div>
 
+      <div
+        class='w-24 border-x-2 border-y-2 border-gray-400 rounded [grid-area:stack] h-full'
+      >
+      </div>
     </div>
   </template>
 }
