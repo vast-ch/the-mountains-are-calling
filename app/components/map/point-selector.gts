@@ -52,18 +52,18 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  @tracked intersectedPin: Pin | undefined = undefined;
+  // @tracked intersectedPin: Pin | undefined = undefined;
 
-  @action updateHighlightedPin(pin: Pin | undefined) {
-    this.settings.highlightedPin = pin?.timestamp;
+  @action updateHighlightedPin(timestamp: number | undefined) {
+    this.settings.rememberedPin = timestamp;
   }
 
   @action onIntersect(pin: Pin) {
-    this.intersectedPin = pin;
+    this.settings.highlightedPin = pin.timestamp;
   }
 
   @action onScrollEnd() {
-    this.updateHighlightedPin(this.intersectedPin);
+    this.updateHighlightedPin(this.settings.highlightedPin);
   }
 
   <template>
@@ -86,9 +86,9 @@ export default class PointSelector extends Component<PointSelectorSignature> {
           {{#each @data as |point|}}
             <g.ToggleButton
               @isSelected={{eq point.timestamp this.settings.highlightedPin}}
-              @onChange={{fn this.updateHighlightedPin point}}
+              @onChange={{fn this.updateHighlightedPin point.timestamp}}
               {{scrollIntoView
-                shouldScroll=(eq point.timestamp this.settings.highlightedPin)
+                shouldScroll=(eq point.timestamp this.settings.rememberedPin)
                 options=(hash behavior='smooth' inline='center')
               }}
               {{didIntersect
