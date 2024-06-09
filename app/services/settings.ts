@@ -37,17 +37,20 @@ export default class SettingsService extends Service {
     return DEMO_DATE_TO;
   }
 
-  // ===== .highlightedPoint =====
-  get highlightedPin(): number | undefined {
-    return Number.parseFloat(this.qp['highlightedPin'] as string);
+  // ===== .rememberedPin =====
+  // This one exists to persist selected pin to QP
+  get rememberedPin(): number | undefined {
+    return Number.parseFloat(this.qp['rememberedPin'] as string);
   }
-  set highlightedPin(newPin: number | undefined) {
+  set rememberedPin(newPin: number | undefined) {
     this.router.replaceWith({
-      queryParams: { highlightedPin: newPin ? newPin.toString() : undefined },
+      queryParams: { rememberedPin: newPin ? newPin.toString() : undefined },
     });
   }
 
-  // @tracked highlightedPin = 0;
+  // ===== .highlightedPin =====
+  // This one exists to highlight given pin directly in the app
+  @tracked highlightedPin: number | undefined = undefined;
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {

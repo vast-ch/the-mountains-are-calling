@@ -67,7 +67,7 @@ export default class Map extends Component<Signature> {
 
   pickHighlightedPin(
     points: Pin[],
-    highlightedPinTimestamp: number,
+    highlightedPinTimestamp: number | undefined,
   ): Pin | undefined {
     return points.find((p) => p.timestamp === highlightedPinTimestamp);
   }
@@ -78,7 +78,6 @@ export default class Map extends Component<Signature> {
 
   <template>
     <Loader as |l|>
-      {{log l}}
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
           <DateSelector />
