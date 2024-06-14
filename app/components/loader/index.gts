@@ -9,6 +9,7 @@ import { hash } from '@ember/helper';
 import { gt } from 'ember-truth-helpers';
 import Interval from '../interval';
 import dayjs from 'dayjs';
+import type StoreService from 'the-mountains-are-calling/services/store';
 
 interface Signature {
   Args: {};
@@ -23,11 +24,11 @@ interface Signature {
 }
 
 export default class Loader extends Component<Signature> {
-  @service mountainsStore: any;
+  @service declare store: StoreService;
   @service declare settings: SettingsService;
 
   get request() {
-    return this.mountainsStore.request(
+    return this.store.request(
       firebaseQuery(
         this.settings.deviceUrl,
         this.settings.dateFrom,

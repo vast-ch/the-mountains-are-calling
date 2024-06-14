@@ -15,6 +15,7 @@ interface Location {
 
 const FirebaseHandler: Handler = {
   async request<T>(context: RequestContext, next: NextFn<T>) {
+    console.log('!!here');
     if (context.request.op !== 'firebase') return next(context.request);
 
     try {

@@ -5,6 +5,7 @@ import FirebaseHandler from '../handlers/firebase';
 export default class RequestManagerService extends RequestManager {
   constructor(args?: Record<string | symbol, unknown>) {
     super(args);
+    console.log('there');
     this.use([FirebaseHandler, Fetch]);
   }
 }

@@ -60,7 +60,6 @@ const pinStandard = icon([], {
 });
 
 export default class Map extends Component<Signature> {
-  @service mountainsStore: any;
   @service declare settings: SettingsService;
 
   autoPanPadding = new Point(50, 50);
