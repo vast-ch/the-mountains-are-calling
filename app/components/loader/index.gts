@@ -41,6 +41,7 @@ export default class Loader extends Component<Signature> {
       @request={{this.request}}
       @autorefresh={{gt this.settings.refreshInterval 0}}
       @autorefreshBehavior='refresh'
+      @autorefreshThreshold={{1}}
     >
       <:loading>
         {{t 'map.loading'}}
@@ -48,10 +49,10 @@ export default class Loader extends Component<Signature> {
 
       <:content as |result state|>
         {{! TODO: Does this make sense given that we have autorefresh above? }}
-        <Interval
+        {{!-- <Interval
           @period={{this.settings.refreshInterval}}
           @fn={{state.refresh}}
-        />
+        /> --}}
         {{yield (hash result=result)}}
       </:content>
     </Request>
