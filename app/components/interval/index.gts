@@ -20,25 +20,26 @@ interface Signature {
 
 const Clock = function (period: number, callback: () => {}) {
   return resource(({ on }) => {
+    console.log('Creating clock resource', { period }, { callback });
+
     let lastTickTime = cell(dayjs());
     let diff = period;
 
-    console.log({ period }, { callback });
-
     const timer = setInterval(() => {
+      console.log('Clock is ticking');
       diff = dayjs().diff(lastTickTime.current, 'seconds');
 
       if (diff >= period) {
+        console.log('Clock is calling callback');
         lastTickTime.current = dayjs();
         callback();
       }
     }, 1000);
 
     on.cleanup(() => {
+      console.log('Clearing up interval');
       clearInterval(timer);
     });
-
-    console.log({ diff });
 
     return diff;
   });

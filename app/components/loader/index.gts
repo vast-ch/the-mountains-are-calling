@@ -56,7 +56,7 @@ export default class Loader extends Component<Signature> {
           @fn={{state.refresh}}
           as |i|
         >
-          {{log i}}
+          {{log 'The clock resource has value' i}}
           {{yield (hash result=result state=state)}}
         </Interval>
       </:content>
