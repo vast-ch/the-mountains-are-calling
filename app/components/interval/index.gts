@@ -1,40 +1,56 @@
 import Component from '@glimmer/component';
-import { use, resource } from 'ember-resources';
+import { resourceFactory, cell, resource } from 'ember-resources';
 import dayjs from 'dayjs';
+import { hash } from '@ember/helper';
 
 interface Signature {
   Args: {
     period: number;
     fn: () => {};
   };
-  Blocks: {};
+  Blocks: {
+    default: [
+      {
+        progress: number;
+      },
+    ];
+  };
   Element: HTMLDivElement;
 }
 
+const Clock = function (period: number, callback: () => {}) {
+  return resource(({ on }) => {
+    let lastTickTime = cell(dayjs());
+    let diff = period;
+
+    console.log({ period }, { callback });
+
+    const timer = setInterval(() => {
+      diff = dayjs().diff(lastTickTime.current, 'seconds');
+
+      if (diff >= period) {
+        lastTickTime.current = dayjs();
+        callback();
+      }
+    }, 1000);
+
+    on.cleanup(() => {
+      clearInterval(timer);
+    });
+
+    console.log({ diff });
+
+    return diff;
+  });
+};
+
+resourceFactory(Clock);
+
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Interval extends Component<Signature> {
-  clock = use(
-    this,
-    resource(({ on }) => {
-      let lastRefreshTime = dayjs();
-
-      const timer = setInterval(() => {
-        if (this.args.period) {
-          const diff = dayjs().diff(lastRefreshTime, 'seconds');
-
-          if (diff >= this.args.period) {
-            lastRefreshTime = dayjs();
-            this.args.fn();
-          }
-        }
-      }, 1000);
-
-      on.cleanup(() => {
-        clearInterval(timer);
-      });
-    }),
-  );
-
-  <template>{{this.clock}}</template>
+  <template>
+    {{yield (hash progress=(Clock this.args.period this.args.fn))}}
+  </template>
 }
 
 declare module '@glint/environment-ember-loose/registry' {

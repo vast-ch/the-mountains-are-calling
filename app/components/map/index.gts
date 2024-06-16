@@ -93,7 +93,8 @@ export default class Map extends Component<Signature> {
         {{else}}
           <LeafletMap
             @bounds={{getBounds filtered.locations}}
-            class='w-full min-h-64 flex-1'
+            class='w-full min-h-64 flex-1 border-2 border-green-200
+              {{if l.state.isRefreshing "border-yellow-500"}}'
             as |layers|
           >
             <layers.tile

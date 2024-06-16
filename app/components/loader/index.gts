@@ -17,6 +17,7 @@ interface Signature {
     default: [
       {
         result: any;
+        state: any;
       },
     ];
   };
@@ -50,11 +51,14 @@ export default class Loader extends Component<Signature> {
 
       <:content as |result state|>
         {{! TODO: Does this make sense given that we have autorefresh above? }}
-        {{!-- <Interval
+        <Interval
           @period={{this.settings.refreshInterval}}
           @fn={{state.refresh}}
-        /> --}}
-        {{yield (hash result=result)}}
+          as |i|
+        >
+          {{log i}}
+          {{yield (hash result=result state=state)}}
+        </Interval>
       </:content>
     </Request>
   </template>
