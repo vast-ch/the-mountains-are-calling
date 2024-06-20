@@ -50,6 +50,11 @@ export default class SettingsService extends Service {
   // This one exists to highlight given pin directly in the app
   @tracked highlightedPin: number | undefined = undefined;
 
+  // ===== .toggleAutoFastForward =====
+  @action toggleAutoFastForward(newValue: boolean) {
+    this.autoFastForward = newValue;
+  }
+
   // ===== .autoFastForward =====
   get autoFastForward(): boolean | undefined {
     return this.qp['autoFastForward'] === 'true' ? true : false;
