@@ -7,7 +7,7 @@ import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import { hash } from '@ember/helper';
 import { gt } from 'ember-truth-helpers';
-import Interval from '../interval';
+
 import dayjs from 'dayjs';
 import type StoreService from 'the-mountains-are-calling/services/store';
 
@@ -45,14 +45,7 @@ export default class Loader extends Component<Signature> {
       </:loading>
 
       <:content as |result state|>
-        <Interval
-          @period={{this.settings.refreshInterval}}
-          @fn={{state.refresh}}
-          as |i|
-        >
-          {{!-- {{log 'The clock resource has value' i}} --}}
-          {{yield (hash result=result state=state)}}
-        </Interval>
+        {{yield (hash result=result state=state)}}
       </:content>
     </Request>
   </template>

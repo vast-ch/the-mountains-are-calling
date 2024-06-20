@@ -31,7 +31,7 @@ const FirebaseHandler: Handler = {
       const contedWithIds = sortedContent.map((elm) => {
         return {
           type: 'pin',
-          id: elm.timestamp,
+          id: elm.timestamp.toString(),
           attributes: elm,
         };
       });

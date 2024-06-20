@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { resourceFactory, cell, resource } from 'ember-resources';
 import dayjs from 'dayjs';
 import { hash } from '@ember/helper';
+import { ProgressBar } from '@frontile/status';
 
 interface Signature {
   Args: {
@@ -20,24 +21,22 @@ interface Signature {
 
 const Clock = function (period: number, callback: () => {}) {
   return resource(({ on }) => {
-    console.log('Creating clock resource', { period }, { callback });
-
     let lastTickTime = cell(dayjs());
-    let diff = period;
+    let diff = cell(0);
 
     const timer = setInterval(() => {
-      console.log('Clock is ticking');
-      diff = dayjs().diff(lastTickTime.current, 'seconds');
+      // console.log('tick',dayjs().diff(lastTickTime.current, 'seconds'));
+      diff.current = dayjs().diff(lastTickTime.current, 'seconds');
 
-      if (diff >= period) {
-        console.log('Clock is calling callback');
+      if (diff.current > period) {
         lastTickTime.current = dayjs();
+        // console.log('callback');
         callback();
       }
     }, 1000);
 
     on.cleanup(() => {
-      console.log('Clearing up interval');
+      // console.log('clear');
       clearInterval(timer);
     });
 
@@ -50,7 +49,10 @@ resourceFactory(Clock);
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Interval extends Component<Signature> {
   <template>
-    {{yield (hash progress=(Clock this.args.period this.args.fn))}}
+    {{#let (Clock this.args.period this.args.fn) as |c|}}
+      {{!-- {{log c}} --}}
+      <ProgressBar @size='xs' @maxValue={{this.args.period}} @progress={{c}} />
+    {{/let}}
   </template>
 }
 

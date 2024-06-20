@@ -9,6 +9,7 @@ import { isEmpty } from 'ember-truth-helpers';
 import { formatNumber, t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
+import Interval from '../interval';
 //@ts-ignore HeroIcon nope
 import HeroIcon from 'ember-heroicons/components/hero-icon';
 import DateSelector from './date-selector';
@@ -163,6 +164,11 @@ export default class Map extends Component<Signature> {
 
           </LeafletMap>
         {{/if}}
+
+        <Interval
+          @period={{this.settings.refreshInterval}}
+          @fn={{l.state.refresh}}
+        />
       </Filter>
     </Loader>
   </template>
