@@ -89,7 +89,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
         <ButtonGroup as |g|>
           {{#each @data as |point index|}}
             <g.ToggleButton
-              @isSelected={{eq point.timestamp this.settings.highlightedPin}}
+              @isSelected={{eq point.timestamp this.settings.rememberedPin}}
               @onChange={{fn this.updateHighlightedPin point.timestamp}}
               {{scrollIntoView
                 shouldScroll=(or
