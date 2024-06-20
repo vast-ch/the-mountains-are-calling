@@ -1,40 +1,61 @@
 import Component from '@glimmer/component';
-import { use, resource } from 'ember-resources';
+import { resourceFactory, cell, resource } from 'ember-resources';
 import dayjs from 'dayjs';
+import { ProgressBar } from '@frontile/status';
 
 interface Signature {
   Args: {
     period: number;
-    fn: () => {};
+    isRefreshing: boolean;
+    callback: () => {};
   };
-  Blocks: {};
+  Blocks: {
+    default: [
+      {
+        progress: number;
+      },
+    ];
+  };
   Element: HTMLDivElement;
 }
 
+const Clock = function (period: number, callback: () => {}) {
+  return resource(({ on }) => {
+    let lastTickTime = cell(dayjs());
+    let diff = cell(0);
+
+    const timer = setInterval(() => {
+      diff.current = dayjs().diff(lastTickTime.current, 'seconds');
+
+      if (diff.current > period) {
+        lastTickTime.current = dayjs();
+        callback();
+      }
+    }, 1000);
+
+    on.cleanup(() => {
+      clearInterval(timer);
+    });
+
+    return diff;
+  });
+};
+
+resourceFactory(Clock);
+
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Interval extends Component<Signature> {
-  clock = use(
-    this,
-    resource(({ on }) => {
-      let lastRefreshTime = dayjs();
-
-      const timer = setInterval(() => {
-        if (this.args.period) {
-          const diff = dayjs().diff(lastRefreshTime, 'seconds');
-
-          if (diff >= this.args.period) {
-            lastRefreshTime = dayjs();
-            this.args.fn();
-          }
-        }
-      }, 1000);
-
-      on.cleanup(() => {
-        clearInterval(timer);
-      });
-    }),
-  );
-
-  <template>{{this.clock}}</template>
+  <template>
+    {{#let (Clock this.args.period this.args.callback) as |c|}}
+      {{!-- {{log c}} --}}
+      <ProgressBar
+        @size='xs'
+        @maxValue={{this.args.period}}
+        @progress={{c}}
+        @isIndeterminate={{this.args.isRefreshing}}
+      />
+    {{/let}}
+  </template>
 }
 
 declare module '@glint/environment-ember-loose/registry' {

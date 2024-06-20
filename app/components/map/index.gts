@@ -9,6 +9,7 @@ import { isEmpty } from 'ember-truth-helpers';
 import { formatNumber, t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
+import Interval from '../interval';
 //@ts-ignore HeroIcon nope
 import HeroIcon from 'ember-heroicons/components/hero-icon';
 import DateSelector from './date-selector';
@@ -60,7 +61,6 @@ const pinStandard = icon([], {
 });
 
 export default class Map extends Component<Signature> {
-  @service mountainsStore: any;
   @service declare settings: SettingsService;
 
   autoPanPadding = new Point(50, 50);
@@ -94,7 +94,7 @@ export default class Map extends Component<Signature> {
         {{else}}
           <LeafletMap
             @bounds={{getBounds filtered.locations}}
-            class='w-full min-h-64 flex-1'
+            class='w-full min-h-64 flex-1 border-2'
             as |layers|
           >
             <layers.tile
@@ -163,6 +163,12 @@ export default class Map extends Component<Signature> {
 
           </LeafletMap>
         {{/if}}
+
+        <Interval
+          @period={{this.settings.refreshInterval}}
+          @callback={{l.state.refresh}}
+          @isRefreshing={{l.state.isRefreshing}}
+        />
       </Filter>
     </Loader>
   </template>

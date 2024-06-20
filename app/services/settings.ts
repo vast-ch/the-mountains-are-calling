@@ -18,8 +18,6 @@ interface Dict<T> {
   [key: string]: T;
 }
 
-const DEMO_DATE_FROM = '2024-04-18';
-const DEMO_DATE_TO = '2024-04-19';
 const QP_FORMAT = 'YYYY-MM-DD';
 
 export default class SettingsService extends Service {
@@ -29,20 +27,27 @@ export default class SettingsService extends Service {
     return this.router.currentRoute?.queryParams || {};
   }
 
-  get fallbackDateFrom() {
-    return DEMO_DATE_FROM;
+  get dateToday() {
+    return dayjs().format(QP_FORMAT);
   }
 
-  get fallbackDateTo() {
-    return DEMO_DATE_TO;
+  get dateTomorrow() {
+    return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
   // ===== .rememberedPin =====
   // This one exists to persist selected pin to QP
-  get rememberedPin(): number | undefined {
+  get rememberedPin(): number | undefined | 'last' {
+    if (!this.qp['rememberedPin']) {
+      return undefined;
+    }
+    if (this.qp['rememberedPin'] === 'last') {
+      return 'last';
+    }
+
     return Number.parseFloat(this.qp['rememberedPin'] as string);
   }
-  set rememberedPin(newPin: number | undefined) {
+  set rememberedPin(newPin: number | undefined | 'last') {
     this.router.replaceWith({
       queryParams: { rememberedPin: newPin ? newPin.toString() : undefined },
     });
@@ -52,9 +57,21 @@ export default class SettingsService extends Service {
   // This one exists to highlight given pin directly in the app
   @tracked highlightedPin: number | undefined = undefined;
 
+  // ===== .toggleAutoFastForward =====
+  @action toggleAutoFastForward(newValue: boolean) {
+    this.rememberedPin = newValue ? 'last' : undefined;
+    this.dateFrom = this.dateToday;
+    this.dateTo = this.dateTomorrow;
+  }
+
+  // ===== .autoFastForward =====
+  get autoFastForward(): boolean {
+    return this.rememberedPin == 'last';
+  }
+
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
-    return dayjs((this.qp['dateFrom'] as string) || this.fallbackDateFrom);
+    return dayjs((this.qp['dateFrom'] as string) || this.dateToday);
   }
   set dateFrom(newDate: string | dayjs.Dayjs) {
     let dateFrom;
@@ -77,7 +94,7 @@ export default class SettingsService extends Service {
 
   // ===== .dateTo =====
   get dateTo(): dayjs.Dayjs {
-    return dayjs((this.qp['dateTo'] as string) || this.fallbackDateTo);
+    return dayjs((this.qp['dateTo'] as string) || this.dateTomorrow);
   }
   set dateTo(newDate: string | dayjs.Dayjs) {
     let dateTo;

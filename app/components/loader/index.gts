@@ -7,8 +7,9 @@ import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import { hash } from '@ember/helper';
 import { gt } from 'ember-truth-helpers';
-import Interval from '../interval';
+
 import dayjs from 'dayjs';
+import type StoreService from 'the-mountains-are-calling/services/store';
 
 interface Signature {
   Args: {};
@@ -16,6 +17,7 @@ interface Signature {
     default: [
       {
         result: any;
+        state: any;
       },
     ];
   };
@@ -23,11 +25,11 @@ interface Signature {
 }
 
 export default class Loader extends Component<Signature> {
-  @service mountainsStore: any;
+  @service declare store: StoreService;
   @service declare settings: SettingsService;
 
   get request() {
-    return this.mountainsStore.request(
+    return this.store.request(
       firebaseQuery(
         this.settings.deviceUrl,
         this.settings.dateFrom,
@@ -37,22 +39,13 @@ export default class Loader extends Component<Signature> {
   }
 
   <template>
-    <Request
-      @request={{this.request}}
-      @autorefresh={{gt this.settings.refreshInterval 0}}
-      @autorefreshBehavior='refresh'
-    >
+    <Request @request={{this.request}}>
       <:loading>
         {{t 'map.loading'}}
       </:loading>
 
       <:content as |result state|>
-        {{! TODO: Does this make sense given that we have autorefresh above? }}
-        <Interval
-          @period={{this.settings.refreshInterval}}
-          @fn={{state.refresh}}
-        />
-        {{yield (hash result=result)}}
+        {{yield (hash result=result state=state)}}
       </:content>
     </Request>
   </template>

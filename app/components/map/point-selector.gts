@@ -2,8 +2,8 @@ import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { Button } from '@frontile/buttons';
-import { tracked } from '@glimmer/tracking';
+//@ts-expect-error No TS yet
+import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
 import { fn, hash } from '@ember/helper';
@@ -16,9 +16,8 @@ import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 //@ts-expect-error No TS yet
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
-import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
-import { on } from '@ember/modifier';
+import { eq, or, and } from 'ember-truth-helpers';
+import { array } from '@ember/helper';
 
 interface PointSelectorSignature {
   Args: {
@@ -52,18 +51,12 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  // @tracked intersectedPin: Pin | undefined = undefined;
-
   @action updateHighlightedPin(timestamp: number | undefined) {
     this.settings.rememberedPin = timestamp;
   }
 
   @action onIntersect(pin: Pin) {
     this.settings.highlightedPin = pin.timestamp;
-  }
-
-  @action onScrollEnd() {
-    this.updateHighlightedPin(this.settings.highlightedPin);
   }
 
   <template>
@@ -78,17 +71,22 @@ export default class PointSelector extends Component<PointSelectorSignature> {
 
       <div
         class='overflow-x-scroll snap-x pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
-        {{on 'scrollend' (fn this.onScrollEnd)}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
 
         <ButtonGroup as |g|>
-          {{#each @data as |point|}}
+          {{#each @data as |point index|}}
             <g.ToggleButton
-              @isSelected={{eq point.timestamp this.settings.highlightedPin}}
+              @isSelected={{eq point.timestamp this.settings.rememberedPin}}
               @onChange={{fn this.updateHighlightedPin point.timestamp}}
               {{scrollIntoView
-                shouldScroll=(eq point.timestamp this.settings.rememberedPin)
+                shouldScroll=(or
+                  (eq point.timestamp this.settings.rememberedPin)
+                  (and
+                    (eq this.settings.rememberedPin 'last')
+                    (eq index (sub (array @data.length 1)))
+                  )
+                )
                 options=(hash behavior='smooth' inline='center')
               }}
               {{didIntersect
