@@ -18,7 +18,7 @@ import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
-import { eq, or } from 'ember-truth-helpers';
+import { eq, or, and, isEmpty } from 'ember-truth-helpers';
 import { on } from '@ember/modifier';
 import { array } from '@ember/helper';
 
@@ -65,7 +65,9 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   }
 
   @action onScrollEnd() {
-    this.updateHighlightedPin(this.settings.highlightedPin);
+    if (!this.settings.autoFastForward) {
+      this.updateHighlightedPin(this.settings.highlightedPin);
+    }
   }
 
   <template>
@@ -92,7 +94,10 @@ export default class PointSelector extends Component<PointSelectorSignature> {
               {{scrollIntoView
                 shouldScroll=(or
                   (eq point.timestamp this.settings.rememberedPin)
-                  (eq index (sub (array @data.length 1)))
+                  (and
+                    (isEmpty this.settings.rememberedPin)
+                    (eq index (sub (array @data.length 1)))
+                  )
                 )
                 options=(hash behavior='smooth' inline='center')
               }}

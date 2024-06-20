@@ -14,5 +14,5 @@ export default class IndexController extends Controller {
   @tracked dateFrom = '';
   @tracked dateTo = '';
   @tracked rememberedPin = '';
-  @tracked autoFastForward = 'true';
+  @tracked autoFastForward = 'false';
 }

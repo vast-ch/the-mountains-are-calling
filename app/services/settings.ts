@@ -38,7 +38,9 @@ export default class SettingsService extends Service {
   // ===== .rememberedPin =====
   // This one exists to persist selected pin to QP
   get rememberedPin(): number | undefined {
-    return Number.parseFloat(this.qp['rememberedPin'] as string);
+    return this.qp['rememberedPin']
+      ? Number.parseFloat(this.qp['rememberedPin'] as string)
+      : undefined;
   }
   set rememberedPin(newPin: number | undefined) {
     this.router.replaceWith({
