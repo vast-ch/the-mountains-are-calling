@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 
 export default class IndexController extends Controller {
   queryParams = [
@@ -8,10 +7,12 @@ export default class IndexController extends Controller {
       dateFrom: { type: 'string' as const },
       dateTo: { type: 'string' as const },
       rememberedPin: { type: 'string' as const },
+      autoFastForward: { type: 'string' as const },
     },
   ];
 
   @tracked dateFrom = '';
   @tracked dateTo = '';
   @tracked rememberedPin = '';
+  @tracked autoFastForward = 'true';
 }

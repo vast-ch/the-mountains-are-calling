@@ -50,6 +50,18 @@ export default class SettingsService extends Service {
   // This one exists to highlight given pin directly in the app
   @tracked highlightedPin: number | undefined = undefined;
 
+  // ===== .autoFastForward =====
+  get autoFastForward(): boolean | undefined {
+    return this.qp['autoFastForward'] === 'true' ? true : false;
+  }
+  set autoFastForward(newAutoFastForward: boolean | undefined) {
+    this.router.replaceWith({
+      queryParams: {
+        autoFastForward: newAutoFastForward === true ? 'true' : 'false',
+      },
+    });
+  }
+
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
     return dayjs((this.qp['dateFrom'] as string) || this.fallbackDateFrom);

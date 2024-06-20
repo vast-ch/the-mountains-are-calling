@@ -9,6 +9,8 @@ import HeroIcon from 'ember-heroicons/components/hero-icon';
 import { Input } from '@frontile/forms';
 import set from 'ember-set-helper/helpers/set';
 import { hash } from '@ember/helper';
+import { ToggleButton } from '@frontile/buttons';
+import { action } from '@ember/object';
 
 interface DateSelectorSignature {
   Args: {};
@@ -17,6 +19,10 @@ interface DateSelectorSignature {
 
 export default class DateSelector extends Component<DateSelectorSignature> {
   @service declare settings: SettingsService;
+
+  @action foo(bar, baz) {
+    console.log(bar, baz);
+  }
 
   <template>
     <div class='flex flex-row flex-wrap gap-4 items-end'>
@@ -56,6 +62,19 @@ export default class DateSelector extends Component<DateSelectorSignature> {
           @classes={{hash base='grow'}}
         />
       {{/if}}
+
+      {{log this.settings.autoFastForward}}
+      <ToggleButton
+        @isSelected={{this.settings.autoFastForward}}
+        @onChange={{set this.settings 'autoFastForward'}}
+        @size='lg'
+      >
+        {{#if this.settings.autoFastForward}}
+          <HeroIcon class='h-4' @icon='eye' />
+        {{else}}
+          <HeroIcon class='h-4' @icon='eye-slash' />
+        {{/if}}
+      </ToggleButton>
 
       <Button
         {{on 'click' (fn this.settings.addDays 1)}}
