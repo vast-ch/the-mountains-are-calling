@@ -37,7 +37,7 @@ const Clock = function (period: number, callback: () => {}) {
       clearInterval(timer);
     });
 
-    return diff;
+    return () => diff.current;
   });
 };
 
