@@ -18,8 +18,6 @@ interface Dict<T> {
   [key: string]: T;
 }
 
-const DEMO_DATE_FROM = '2024-04-18';
-const DEMO_DATE_TO = '2024-04-19';
 const QP_FORMAT = 'YYYY-MM-DD';
 
 export default class SettingsService extends Service {
@@ -30,11 +28,11 @@ export default class SettingsService extends Service {
   }
 
   get fallbackDateFrom() {
-    return DEMO_DATE_FROM;
+    return dayjs().format(QP_FORMAT);
   }
 
   get fallbackDateTo() {
-    return DEMO_DATE_TO;
+    return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
   // ===== .rememberedPin =====

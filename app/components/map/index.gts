@@ -94,8 +94,7 @@ export default class Map extends Component<Signature> {
         {{else}}
           <LeafletMap
             @bounds={{getBounds filtered.locations}}
-            class='w-full min-h-64 flex-1 border-2 border-green-200
-              {{if l.state.isRefreshing "border-yellow-500"}}'
+            class='w-full min-h-64 flex-1 border-2'
             as |layers|
           >
             <layers.tile
@@ -167,7 +166,8 @@ export default class Map extends Component<Signature> {
 
         <Interval
           @period={{this.settings.refreshInterval}}
-          @fn={{l.state.refresh}}
+          @callback={{l.state.refresh}}
+          @isRefreshing={{l.state.isRefreshing}}
         />
       </Filter>
     </Loader>

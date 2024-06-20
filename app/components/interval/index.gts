@@ -7,7 +7,8 @@ import { ProgressBar } from '@frontile/status';
 interface Signature {
   Args: {
     period: number;
-    fn: () => {};
+    isRefreshing: boolean;
+    callback: () => {};
   };
   Blocks: {
     default: [
@@ -49,9 +50,14 @@ resourceFactory(Clock);
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Interval extends Component<Signature> {
   <template>
-    {{#let (Clock this.args.period this.args.fn) as |c|}}
+    {{#let (Clock this.args.period this.args.callback) as |c|}}
       {{!-- {{log c}} --}}
-      <ProgressBar @size='xs' @maxValue={{this.args.period}} @progress={{c}} />
+      <ProgressBar
+        @size='xs'
+        @maxValue={{this.args.period}}
+        @progress={{c}}
+        @isIndeterminate={{this.args.isRefreshing}}
+      />
     {{/let}}
   </template>
 }
