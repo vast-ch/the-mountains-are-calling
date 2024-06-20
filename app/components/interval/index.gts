@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { resourceFactory, cell, resource } from 'ember-resources';
 import dayjs from 'dayjs';
-import { hash } from '@ember/helper';
 import { ProgressBar } from '@frontile/status';
 
 interface Signature {

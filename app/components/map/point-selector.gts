@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
+//@ts-expect-error No TS yet
 import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
@@ -15,7 +16,6 @@ import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 //@ts-expect-error No TS yet
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
-import { t } from 'ember-intl';
 import { eq, or, and } from 'ember-truth-helpers';
 import { array } from '@ember/helper';
 
