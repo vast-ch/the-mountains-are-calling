@@ -26,18 +26,15 @@ const Clock = function (period: number, callback: () => {}) {
     let diff = cell(0);
 
     const timer = setInterval(() => {
-      // console.log('tick',dayjs().diff(lastTickTime.current, 'seconds'));
       diff.current = dayjs().diff(lastTickTime.current, 'seconds');
 
       if (diff.current > period) {
         lastTickTime.current = dayjs();
-        // console.log('callback');
         callback();
       }
     }, 1000);
 
     on.cleanup(() => {
-      // console.log('clear');
       clearInterval(timer);
     });
 

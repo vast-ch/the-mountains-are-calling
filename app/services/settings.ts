@@ -37,12 +37,17 @@ export default class SettingsService extends Service {
 
   // ===== .rememberedPin =====
   // This one exists to persist selected pin to QP
-  get rememberedPin(): number | undefined {
-    return this.qp['rememberedPin']
-      ? Number.parseFloat(this.qp['rememberedPin'] as string)
-      : undefined;
+  get rememberedPin(): number | undefined | 'last' {
+    if (!this.qp['rememberedPin']) {
+      return undefined;
+    }
+    if (this.qp['rememberedPin'] === 'last') {
+      return 'last';
+    }
+
+    return Number.parseFloat(this.qp['rememberedPin'] as string);
   }
-  set rememberedPin(newPin: number | undefined) {
+  set rememberedPin(newPin: number | undefined | 'last') {
     this.router.replaceWith({
       queryParams: { rememberedPin: newPin ? newPin.toString() : undefined },
     });
@@ -54,22 +59,14 @@ export default class SettingsService extends Service {
 
   // ===== .toggleAutoFastForward =====
   @action toggleAutoFastForward(newValue: boolean) {
-    this.autoFastForward = newValue;
-    this.rememberedPin = undefined;
+    this.rememberedPin = newValue ? 'last' : undefined;
     this.dateFrom = this.dateToday;
     this.dateTo = this.dateTomorrow;
   }
 
   // ===== .autoFastForward =====
-  get autoFastForward(): boolean | undefined {
-    return this.qp['autoFastForward'] === 'true' ? true : false;
-  }
-  set autoFastForward(newAutoFastForward: boolean | undefined) {
-    this.router.replaceWith({
-      queryParams: {
-        autoFastForward: newAutoFastForward === true ? 'true' : 'false',
-      },
-    });
+  get autoFastForward(): boolean {
+    return this.rememberedPin == 'last';
   }
 
   // ===== .dateFrom =====

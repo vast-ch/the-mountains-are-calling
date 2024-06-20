@@ -2,8 +2,6 @@ import Component from '@glimmer/component';
 import timestampToTime from 'the-mountains-are-calling/helpers/timestamp-to-time';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { Button } from '@frontile/buttons';
-import { tracked } from '@glimmer/tracking';
 import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
@@ -18,8 +16,7 @@ import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
-import { eq, or, and, isEmpty } from 'ember-truth-helpers';
-import { on } from '@ember/modifier';
+import { eq, or, and } from 'ember-truth-helpers';
 import { array } from '@ember/helper';
 
 interface PointSelectorSignature {
@@ -54,20 +51,12 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
-  // @tracked intersectedPin: Pin | undefined = undefined;
-
   @action updateHighlightedPin(timestamp: number | undefined) {
     this.settings.rememberedPin = timestamp;
   }
 
   @action onIntersect(pin: Pin) {
     this.settings.highlightedPin = pin.timestamp;
-  }
-
-  @action onScrollEnd() {
-    if (!this.settings.autoFastForward) {
-      this.updateHighlightedPin(this.settings.highlightedPin);
-    }
   }
 
   <template>
@@ -82,7 +71,6 @@ export default class PointSelector extends Component<PointSelectorSignature> {
 
       <div
         class='overflow-x-scroll snap-x pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
-        {{!-- {{on 'scrollend' (fn this.onScrollEnd)}} --}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
 
@@ -95,7 +83,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                 shouldScroll=(or
                   (eq point.timestamp this.settings.rememberedPin)
                   (and
-                    (isEmpty this.settings.rememberedPin)
+                    (eq this.settings.rememberedPin 'last')
                     (eq index (sub (array @data.length 1)))
                   )
                 )
