@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { Button } from '@frontile/buttons';
 import { tracked } from '@glimmer/tracking';
+import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
 import { fn, hash } from '@ember/helper';
@@ -17,8 +18,9 @@ import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
+import { eq, or } from 'ember-truth-helpers';
 import { on } from '@ember/modifier';
+import { array } from '@ember/helper';
 
 interface PointSelectorSignature {
   Args: {
@@ -83,12 +85,15 @@ export default class PointSelector extends Component<PointSelectorSignature> {
         <div><div class='[width:50vw] text-right'></div></div>
 
         <ButtonGroup as |g|>
-          {{#each @data as |point|}}
+          {{#each @data as |point index|}}
             <g.ToggleButton
               @isSelected={{eq point.timestamp this.settings.highlightedPin}}
               @onChange={{fn this.updateHighlightedPin point.timestamp}}
               {{scrollIntoView
-                shouldScroll=(eq point.timestamp this.settings.rememberedPin)
+                shouldScroll=(or
+                  (eq point.timestamp this.settings.rememberedPin)
+                  (eq index (sub (array @data.length 1)))
+                )
                 options=(hash behavior='smooth' inline='center')
               }}
               {{didIntersect

@@ -27,11 +27,11 @@ export default class SettingsService extends Service {
     return this.router.currentRoute?.queryParams || {};
   }
 
-  get fallbackDateFrom() {
+  get dateToday() {
     return dayjs().format(QP_FORMAT);
   }
 
-  get fallbackDateTo() {
+  get dateTomorrow() {
     return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
@@ -53,6 +53,9 @@ export default class SettingsService extends Service {
   // ===== .toggleAutoFastForward =====
   @action toggleAutoFastForward(newValue: boolean) {
     this.autoFastForward = newValue;
+    this.rememberedPin = undefined;
+    this.dateFrom = this.dateToday;
+    this.dateTo = this.dateTomorrow;
   }
 
   // ===== .autoFastForward =====
@@ -69,7 +72,7 @@ export default class SettingsService extends Service {
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
-    return dayjs((this.qp['dateFrom'] as string) || this.fallbackDateFrom);
+    return dayjs((this.qp['dateFrom'] as string) || this.dateToday);
   }
   set dateFrom(newDate: string | dayjs.Dayjs) {
     let dateFrom;
@@ -92,7 +95,7 @@ export default class SettingsService extends Service {
 
   // ===== .dateTo =====
   get dateTo(): dayjs.Dayjs {
-    return dayjs((this.qp['dateTo'] as string) || this.fallbackDateTo);
+    return dayjs((this.qp['dateTo'] as string) || this.dateTomorrow);
   }
   set dateTo(newDate: string | dayjs.Dayjs) {
     let dateTo;
