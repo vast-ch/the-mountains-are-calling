@@ -62,6 +62,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @isSelected={{this.settings.autoFastForward}}
         @onChange={{this.settings.toggleAutoFastForward}}
         @size='lg'
+        @intent='primary'
       >
         {{#if this.settings.autoFastForward}}
           <HeroIcon class='h-4' @icon='eye' />

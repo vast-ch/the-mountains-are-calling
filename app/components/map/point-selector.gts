@@ -82,7 +82,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
 
       <div
         class='overflow-x-scroll snap-x pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
-        {{on 'scrollend' (fn this.onScrollEnd)}}
+        {{!-- {{on 'scrollend' (fn this.onScrollEnd)}} --}}
       >
         <div><div class='[width:50vw] text-right'></div></div>
 
