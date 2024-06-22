@@ -19,13 +19,16 @@ export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
   get pins() {
-    const dayStart = this.settings.dateFrom.valueOf() / 1000;
-    const dayEnd = this.settings.dateTo.valueOf() / 1000;
+    // const dayStart = this.settings.dateFrom.valueOf() / 1000;
+    // const dayEnd = this.settings.dateTo.valueOf() / 1000;
 
     // TODO: make it so it's not .data.data
-    return this.args.data.data.filter((elm) => {
-      return elm.timestamp > dayStart && elm.timestamp < dayEnd;
-    });
+    return this.args.data.data;
+
+    // TODO: why filter here when Firebase can filter data?
+    // return this.args.data.data.filter((elm) => {
+    //   return elm.timestamp > dayStart && elm.timestamp < dayEnd;
+    // });
   }
 
   get locations(): ((number[] | undefined)[] | undefined)[] {

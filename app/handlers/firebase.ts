@@ -2,6 +2,7 @@ import {
   type Handler,
   type NextFn,
   type RequestContext,
+  // @ts-expect-error no TS yet
 } from '@ember-data/request';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 
@@ -23,7 +24,7 @@ const FirebaseHandler: Handler = {
       // Filtered data is returned unordered: When using the REST API, the filtered results are returned in an undefined order since JSON interpreters don't enforce any ordering. If the order of your data is important you should sort the results in your application after they are returned from Firebase.
 
       const sortedContent = Object.values(content).sort(
-        (a, b) => a.timestamp - b.timestamp,
+        (a, b) => a.tst - b.tst,
       );
 
       // JSON-API requires us to have IDs
@@ -31,7 +32,7 @@ const FirebaseHandler: Handler = {
       const contedWithIds = sortedContent.map((elm) => {
         return {
           type: 'pin',
-          id: elm.timestamp.toString(),
+          id: elm.tst.toString(),
           attributes: elm,
         };
       });
