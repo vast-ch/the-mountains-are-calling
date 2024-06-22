@@ -15,7 +15,7 @@
     "${subpath}": {
       ".read": true,
       ".write": true,
-      ".indexOn": ["timestamp"]
+      ".indexOn": ["tst"]
     }
   }
 }
