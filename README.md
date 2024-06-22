@@ -37,16 +37,26 @@ Based on the idea of *simple*, location sharing first introduced in [Google Lati
 > [!CAUTION]
 > This part of the README is intended to show a way to get **started quickly**. With this setup your `Device` will **share location data** with 3rd party `Provider`, which is controlled by us. And then we will be able to read your data. If you're looking for privacy focused solution, follow the guide on one of the providers.
 
-### Device
-1. Install [Automate from LlamaLab](https://play.google.com/store/apps/details?id=com.llamalab.automate).
-2. Download and install [The Mountains Are Calling flow](docs/providers/The%20Mountains%20Are%20Calling.flo).
-3. Run the flow.
-   1. On first run the flow generates an **unique** `Provider URL` where the data will be stored. Last part of the URL is [uuid4](https://llamalab.com/automate/doc/function/uuid4.html) pseudo-random string which is also called `DeviceId`.
-   2. It will show you the value via input dialog.
-   3. Copy the the value somewhere else and share it with `Client`. In case you lose it, just re-run the flow and the same dialog will appear again.
-   4. You don't need to change anything, just confirm.
+### Provider URL
 
-## Client
+> [!CAUTION]
+> Make sure to chose your `deviceId` to something **unique** and **hard to guess**. You **don't need** to memorise it, so:
+> - Make it at least 16 characters long
+> - Make it as random as possible
+
+The provider URL is where the data will be stored the format is:
+
+```
+https://the-mountains-are-calling-default-rtdb.europe-west1.firebasedatabase.app/${deviceId}.json
+```
+
+### Device
+1. Install [OwnTracks app](https://owntracks.org/booklet/guide/apps/).
+3. In settings of the app set:
+   1. Connection -> Mode -> HTTP
+   2. Hostname -> Fill in **whole** `Provider URL`
+
+### Client
 1. Go to: https://the-mountains-are-calling.netlify.app/
 2. Click on `Settings`
 3. Fill in the `Provider URL` you got in previous step
@@ -81,10 +91,7 @@ Client is the visualisation part of the system. Currently implemented as a simpl
 
 ## Data
 
-- `latitude: number` - Location GPS latitude [degrees]
-- `longitude: number` - Location GPS longitude [degrees]
-- `accuracy: number` - How precise is the location information [meters]
-- `timestamp: number` - When was the GPS location obtained [unix timestamp]
+- Since we're using OwnTracks for the `Device` data collection, the format of the data follows [OwnTracks API / JSON format](https://owntracks.org/booklet/tech/json/).
 
 ## Name
 
