@@ -47,4 +47,8 @@ export default class PinModel extends Model {
   get velocity() {
     return this.vel;
   }
+
+  get fixAge() {
+    return this.created_at - this.tst;
+  }
 }

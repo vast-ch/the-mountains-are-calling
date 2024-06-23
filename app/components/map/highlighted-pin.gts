@@ -9,6 +9,10 @@ import dayjs from 'dayjs';
 import { Point } from 'leaflet';
 //@ts-ignore HeroIcon nope
 import HeroIcon from 'ember-heroicons/components/hero-icon';
+import duration from 'dayjs/plugin/duration';
+
+// TODO: Is there a better place?
+dayjs.extend(duration);
 
 const pinHighlighted = icon([], {
   iconUrl: '/images/pin-highlighted.svg',
@@ -28,6 +32,10 @@ function pickHighlightedPin(
 
 function highlightedPinRelative(pin: Pin): string {
   return dayjs(pin.timestamp * 1000).fromNow();
+}
+
+function fixAgeRelative(diff: number): string {
+  return dayjs.duration(diff, 'seconds').format('HH:mm:ss');
 }
 
 function timestampToHuman(timestamp: number) {
@@ -104,11 +112,15 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
               <li>
                 <HeroIcon class='h-4 inline mr-1' @icon='forward' />
                 {{formatNumber
-                  pin.vel
+                  pin.velocity
                   style='unit'
                   unit='kilometer-per-hour'
                   maximumFractionDigits=0
                 }}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='arrows-pointing-in' />
+                {{fixAgeRelative pin.fixAge}}
               </li>
             </ul>
           </marker.popup>
