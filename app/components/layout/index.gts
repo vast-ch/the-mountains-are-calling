@@ -15,17 +15,15 @@ interface Signature {
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Layout extends Component<Signature> {
   <template>
-    <MobileMenuWrapper as |mmw|>
+    <MobileMenuWrapper @embed={{true}} as |mmw|>
       <div
-        class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-lvh flex flex-col pb-4 sm:pb-6 lg:pb-8'
+        class='min-h-lvh mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col pb-4 sm:pb-6 lg:pb-8'
       >
+        <Menu @mmw={{mmw}} />
 
-        <header class='bg-white'>
-          <Menu @mmw={{mmw}} />
-        </header>
-
-        {{yield}}
-
+        <mmw.Content class='flex flex-col flex-1'>
+          {{yield}}
+        </mmw.Content>
       </div>
     </MobileMenuWrapper>
   </template>

@@ -19,8 +19,10 @@ const MENU_ITEMS = [
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Menu extends Component<Signature> {
   <template>
-    <MenuDesktop @mmw={{@mmw}} @items={{MENU_ITEMS}} />
-    <MenuMobile @mmw={{@mmw}} @items={{MENU_ITEMS}} />
+    <header class='bg-white'>
+      <MenuDesktop @mmw={{@mmw}} @items={{MENU_ITEMS}} />
+      <MenuMobile @mmw={{@mmw}} @items={{MENU_ITEMS}} />
+    </header>
   </template>
 }
 
