@@ -86,8 +86,6 @@ export default class Map extends Component<Signature> {
               />
             {{/each}}
 
-            <HighlightedPin @pins={{filtered.pins}} @layers={{layers}} />
-
             {{#each filtered.pins as |pin index|}}
               <layers.marker
                 @lat={{pin.latitude}}
@@ -95,6 +93,8 @@ export default class Map extends Component<Signature> {
                 @icon={{pinStandard}}
               />
             {{/each}}
+
+            <HighlightedPin @pins={{filtered.pins}} @layers={{layers}} />
 
           </LeafletMap>
         {{/if}}
