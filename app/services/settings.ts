@@ -40,6 +40,21 @@ export default class SettingsService extends Service {
     return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
+  defaultZoom = '15';
+
+  // ===== .zoom =====
+  get zoom(): number {
+    console.log(this.qp['zoom']);
+    return Number.parseInt((this.qp['zoom'] as string) || this.defaultZoom);
+  }
+  set zoom(newZoom: number) {
+    this.router.replaceWith({
+      queryParams: {
+        zoom: newZoom,
+      },
+    });
+  }
+
   // ===== .rememberedPin =====
   // This one exists to persist selected pin to QP
   get rememberedPin(): number | undefined | 'last' {

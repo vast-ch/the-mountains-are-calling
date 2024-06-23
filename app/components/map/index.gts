@@ -18,6 +18,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
 import HighlightedPin from './highlighted-pin';
+import { action } from '@ember/object';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -52,7 +53,16 @@ const pinStandard = icon([], {
 export default class Map extends Component<Signature> {
   @service declare settings: SettingsService;
 
+  lat = 46.686;
+  lng = 7.858;
+
+  @action
+  zoomend(event: any) {
+    this.settings.zoom = event.target.getZoom();
+  }
+
   <template>
+    {{log this.settings.zoom}}
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
@@ -69,8 +79,11 @@ export default class Map extends Component<Signature> {
           </div>
         {{else}}
           <LeafletMap
-            @bounds={{getBounds filtered.locations}}
+            @onZoomend={{this.zoomend}}
             class='w-full min-h-64 flex-1 border-2'
+            @lat={{this.lat}}
+            @lng={{this.lng}}
+            @zoom={{this.settings.zoom}}
             as |layers|
           >
             <layers.tile
