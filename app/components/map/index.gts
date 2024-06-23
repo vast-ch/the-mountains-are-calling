@@ -9,8 +9,7 @@ import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import Interval from '../interval';
-//@ts-ignore HeroIcon nope
-import HeroIcon from 'ember-heroicons/components/hero-icon';
+import Tray from 'ember-phosphor-icons/components/ph-tray';
 import DateSelector from './date-selector';
 import PointSelector from './point-selector';
 //@ts-ignore No TS
@@ -19,6 +18,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
 import HighlightedPin from './highlighted-pin';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -36,11 +37,6 @@ function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
 }
 
-function getBounds(locations: [[]]): LatLngBounds {
-  let ret = L.polyline(locations).getBounds();
-  return ret;
-}
-
 const pinStandard = icon([], {
   iconUrl: '/images/pin-standard.svg',
   iconSize: [25, 41],
@@ -53,6 +49,14 @@ const pinStandard = icon([], {
 export default class Map extends Component<Signature> {
   @service declare settings: SettingsService;
 
+  lat = 46.686;
+  lng = 7.858;
+
+  @action
+  zoomend(event: any) {
+    this.settings.zoom = event.target.getZoom();
+  }
+
   <template>
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
@@ -63,15 +67,18 @@ export default class Map extends Component<Signature> {
 
         {{#if (isEmpty filtered.pins)}}
           <div class='w-full py-32 flex justify-center items-center'>
-            <div class='flex flex-col'>
-              <HeroIcon @icon='inbox' class='h-16' />
+            <div class='flex flex-col items-center'>
+              <Tray @size='32' />
               {{t 'error.no-data-to-display'}}
             </div>
           </div>
         {{else}}
           <LeafletMap
-            @bounds={{getBounds filtered.locations}}
+            @onZoomend={{this.zoomend}}
             class='w-full min-h-64 flex-1 border-2'
+            @lat={{this.lat}}
+            @lng={{this.lng}}
+            @zoom={{this.settings.zoom}}
             as |layers|
           >
             <layers.tile

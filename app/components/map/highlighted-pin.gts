@@ -7,9 +7,14 @@ import { service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import dayjs from 'dayjs';
 import { Point } from 'leaflet';
-//@ts-ignore HeroIcon nope
-import HeroIcon from 'ember-heroicons/components/hero-icon';
 import duration from 'dayjs/plugin/duration';
+import Calendar from 'ember-phosphor-icons/components/ph-calendar';
+import CalendarHeart from 'ember-phosphor-icons/components/ph-calendar-heart';
+import Ruler from 'ember-phosphor-icons/components/ph-ruler';
+import Mountains from 'ember-phosphor-icons/components/ph-mountains';
+import BatteryHigh from 'ember-phosphor-icons/components/ph-battery-high';
+import Speedometer from 'ember-phosphor-icons/components/ph-speedometer';
+import ClockUser from 'ember-phosphor-icons/components/ph-clock-user';
 
 // TODO: Is there a better place?
 dayjs.extend(duration);
@@ -72,15 +77,15 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
           >
             <ul>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='calendar' />
+                <Calendar @size='18' class='inline mr-1' />
                 {{timestampToHuman pin.timestamp}}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='clock' />
+                <CalendarHeart @size='18' class='inline mr-1' />
                 {{highlightedPinRelative pin}}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='magnifying-glass' />
+                <Ruler @size='18' class='inline mr-1' />
                 {{t
                   'map.accuracy'
                   value=(formatNumber
@@ -92,7 +97,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
                 }}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='arrow-trending-up' />
+                <Mountains @size='18' class='inline mr-1' />
                 {{formatNumber
                   pin.altitude
                   style='unit'
@@ -101,7 +106,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
                 }}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='battery-50' />
+                <BatteryHigh @size='18' class='inline mr-1' />
                 {{formatNumber
                   pin.battery
                   style='unit'
@@ -110,7 +115,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
                 }}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='forward' />
+                <Speedometer @size='18' class='inline mr-1' />
                 {{formatNumber
                   pin.velocity
                   style='unit'
@@ -119,7 +124,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
                 }}
               </li>
               <li>
-                <HeroIcon class='h-4 inline mr-1' @icon='arrows-pointing-in' />
+                <ClockUser @size='18' class='inline mr-1' />
                 {{fixAgeRelative pin.fixAge}}
               </li>
             </ul>

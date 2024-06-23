@@ -1,6 +1,11 @@
 import Component from '@glimmer/component';
-//@ts-ignore No TS stuff yet
-import HeroIcon from 'ember-heroicons/components/hero-icon';
+import Calendar from 'ember-phosphor-icons/components/ph-calendar';
+import CalendarHeart from 'ember-phosphor-icons/components/ph-calendar-heart';
+import Ruler from 'ember-phosphor-icons/components/ph-ruler';
+import Mountains from 'ember-phosphor-icons/components/ph-mountains';
+import BatteryHigh from 'ember-phosphor-icons/components/ph-battery-high';
+import Speedometer from 'ember-phosphor-icons/components/ph-speedometer';
+import ClockUser from 'ember-phosphor-icons/components/ph-clock-user';
 import { t } from 'ember-intl';
 
 interface Signature {
@@ -13,13 +18,13 @@ interface Signature {
 
 export default class Help extends Component<Signature> {
   ICONS = [
-    { icon: 'calendar', label: 'help.icons.timestamp' },
-    { icon: 'clock', label: 'help.icons.relative' },
-    { icon: 'magnifying-glass', label: 'help.icons.accuracy' },
-    { icon: 'arrow-trending-up', label: 'help.icons.altitude' },
-    { icon: 'battery-50', label: 'help.icons.battery' },
-    { icon: 'forward', label: 'help.icons.velocity' },
-    { icon: 'arrows-pointing-in', label: 'help.icons.fix-age' },
+    { icon: Calendar, label: 'help.icons.timestamp' },
+    { icon: CalendarHeart, label: 'help.icons.relative' },
+    { icon: Ruler, label: 'help.icons.accuracy' },
+    { icon: Mountains, label: 'help.icons.altitude' },
+    { icon: BatteryHigh, label: 'help.icons.battery' },
+    { icon: Speedometer, label: 'help.icons.velocity' },
+    { icon: ClockUser, label: 'help.icons.fix-age' },
   ];
 
   <template>
@@ -33,10 +38,9 @@ export default class Help extends Component<Signature> {
         <dl class='divide-y divide-gray-100'>
           {{#each this.ICONS as |elm|}}
             <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-              <dt class='text-sm font-medium text-gray-900'><HeroIcon
-                  class='h-4'
-                  @icon={{elm.icon}}
-                /></dt>
+              <dt class='text-sm font-medium text-gray-900'>
+                <elm.icon @size='24' />
+              </dt>
               <dd
                 class='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'
               >
