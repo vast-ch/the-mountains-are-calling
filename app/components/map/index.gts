@@ -9,8 +9,7 @@ import { isEmpty } from 'ember-truth-helpers';
 import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import Interval from '../interval';
-//@ts-ignore HeroIcon nope
-import HeroIcon from 'ember-heroicons/components/hero-icon';
+import Tray from 'ember-phosphor-icons/components/ph-tray';
 import DateSelector from './date-selector';
 import PointSelector from './point-selector';
 //@ts-ignore No TS
@@ -63,8 +62,8 @@ export default class Map extends Component<Signature> {
 
         {{#if (isEmpty filtered.pins)}}
           <div class='w-full py-32 flex justify-center items-center'>
-            <div class='flex flex-col'>
-              <HeroIcon @icon='inbox' class='h-16' />
+            <div class='flex flex-col items-center'>
+              <Tray @size='32' />
               {{t 'error.no-data-to-display'}}
             </div>
           </div>

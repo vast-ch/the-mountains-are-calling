@@ -4,12 +4,14 @@ import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-//@ts-ignore No TS stuff yet
-import HeroIcon from 'ember-heroicons/components/hero-icon';
 import { Input } from '@frontile/forms';
 import set from 'ember-set-helper/helpers/set';
 import { hash } from '@ember/helper';
 import { ToggleButton } from '@frontile/buttons';
+import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
+import SkipForward from 'ember-phosphor-icons/components/ph-skip-forward';
+import GpsFix from 'ember-phosphor-icons/components/ph-gps-fix';
+import GpsSlash from 'ember-phosphor-icons/components/ph-gps-slash';
 
 interface DateSelectorSignature {
   Args: {};
@@ -26,7 +28,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @appearance='outlined'
         @size='lg'
       >
-        <HeroIcon class='h-4' @icon='chevron-left' />
+        <SkipBack />
       </Button>
 
       {{#if this.settings.hasOneDaySelection}}
@@ -65,9 +67,9 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @intent='primary'
       >
         {{#if this.settings.autoFastForward}}
-          <HeroIcon class='h-4' @icon='eye' />
+          <GpsFix />
         {{else}}
-          <HeroIcon class='h-4' @icon='eye-slash' />
+          <GpsSlash />
         {{/if}}
       </ToggleButton>
 
@@ -76,7 +78,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @appearance='outlined'
         @size='lg'
       >
-        <HeroIcon class='h-4' @icon='chevron-right' />
+        <SkipForward />
       </Button>
     </div>
   </template>
