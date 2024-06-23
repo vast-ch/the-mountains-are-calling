@@ -8,7 +8,7 @@ export function firebaseQuery(
   const cacheOptions = {};
   const headers = new Headers();
   const queryParams = new URLSearchParams({
-    orderBy: '"tst"',
+    orderBy: '"created_at"',
     startAt: dateFrom.unix().toString(),
     endAt: dateTo.unix().toString(),
   }).toString();

@@ -40,6 +40,17 @@ menu:
 route:
   map: Map
   settings: Settings
+  help: Help
 back: Back
 provider-ids:
   firebase-realtime-database: Firebase Realtime Database
+help:
+  icons:
+    heading: Icons used
+    timestamp: Identifies the time at which the message is constructed
+    relative: Time at which the message was constructed relative to now
+    accuracy: Accuracy of the reported location in meters
+    altitude: Altitude measured above sea level
+    battery: Device battery level
+    velocity: Velocity
+    fix-age: How old is the GPS fix relative to the time at which the message was constructed

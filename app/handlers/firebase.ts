@@ -24,7 +24,7 @@ const FirebaseHandler: Handler = {
       // Filtered data is returned unordered: When using the REST API, the filtered results are returned in an undefined order since JSON interpreters don't enforce any ordering. If the order of your data is important you should sort the results in your application after they are returned from Firebase.
 
       const sortedContent = Object.values(content).sort(
-        (a, b) => a.tst - b.tst,
+        (a, b) => a.created_at - b.created_at,
       );
 
       // JSON-API requires us to have IDs
@@ -32,7 +32,7 @@ const FirebaseHandler: Handler = {
       const contedWithIds = sortedContent.map((elm) => {
         return {
           type: 'pin',
-          id: elm.tst.toString(),
+          id: elm.created_at.toString(),
           attributes: elm,
         };
       });

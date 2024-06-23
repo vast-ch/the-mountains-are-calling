@@ -7,11 +7,16 @@ import { inject as service } from '@ember/service';
 import type RouterService from '@ember/routing/router-service';
 import { tracked } from '@glimmer/tracking';
 
+// TODO: Can this be inferred from the model?
 export interface Pin {
   latitude: number;
   longitude: number;
   timestamp: number;
   accuracy: number;
+  altitude: number;
+  battery: number;
+  velocity: number;
+  fixAge: number;
 }
 
 interface Dict<T> {
