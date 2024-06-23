@@ -13,6 +13,7 @@ interface Signature {
 const MENU_ITEMS = [
   { label: 'route.map', route: 'index' },
   { label: 'route.settings', route: 'settings' },
+  { label: 'route.help', route: 'help' },
 ];
 
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
