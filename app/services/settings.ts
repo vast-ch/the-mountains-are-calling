@@ -12,6 +12,9 @@ export interface Pin {
   longitude: number;
   timestamp: number;
   accuracy: number;
+  altitude: number;
+  battery: number;
+  velocity: number;
 }
 
 interface Dict<T> {

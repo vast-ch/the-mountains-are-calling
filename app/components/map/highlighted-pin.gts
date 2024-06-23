@@ -7,6 +7,8 @@ import { service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import dayjs from 'dayjs';
 import { Point } from 'leaflet';
+//@ts-ignore HeroIcon nope
+import HeroIcon from 'ember-heroicons/components/hero-icon';
 
 const pinHighlighted = icon([], {
   iconUrl: '/images/pin-highlighted.svg',
@@ -61,9 +63,17 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
             @autoPanPadding={{this.autoPanPadding}}
           >
             <ul>
-              <li>{{timestampToHuman pin.timestamp}}</li>
-              <li>{{highlightedPinRelative pin}}</li>
-              <li>{{t
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='calendar' />
+                {{timestampToHuman pin.timestamp}}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='clock' />
+                {{highlightedPinRelative pin}}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='magnifying-glass' />
+                {{t
                   'map.accuracy'
                   value=(formatNumber
                     pin.accuracy
@@ -71,6 +81,33 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
                     unit='meter'
                     maximumFractionDigits=0
                   )
+                }}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='arrow-trending-up' />
+                {{formatNumber
+                  pin.altitude
+                  style='unit'
+                  unit='meter'
+                  maximumFractionDigits=0
+                }}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='battery-50' />
+                {{formatNumber
+                  pin.battery
+                  style='unit'
+                  unit='percent'
+                  maximumFractionDigits=0
+                }}
+              </li>
+              <li>
+                <HeroIcon class='h-4 inline mr-1' @icon='forward' />
+                {{formatNumber
+                  pin.vel
+                  style='unit'
+                  unit='kilometer-per-hour'
+                  maximumFractionDigits=0
                 }}
               </li>
             </ul>
