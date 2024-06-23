@@ -6,11 +6,11 @@ export default class PinModel extends Model {
   @attr SSID;
   @attr _type;
   @attr acc; // Accuracy of the reported location in meters without unit (iOS,Android/integer/meters/optional)
-  @attr alt;
+  @attr alt; // Altitude measured above sea level (iOS,Android/integer/meters/optional)
   @attr batt;
   @attr bs;
   @attr conn;
-  @attr created_at;
+  @attr created_at; // identifies the time at which the message is constructed (vs. tst which is the timestamp of the GPS fix) (iOS,Android)
   @attr lat; // latitude (iOS,Android/float/degree/required)
   @attr lon; // longitude (iOS,Android/float/degree/required)
   @attr m;
@@ -24,6 +24,10 @@ export default class PinModel extends Model {
     return this.acc;
   }
 
+  get altitude() {
+    return this.alt;
+  }
+
   get latitude() {
     return this.lat;
   }
@@ -33,6 +37,6 @@ export default class PinModel extends Model {
   }
 
   get timestamp() {
-    return this.tst;
+    return this.created_at;
   }
 }
