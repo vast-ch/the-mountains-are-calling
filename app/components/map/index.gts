@@ -4,11 +4,10 @@ import { service } from '@ember/service';
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
 import Filter from './filter';
 import Color from 'colorjs.io';
-import L, { LatLngBounds, Point } from 'leaflet';
+import L, { LatLngBounds } from 'leaflet';
 import { isEmpty } from 'ember-truth-helpers';
-import { formatNumber, t } from 'ember-intl';
+import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import timestampToHuman from 'the-mountains-are-calling/helpers/timestamp-to-human';
 import Interval from '../interval';
 //@ts-ignore HeroIcon nope
 import HeroIcon from 'ember-heroicons/components/hero-icon';
@@ -19,7 +18,7 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
-import type { Pin } from 'the-mountains-are-calling/services/settings';
+import HighlightedPin from './highlighted-pin';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -42,15 +41,6 @@ function getBounds(locations: [[]]): LatLngBounds {
   return ret;
 }
 
-const pinHighlighted = icon([], {
-  iconUrl: '/images/pin-highlighted.svg',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41],
-});
-
 const pinStandard = icon([], {
   iconUrl: '/images/pin-standard.svg',
   iconSize: [25, 41],
@@ -62,19 +52,6 @@ const pinStandard = icon([], {
 
 export default class Map extends Component<Signature> {
   @service declare settings: SettingsService;
-
-  autoPanPadding = new Point(50, 50);
-
-  pickHighlightedPin(
-    points: Pin[],
-    highlightedPinTimestamp: number | undefined,
-  ): Pin | undefined {
-    return points.find((p) => p.timestamp === highlightedPinTimestamp);
-  }
-
-  highlightedPinRelative(pin: Pin): string {
-    return dayjs(pin.timestamp * 1000).fromNow();
-  }
 
   <template>
     <Loader as |l|>
@@ -109,49 +86,7 @@ export default class Map extends Component<Signature> {
               />
             {{/each}}
 
-            {{#let
-              (this.pickHighlightedPin
-                filtered.pins this.settings.highlightedPin
-              )
-              as |pin|
-            }}
-              {{#if pin}}
-                <layers.marker
-                  @lat={{pin.latitude}}
-                  @lng={{pin.longitude}}
-                  @icon={{pinHighlighted}}
-                  as |marker|
-                >
-                  <marker.popup
-                    @popupOpen='true'
-                    @autoPanPadding={{this.autoPanPadding}}
-                  >
-                    <ul>
-                      <li>{{timestampToHuman pin.timestamp}}</li>
-                      <li>{{this.highlightedPinRelative pin}}</li>
-                      <li>{{t
-                          'map.accuracy'
-                          value=(formatNumber
-                            pin.accuracy
-                            style='unit'
-                            unit='meter'
-                            maximumFractionDigits=0
-                          )
-                        }}
-                      </li>
-                    </ul>
-                  </marker.popup>
-                </layers.marker>
-
-                {{#if this.settings.isAccuracyVisible}}
-                  <layers.circle
-                    @lat={{pin.latitude}}
-                    @lng={{pin.longitude}}
-                    @radius={{pin.accuracy}}
-                  />
-                {{/if}}
-              {{/if}}
-            {{/let}}
+            <HighlightedPin @pins={{filtered.pins}} @layers={{layers}} />
 
             {{#each filtered.pins as |pin index|}}
               <layers.marker
