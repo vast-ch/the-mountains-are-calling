@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import Loader from '../loader';
 import HighlightedPin from './highlighted-pin';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -34,11 +35,6 @@ let newOldColor = oldColor.range('#84cc16');
 
 function colorGradient(index: number, max: number): string {
   return newOldColor(index / max).toString({ format: 'hex' });
-}
-
-function getBounds(locations: [[]]): LatLngBounds {
-  let ret = L.polyline(locations).getBounds();
-  return ret;
 }
 
 const pinStandard = icon([], {
@@ -62,7 +58,6 @@ export default class Map extends Component<Signature> {
   }
 
   <template>
-    {{log this.settings.zoom}}
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>

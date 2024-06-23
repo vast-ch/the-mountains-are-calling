@@ -44,7 +44,6 @@ export default class SettingsService extends Service {
 
   // ===== .zoom =====
   get zoom(): number {
-    console.log(this.qp['zoom']);
     return Number.parseInt((this.qp['zoom'] as string) || this.defaultZoom);
   }
   set zoom(newZoom: number) {
