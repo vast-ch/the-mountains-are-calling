@@ -57,6 +57,18 @@ export default class Map extends Component<Signature> {
     this.settings.zoom = event.target.getZoom();
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
   <template>
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
