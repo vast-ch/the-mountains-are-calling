@@ -51,6 +51,13 @@ function getSunColor(timestamp: number, latitude: number, longitude: number) {
 export default class PointSelector extends Component<PointSelectorSignature> {
   @service declare settings: SettingsService;
 
+  // 50vw - 50% of the viewport
+  // -3rem - 1/2 of the button
+  // -1.5rem - page padding
+  // -2px - button border
+  // -16px - button left margin
+  snapAreaPadding = '[width:calc(50vw-3rem-1.5rem-2px-16px)]';
+
   @action updateHighlightedPin(timestamp: number | undefined) {
     this.settings.rememberedPin = timestamp;
   }
@@ -70,9 +77,12 @@ export default class PointSelector extends Component<PointSelectorSignature> {
       </div>
 
       <div
-        class='overflow-x-scroll snap-x pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll snap-x snap-mandatory pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
       >
-        <div><div class='[width:50vw] text-right'></div></div>
+        {{!
+
+        }}
+        <div><div class={{this.snapAreaPadding}}></div></div>
 
         <ButtonGroup as |g|>
           {{#each @data as |point index|}}
@@ -104,7 +114,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
             </g.ToggleButton>
           {{/each}}
         </ButtonGroup>
-        <div><div class='[width:50vw]'></div></div>
+        <div><div class={{this.snapAreaPadding}}></div></div>
 
       </div>
 
