@@ -20,6 +20,7 @@ import Loader from '../loader';
 import HighlightedPin from './highlighted-pin';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -55,6 +56,11 @@ export default class Map extends Component<Signature> {
   @action
   zoomend(event: any) {
     this.settings.zoom = event.target.getZoom();
+  }
+
+  @action
+  updateHighlightedPin(timestamp: number) {
+    this.settings.rememberedPin = timestamp;
   }
 
   <template>
@@ -95,6 +101,7 @@ export default class Map extends Component<Signature> {
 
             {{#each filtered.pins as |pin index|}}
               <layers.marker
+                @onClick={{fn this.updateHighlightedPin pin.timestamp}}
                 @lat={{pin.latitude}}
                 @lng={{pin.longitude}}
                 @icon={{pinStandard}}
