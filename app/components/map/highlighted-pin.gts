@@ -72,7 +72,8 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
           as |marker|
         >
           <marker.popup
-            @popupOpen='true'
+            @popupOpen={{true}}
+            @closeOnClick={{false}}
             @autoPanPadding={{this.autoPanPadding}}
           >
             <ul>
