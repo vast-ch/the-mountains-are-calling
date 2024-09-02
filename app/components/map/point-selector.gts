@@ -53,10 +53,8 @@ export default class PointSelector extends Component<PointSelectorSignature> {
 
   // 50vw - 50% of the viewport
   // -3rem - 1/2 of the button
-  // -1.5rem - page padding
-  // -2px - button border
-  // -16px - button left margin
-  snapAreaPadding = '[width:calc(50vw-3rem-1.5rem-2px-16px)]';
+  // Note: Do not try to put more there or else: Attempted to rerender, but the Ember application has had an unrecoverable error occur during render. You should reload the application after fixing the cause of the error.
+  snapAreaPadding = '[width:calc(50vw-3rem)]';
 
   @action updateHighlightedPin(timestamp: number | undefined) {
     this.settings.rememberedPin = timestamp;
