@@ -13,6 +13,6 @@ export default class IndexController extends Controller {
 
   @tracked dateFrom = '';
   @tracked dateTo = '';
-  @tracked rememberedPin = '';
+  @tracked rememberedPin = 'last';
   @tracked zoom = '';
 }

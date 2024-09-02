@@ -8,8 +8,8 @@ import { Input } from '@frontile/forms';
 import set from 'ember-set-helper/helpers/set';
 import { hash } from '@ember/helper';
 import { ToggleButton } from '@frontile/buttons';
-import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
-import SkipForward from 'ember-phosphor-icons/components/ph-skip-forward';
+// import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
+// import SkipForward from 'ember-phosphor-icons/components/ph-skip-forward';
 import GpsFix from 'ember-phosphor-icons/components/ph-gps-fix';
 import GpsSlash from 'ember-phosphor-icons/components/ph-gps-slash';
 
@@ -23,13 +23,12 @@ export default class DateSelector extends Component<DateSelectorSignature> {
 
   <template>
     <div class='flex flex-row flex-wrap gap-4 items-end'>
-      <Button
+      {{!-- <Button
         {{on 'click' (fn this.settings.addDays -1)}}
         @appearance='outlined'
-        @size='lg'
       >
         <SkipBack />
-      </Button>
+      </Button> --}}
 
       {{#if this.settings.hasOneDaySelection}}
         {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
@@ -39,6 +38,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
           name='date'
           @onChange={{set this.settings 'date'}}
           @classes={{hash base='flex-1'}}
+          @size='lg'
         />
       {{else}}
         {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
@@ -63,8 +63,8 @@ export default class DateSelector extends Component<DateSelectorSignature> {
       <ToggleButton
         @isSelected={{this.settings.autoFastForward}}
         @onChange={{this.settings.toggleAutoFastForward}}
-        @size='lg'
         @intent='primary'
+        @size='lg'
       >
         {{#if this.settings.autoFastForward}}
           <GpsFix />
@@ -73,13 +73,12 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         {{/if}}
       </ToggleButton>
 
-      <Button
+      {{!-- <Button
         {{on 'click' (fn this.settings.addDays 1)}}
         @appearance='outlined'
-        @size='lg'
       >
         <SkipForward />
-      </Button>
+      </Button> --}}
     </div>
   </template>
 }
