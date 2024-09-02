@@ -49,7 +49,7 @@ function timestampToHuman(timestamp: number) {
 
 interface HighlightedPinSignature {
   Args: {
-    pins: Pin[];
+    pin: Pin | undefined;
     layers: any;
   };
   Element: HTMLDivElement;
@@ -60,10 +60,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
 
   autoPanPadding = new Point(50, 50);
   <template>
-    {{#let
-      (pickHighlightedPin this.args.pins this.settings.highlightedPin)
-      as |pin|
-    }}
+    {{#let this.args.pin as |pin|}}
       {{#if pin}}
         <@layers.marker
           @lat={{pin.latitude}}

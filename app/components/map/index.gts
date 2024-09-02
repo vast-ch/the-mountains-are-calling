@@ -79,38 +79,44 @@ export default class Map extends Component<Signature> {
             </div>
           </div>
         {{else}}
-          <LeafletMap
-            @onZoomend={{this.zoomend}}
-            class='w-full min-h-64 flex-1 border-2'
-            @lat={{this.lat}}
-            @lng={{this.lng}}
-            @zoom={{this.settings.zoom}}
-            as |layers|
-          >
-            <layers.tile
-              @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
-            />
-
-            {{#each filtered.locations as |line index|}}
-              <layers.polyline
-                @locations={{line}}
-                @color={{colorGradient index filtered.locations.length}}
-                @weight='10'
+          {{#if filtered.highlightedPin}}
+            {{log filtered.highlightedPin}}
+            <LeafletMap
+              @onZoomend={{this.zoomend}}
+              class='w-full min-h-64 flex-1 border-2'
+              @lat={{filtered.highlightedPin.latitude}}
+              @lng={{filtered.highlightedPin.longitude}}
+              @zoom={{this.settings.zoom}}
+              as |layers|
+            >
+              <layers.tile
+                @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
-            {{/each}}
 
-            {{#each filtered.pins as |pin index|}}
-              <layers.marker
-                @onClick={{fn this.updateHighlightedPin pin.timestamp}}
-                @lat={{pin.latitude}}
-                @lng={{pin.longitude}}
-                @icon={{pinStandard}}
+              {{#each filtered.locations as |line index|}}
+                <layers.polyline
+                  @locations={{line}}
+                  @color={{colorGradient index filtered.locations.length}}
+                  @weight='10'
+                />
+              {{/each}}
+
+              {{#each filtered.pins as |pin index|}}
+                <layers.marker
+                  @onClick={{fn this.updateHighlightedPin pin.timestamp}}
+                  @lat={{pin.latitude}}
+                  @lng={{pin.longitude}}
+                  @icon={{pinStandard}}
+                />
+              {{/each}}
+
+              <HighlightedPin
+                @pin={{filtered.highlightedPin}}
+                @layers={{layers}}
               />
-            {{/each}}
 
-            <HighlightedPin @pins={{filtered.pins}} @layers={{layers}} />
-
-          </LeafletMap>
+            </LeafletMap>
+          {{/if}}
         {{/if}}
 
         <Interval

@@ -9,7 +9,14 @@ interface MapFilterSignature {
     data: Pin[];
   };
   Blocks: {
-    default: [yields: { pins: any; locations: any; lastKnown: any }];
+    default: [
+      yields: {
+        pins: Pin[];
+        locations: any;
+        lastKnown: Pin | undefined;
+        highlightedPin: Pin | undefined;
+      },
+    ];
   };
   Element: HTMLDivElement;
 }
@@ -18,7 +25,7 @@ interface MapFilterSignature {
 export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
-  get pins() {
+  get pins(): Pin[] {
     // const dayStart = this.settings.dateFrom.valueOf() / 1000;
     // const dayEnd = this.settings.dateTo.valueOf() / 1000;
 
@@ -46,9 +53,20 @@ export default class Filter extends Component<MapFilterSignature> {
     return this.pins[this.pins.length - 1];
   }
 
+  get highlightedPin() {
+    const highlightedPinTimestamp = this.settings.highlightedPin;
+
+    return this.pins.find((p) => p.timestamp === highlightedPinTimestamp);
+  }
+
   <template>
     {{yield
-      (hash pins=this.pins locations=this.locations lastKnown=this.lastKnown)
+      (hash
+        pins=this.pins
+        locations=this.locations
+        lastKnown=this.lastKnown
+        highlightedPin=this.highlightedPin
+      )
     }}
   </template>
 }
