@@ -80,7 +80,6 @@ export default class Map extends Component<Signature> {
           </div>
         {{else}}
           {{#if filtered.highlightedPin}}
-            {{log filtered.highlightedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
               class='w-full min-h-64 flex-1 border-2'

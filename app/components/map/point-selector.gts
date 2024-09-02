@@ -68,14 +68,14 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     <div
       class='grid [grid-template-areas:"stack"] justify-items-center items-start'
     >
-      <div class='w-24 pb-4 [grid-area:stack] h-full'>
-        <div class='border-2 border-gray-400 rounded h-full w-full'>
+      <div class='w-4 pb-4 [grid-area:stack]'>
+        <div class='border-t-4 border-gray-400 h-full w-full'>
           {{! The peeking window has to live here in the DOM, otherwise it would overlay the scroll area and hinder scrolling}}
         </div>
       </div>
 
       <div
-        class='overflow-x-scroll snap-x snap-mandatory pt-2 pb-6 w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll snap-x snap-mandatory py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
       >
         {{!
 
