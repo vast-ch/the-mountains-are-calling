@@ -69,7 +69,8 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
           as |marker|
         >
           <marker.popup
-            @popupOpen={{true}}
+            {{! Settings this to true makes Safari cry }}
+            @popupOpen={{false}}
             @closeOnClick={{false}}
             @autoPanPadding={{this.autoPanPadding}}
           >
