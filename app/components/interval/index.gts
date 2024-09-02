@@ -24,18 +24,20 @@ const Clock = function (period: number, callback: () => {}) {
     let lastTickTime = cell(dayjs());
     let diff = cell(0);
 
-    const timer = setInterval(() => {
-      diff.current = dayjs().diff(lastTickTime.current, 'seconds');
+    if (period > 0) {
+      const timer = setInterval(() => {
+        diff.current = dayjs().diff(lastTickTime.current, 'seconds');
 
-      if (diff.current > period) {
-        lastTickTime.current = dayjs();
-        callback();
-      }
-    }, 1000);
+        if (diff.current > period) {
+          lastTickTime.current = dayjs();
+          callback();
+        }
+      }, 1000);
 
-    on.cleanup(() => {
-      clearInterval(timer);
-    });
+      on.cleanup(() => {
+        clearInterval(timer);
+      });
+    }
 
     return () => diff.current;
   });

@@ -183,7 +183,7 @@ export default class SettingsService extends Service {
   // ===== .refreshInterval =====
   @trackedInLocalStorage({
     keyName: 'refreshInterval',
-    defaultValue: '0',
+    defaultValue: '600',
   })
   declare _refreshInterval: string;
   get refreshInterval() {
