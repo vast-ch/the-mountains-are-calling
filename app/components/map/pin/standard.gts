@@ -45,15 +45,15 @@ export default class standardPin extends Component<standardPinSignature> {
   @service declare settings: SettingsService;
 
   @action
-  updaterememberedPin(timestamp: number) {
-    this.settings.rememberedPin = timestamp;
+  updaterememberedTimestamp(timestamp: number) {
+    this.settings.rememberedTimestamp = timestamp;
   }
 
   <template>
     {{#let this.args.pin as |pin|}}
       {{#if pin}}
         <@layers.marker
-          @onClick={{fn this.updaterememberedPin pin.timestamp}}
+          @onClick={{fn this.updaterememberedTimestamp pin.timestamp}}
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
           @icon={{accuracyIcon pin}}

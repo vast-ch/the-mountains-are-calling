@@ -48,7 +48,7 @@ export default class Filter extends Component<MapFilterSignature> {
   }
 
   get rememberedPin() {
-    const rememberedPinTimestamp = this.settings.rememberedPin;
+    const rememberedPinTimestamp = this.settings.rememberedTimestamp;
 
     if (rememberedPinTimestamp === 'last') {
       return this.allPins.at(-1);

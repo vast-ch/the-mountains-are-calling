@@ -57,7 +57,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   snapAreaPadding = '[width:calc(50vw-3rem)]';
 
   @action updateRemembereddPin(timestamp: number) {
-    this.settings.rememberedPin = timestamp;
+    this.settings.rememberedTimestamp = timestamp;
   }
 
   // @action onIntersect(pin: Pin) {
@@ -78,13 +78,16 @@ export default class PointSelector extends Component<PointSelectorSignature> {
         <ButtonGroup class='gap-x-4' as |g|>
           {{#each @data as |point index|}}
             <g.ToggleButton
-              @isSelected={{eq point.timestamp this.settings.rememberedPin}}
+              @isSelected={{eq
+                point.timestamp
+                this.settings.rememberedTimestamp
+              }}
               @onChange={{fn this.updateRemembereddPin point.timestamp}}
               {{scrollIntoView
                 shouldScroll=(or
-                  (eq point.timestamp this.settings.rememberedPin)
+                  (eq point.timestamp this.settings.rememberedTimestamp)
                   (and
-                    (eq this.settings.rememberedPin 'last')
+                    (eq this.settings.rememberedTimestamp 'last')
                     (eq index (sub (array @data.length 1)))
                   )
                 )

@@ -28,7 +28,7 @@ export default class SettingsService extends Service {
     return {
       dateFrom: this.dateToday,
       dateTo: this.dateTomorrow,
-      rememberedPin: 'last',
+      rememberedTimestamp: 'last',
       zoom: '15',
     };
   }
@@ -41,7 +41,7 @@ export default class SettingsService extends Service {
     const ret = {
       dateFrom: r['dateFrom'] ?? d.dateFrom,
       dateTo: r['dateTo'] ?? d.dateTo,
-      rememberedPin: r['rememberedPin'] ?? d.rememberedPin,
+      rememberedTimestamp: r['rememberedTimestamp'] ?? d.rememberedTimestamp,
       zoom: r['zoom'] ?? d.zoom,
     };
     return ret;
@@ -67,30 +67,30 @@ export default class SettingsService extends Service {
     });
   }
 
-  // ===== .rememberedPin =====
-  get rememberedPin(): number | 'last' {
-    if (this.qp['rememberedPin'] === 'last') {
+  // ===== .rememberedTimestamp =====
+  get rememberedTimestamp(): number | 'last' {
+    if (this.qp['rememberedTimestamp'] === 'last') {
       return 'last';
     }
 
-    return Number.parseInt(this.qp['rememberedPin']);
+    return Number.parseInt(this.qp['rememberedTimestamp']);
   }
-  set rememberedPin(newPin: number | undefined) {
+  set rememberedTimestamp(newPin: number | undefined) {
     this.router.replaceWith({
-      queryParams: { rememberedPin: newPin ? newPin.toString() : newPin },
+      queryParams: { rememberedTimestamp: newPin ? newPin.toString() : newPin },
     });
   }
 
   // ===== .toggleAutoFastForward =====
   @action toggleAutoFastForward() {
-    this.rememberedPin = undefined;
+    this.rememberedTimestamp = undefined;
     this.dateFrom = undefined;
     this.dateTo = undefined;
   }
 
   // ===== .isAutoFastForward =====
   get isAutoFastForward(): boolean {
-    return this.rememberedPin == 'last';
+    return this.rememberedTimestamp == 'last';
   }
 
   // ===== .dateFrom =====
