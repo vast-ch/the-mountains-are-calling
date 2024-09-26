@@ -6,7 +6,7 @@ import { icon } from 'ember-leaflet/helpers/icon';
 const pinLastKnown = icon([], {
   iconUrl: '/images/pin-last-known.svg',
   iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconAnchor: [12, 24],
 });
 
 interface lastKnownPinSignature {
@@ -22,6 +22,7 @@ export default class lastKnownPin extends Component<lastKnownPinSignature> {
     {{#let this.args.pin as |pin|}}
       {{#if pin}}
         <@layers.marker
+          class='z-100'
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
           @icon={{pinLastKnown}}

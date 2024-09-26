@@ -19,13 +19,12 @@ import ClockUser from 'ember-phosphor-icons/components/ph-clock-user';
 // TODO: Is there a better place?
 dayjs.extend(duration);
 
-const pinHighlighted = icon([], {
-  iconUrl: '/images/pin-highlighted.svg',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41],
+const pinRemembered = icon([], {
+  iconUrl: '/images/pin-remembered.svg',
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+  popupAnchor: [0, -20],
+  class: 'z-[900]',
 });
 
 function pickrememberedPin(
@@ -65,7 +64,7 @@ export default class rememberedPin extends Component<rememberedPinSignature> {
         <@layers.marker
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
-          @icon={{pinHighlighted}}
+          @icon={{pinRemembered}}
           as |marker|
         >
           <marker.popup
