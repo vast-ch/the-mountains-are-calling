@@ -17,8 +17,9 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
-import rememberedPin from './pin/highlighted';
+import rememberedPin from './pin/remembered';
 import standardPin from './pin/standard';
+import lastKnownPin from './pin/last-known';
 import { action } from '@ember/object';
 
 // TODO: Is there a better place?
@@ -109,6 +110,8 @@ export default class Map extends Component<Signature> {
                 @pin={{filtered.rememberedPin}}
                 @layers={{layers}}
               />
+
+              <lastKnownPin @pin={{filtered.lastKnown}} @layers={{layers}} />
 
             </LeafletMap>
           {{/if}}
