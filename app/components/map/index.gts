@@ -84,7 +84,6 @@ export default class Map extends Component<Signature> {
               @lat={{this.settings.latitude}}
               @lng={{this.settings.longitude}}
               @zoom={{this.settings.zoom}}
-              {{!-- @zoom={{15}} --}}
               as |layers|
             >
               <layers.tile
@@ -93,9 +92,9 @@ export default class Map extends Component<Signature> {
 
               <layers.polyline
                 @locations={{filtered.completePolyline}}
-                @color='#0a0'
+                @color='#aaa'
                 @weight={{5}}
-                @opacity={{0.8}}
+                @opacity={{0.75}}
               />
 
               {{#each filtered.visiblePolyline as |line index|}}
