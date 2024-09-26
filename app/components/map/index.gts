@@ -55,7 +55,7 @@ export default class Map extends Component<Signature> {
 
   @action
   zoomend(event: any) {
-    this.settings.zoom = event.target.getZoom();
+    this.settings.zoom = event.target.getZoom() as number;
   }
 
   @action

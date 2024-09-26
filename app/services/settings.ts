@@ -76,17 +76,17 @@ export default class SettingsService extends Service {
 
     return Number.parseInt(this.qp['rememberedPin']);
   }
-  set rememberedPin(newPin: number | 'last') {
+  set rememberedPin(newPin: number | undefined) {
     this.router.replaceWith({
-      queryParams: { rememberedPin: newPin.toString() },
+      queryParams: { rememberedPin: newPin ? newPin.toString() : newPin },
     });
   }
 
   // ===== .toggleAutoFastForward =====
-  @action toggleAutoFastForward(newValue: boolean) {
-    this.rememberedPin = newValue ? 'last' : undefined;
-    this.dateFrom = this.dateToday;
-    this.dateTo = this.dateTomorrow;
+  @action toggleAutoFastForward() {
+    this.rememberedPin = undefined;
+    this.dateFrom = undefined;
+    this.dateTo = undefined;
   }
 
   // ===== .isAutoFastForward =====
@@ -98,18 +98,20 @@ export default class SettingsService extends Service {
   get dateFrom(): dayjs.Dayjs {
     return dayjs(this.qp['dateFrom']);
   }
-  set dateFrom(newDate: string | dayjs.Dayjs) {
+  set dateFrom(newDate: string | dayjs.Dayjs | undefined) {
     let dateFrom;
 
-    if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      dateFrom = dayjs(newDate || undefined);
-    } else {
-      dateFrom = newDate;
+    if (newDate !== undefined) {
+      if (typeof newDate === 'string') {
+        dateFrom = dayjs(newDate);
+      } else {
+        dateFrom = newDate;
+      }
+      dateFrom = dateFrom.startOf('day').format(QP_FORMAT);
     }
 
     this.router.transitionTo({
-      queryParams: { dateFrom: dateFrom.startOf('day').format(QP_FORMAT) },
+      queryParams: { dateFrom },
     });
   }
 
@@ -121,18 +123,20 @@ export default class SettingsService extends Service {
   get dateTo(): dayjs.Dayjs {
     return dayjs(this.qp['dateTo']);
   }
-  set dateTo(newDate: string | dayjs.Dayjs) {
+  set dateTo(newDate: string | dayjs.Dayjs | undefined) {
     let dateTo;
 
-    if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      dateTo = dayjs(newDate || undefined);
-    } else {
-      dateTo = newDate;
+    if (newDate !== undefined) {
+      if (typeof newDate === 'string') {
+        dateTo = dayjs(newDate);
+      } else {
+        dateTo = newDate;
+      }
+      dateTo = dateTo.startOf('day').format(QP_FORMAT);
     }
 
     this.router.transitionTo({
-      queryParams: { dateTo: dateTo.startOf('day').format(QP_FORMAT) },
+      queryParams: { dateTo },
     });
   }
 
