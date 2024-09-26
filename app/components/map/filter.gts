@@ -33,28 +33,57 @@ function colorGradient(value: number, min: number, max: number): string {
   return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
 }
 
+const CUTOFF = 3 * 60 * 60;
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
-  get pins(): Pin[] {
-    // const dayStart = this.settings.dateFrom.valueOf() / 1000;
-    // const dayEnd = this.settings.dateTo.valueOf() / 1000;
-
-    // TODO: make it so it's not .data.data
+  get allPins(): Pin[] {
     return this.args.data.data;
+  }
 
-    // TODO: why filter here when Firebase can filter data?
-    // return this.args.data.data.filter((elm) => {
-    //   return elm.timestamp > dayStart && elm.timestamp < dayEnd;
-    // });
+  get lastKnownPin() {
+    return this.allPins.at(-1);
+  }
+
+  get rememberedPin() {
+    const rememberedPinTimestamp = this.settings.rememberedPin;
+
+    if (rememberedPinTimestamp === 'last') {
+      return this.pinsTillRemembered.at(-1);
+    }
+
+    return this.pinsTillRemembered.find(
+      (p) => p.timestamp === rememberedPinTimestamp,
+    );
+  }
+
+  get pinsTillRemembered(): Pin[] {
+    const rememberedPinTimestamp = this.settings.rememberedPin;
+
+    if (rememberedPinTimestamp === 'last') {
+      return this.allPins;
+    }
+
+    return this.allPins.filter(
+      (pin) => pin.timestamp <= rememberedPinTimestamp,
+    );
+  }
+
+  get pinsFromCutoff(): Pin[] {
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+
+    return this.pinsTillRemembered.filter(
+      (pin) => pin.timestamp + CUTOFF >= rememberedPinTimestamp,
+    );
   }
 
   get polyline() {
     const BEFORE = 3 * 60 * 60;
     const rememberedPinTimestamp = this.settings.rememberedPin;
 
-    return this.pins
+    return this.pinsTillRemembered
       .filter(
         (pin) =>
           pin.timestamp <= rememberedPinTimestamp &&
@@ -79,25 +108,12 @@ export default class Filter extends Component<MapFilterSignature> {
       }));
   }
 
-  get lastKnown() {
-    return this.pins[this.pins.length - 1];
-  }
-
-  get rememberedPin() {
-    const rememberedPinTimestamp = this.settings.rememberedPin;
-
-    return (
-      this.pins.find((p) => p.timestamp === rememberedPinTimestamp) ||
-      this.pins.at(-1)
-    );
-  }
-
   <template>
     {{yield
       (hash
-        pins=this.pins
+        pins=this.pinsTillRemembered
         polyline=this.polyline
-        lastKnown=this.lastKnown
+        lastKnown=this.lastKnownPin
         rememberedPin=this.rememberedPin
       )
     }}

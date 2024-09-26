@@ -64,7 +64,7 @@ export default class Map extends Component<Signature> {
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
           <DateSelector />
-          <PointSelector @data={{filtered.pins}} />
+          <PointSelector @data={{l.result.data}} />
         </div>
 
         {{#if (isEmpty filtered.pins)}}
