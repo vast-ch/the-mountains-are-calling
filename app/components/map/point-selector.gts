@@ -68,19 +68,14 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     <div class=''>
       <div class='flex w-full justify-center'>
         <div class='border-t-4 border-gray-400 w-8'>
-          {{! The peeking window has to live here in the DOM, otherwise it would overlay the scroll area and hinder scrolling}}
+          {{! Center marker }}
         </div>
       </div>
 
-      <div
-        class='overflow-x-scroll snap-x snap-mandatory py-2 w-full flex flex-row gap-x-4'
-      >
-        {{!
-
-        }}
+      <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
-        <ButtonGroup as |g|>
+        <ButtonGroup class='gap-x-4' as |g|>
           {{#each @data as |point index|}}
             <g.ToggleButton
               @isSelected={{eq point.timestamp this.settings.rememberedPin}}
@@ -95,12 +90,11 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                 )
                 options=(hash behavior='smooth' inline='center')
               }}
-              @class='{{getSunColor
+              @class={{getSunColor
                 point.timestamp
                 point.latitude
                 point.longitude
               }}
-               snap-center mx-4'
             >
               {{timestampToTime point.timestamp}}
             </g.ToggleButton>
