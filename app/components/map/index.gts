@@ -64,10 +64,6 @@ export default class Map extends Component<Signature> {
   <template>
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
-        <div class='flex flex-col gap-2 pb-2'>
-          <DateSelector />
-          <PointSelector @data={{l.result.data}} />
-        </div>
 
         {{#if (isEmpty filtered.visiblePins)}}
           <div class='w-full py-32 flex justify-center items-center'>
@@ -119,6 +115,11 @@ export default class Map extends Component<Signature> {
             </LeafletMap>
           {{/if}}
         {{/if}}
+
+        <div class='flex flex-col gap-2 pt-2'>
+          <DateSelector />
+          <PointSelector @data={{l.result.data}} />
+        </div>
 
         <Interval
           @period={{this.settings.refreshInterval}}

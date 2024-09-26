@@ -69,15 +69,15 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   <template>
     <div class=''>
       <div class='flex w-full justify-center'>
-        <div class='border-t-4 border-gray-400 w-8'>
-          {{! Center marker }}
+        <div class='w-8 text-center -mb-5 z-10'>
+          📍
         </div>
       </div>
 
       <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
-        <ButtonGroup class='gap-x-4' as |g|>
+        <ButtonGroup class='gap-x-2' as |g|>
           {{#each @data as |point index|}}
             <g.ToggleButton
               @isSelected={{eq
