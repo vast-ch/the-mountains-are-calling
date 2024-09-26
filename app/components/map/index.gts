@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 // @ts-expect-error No TS stuff yet
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
-import Filter from './filter';
+import Filter, { oldColour } from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds } from 'leaflet';
 import { isEmpty } from 'ember-truth-helpers';
@@ -20,8 +20,6 @@ import Loader from '../loader';
 import rememberedPin from './pin/highlighted';
 import standardPin from './pin/standard';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -67,7 +65,7 @@ export default class Map extends Component<Signature> {
           <PointSelector @data={{l.result.data}} />
         </div>
 
-        {{#if (isEmpty filtered.pins)}}
+        {{#if (isEmpty filtered.visiblePins)}}
           <div class='w-full py-32 flex justify-center items-center'>
             <div class='flex flex-col items-center'>
               <Tray @size='32' />
@@ -88,20 +86,22 @@ export default class Map extends Component<Signature> {
                 @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
 
-              {{#each filtered.polyline as |line index|}}
-                {{!-- {{log '---' filtered.recentPast}} --}}
-                {{!-- {{log filtered.polyline}} --}}
-                {{log line}}
+              <layers.polyline
+                @locations={{filtered.completePolyline}}
+                @color={{oldColour}}
+                @weight={{5}}
+                @opacity={{0.8}}
+              />
+
+              {{#each filtered.visiblePolyline as |line index|}}
                 <layers.polyline
                   @locations={{line.locations}}
                   @color={{line.color}}
-                  {{!-- @color={{colorGradient index filtered.locations.length}} --}}
-                  {{! @color='#d946ef' }}
                   @weight='5'
                 />
               {{/each}}
 
-              {{#each filtered.pins as |pin index|}}
+              {{#each filtered.visiblePins as |pin index|}}
                 <standardPin @pin={{pin}} @layers={{layers}} />
               {{/each}}
 

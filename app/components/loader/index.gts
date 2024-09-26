@@ -6,10 +6,7 @@ import { t } from 'ember-intl';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { firebaseQuery } from 'the-mountains-are-calling/builders/firebase';
 import { hash } from '@ember/helper';
-import { gt } from 'ember-truth-helpers';
-
-import dayjs from 'dayjs';
-import type StoreService from 'the-mountains-are-calling/services/store';
+// import type StoreService from 'the-mountains-are-calling/services/store';
 
 interface Signature {
   Args: {};
@@ -25,7 +22,7 @@ interface Signature {
 }
 
 export default class Loader extends Component<Signature> {
-  @service declare store: StoreService;
+  @service declare store: any;
   @service declare settings: SettingsService;
 
   get request() {

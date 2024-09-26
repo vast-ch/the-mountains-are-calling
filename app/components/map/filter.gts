@@ -12,8 +12,9 @@ interface MapFilterSignature {
   Blocks: {
     default: [
       yields: {
-        pins: Pin[];
-        polyline: Location[];
+        visiblePins: Pin[];
+        visiblePolyline: Line[];
+        completePolyline: PinLocation[];
         lastKnown: Pin | undefined;
         rememberedPin: Pin | undefined;
       },
@@ -22,13 +23,18 @@ interface MapFilterSignature {
   Element: HTMLDivElement;
 }
 
-type Location = (number[] | undefined)[] | undefined;
+type PinLocation = (number | undefined)[];
+
+type Line = {
+  locations: PinLocation[];
+  color: string;
+};
 
 const currentColour = new Color('#d946ef');
-const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
+export const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
 const colourRange = currentColour.range(oldColour);
 
-function colorGradient(value: number, min: number, max: number): string {
+function colorGradient(value: number = 0, min: number, max: number) {
   console.log(value, max);
   return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
 }
@@ -48,17 +54,13 @@ export default class Filter extends Component<MapFilterSignature> {
   }
 
   get rememberedPin() {
-    const rememberedPinTimestamp = this.settings.rememberedTimestamp;
+    const rememberedTimestamp = this.settings.rememberedTimestamp;
 
-    if (rememberedPinTimestamp === 'last') {
+    if (rememberedTimestamp === 'last') {
       return this.allPins.at(-1);
     }
 
-    return (
-      this.allPins.find((p) => p.timestamp === rememberedPinTimestamp) || {
-        timestamp: undefined,
-      }
-    );
+    return this.allPins.find((p) => p.timestamp === rememberedTimestamp);
   }
 
   get pinsTillRemembered() {
@@ -85,8 +87,18 @@ export default class Filter extends Component<MapFilterSignature> {
     );
   }
 
-  get polyline() {
-    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+  get completePolyline() {
+    return this.allPins
+      .map((element, index, array) => {
+        if (index < array.length - 1) {
+          return [element, array[index + 1]];
+        }
+      })
+      .filter((pair) => pair !== undefined);
+  }
+
+  get visiblePolyline() {
+    const rememberedPinTimestamp = this.rememberedPin?.timestamp ?? 0;
 
     return this.pinsFromCutoffTillRemembered
       .map((element, index, array) => {
@@ -97,11 +109,11 @@ export default class Filter extends Component<MapFilterSignature> {
       .filter((pair) => pair !== undefined)
       .map((elm) => ({
         locations: [
-          [elm[0].latitude, elm[0].longitude],
-          [elm[1].latitude, elm[1].longitude],
+          [elm?.[0]?.latitude, elm?.[0]?.longitude],
+          [elm?.[1]?.latitude, elm?.[1]?.longitude],
         ],
         color: colorGradient(
-          elm[1].timestamp,
+          elm?.[1]?.timestamp,
           rememberedPinTimestamp,
           rememberedPinTimestamp - CUTOFF,
         ),
@@ -111,8 +123,9 @@ export default class Filter extends Component<MapFilterSignature> {
   <template>
     {{yield
       (hash
-        pins=this.pinsTillRemembered
-        polyline=this.polyline
+        visiblePins=this.pinsFromCutoffTillRemembered
+        visiblePolyline=this.visiblePolyline
+        completePolyline=this.completePolyline
         lastKnown=this.lastKnownPin
         rememberedPin=this.rememberedPin
       )

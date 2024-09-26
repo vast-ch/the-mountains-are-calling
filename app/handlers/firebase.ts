@@ -7,10 +7,10 @@ import {
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 export interface Response {
-  content: Location;
+  content: MyLocation;
 }
 
-interface Location {
+interface MyLocation {
   results: Pin[];
 }
 
