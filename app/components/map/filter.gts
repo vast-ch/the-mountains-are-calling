@@ -12,8 +12,9 @@ interface MapFilterSignature {
   Blocks: {
     default: [
       yields: {
-        visiblePins: Pin[];
-        visiblePolyline: Line[];
+        pinsBeforeRemembered: Pin[];
+        pinsAfterRemembered: Pin[];
+        polylineBeforeRemembered: Line[];
         completePolyline: PinLocation[];
         lastKnown: Pin | undefined;
         rememberedPin: Pin | undefined;
@@ -62,7 +63,7 @@ export default class Filter extends Component<MapFilterSignature> {
     return this.allPins.find((p) => p.timestamp === rememberedTimestamp);
   }
 
-  get pinsTillRemembered() {
+  get pinsBeforeRemembered() {
     if (!this.rememberedPin) {
       return this.allPins; // This is weird case
     }
@@ -74,15 +75,39 @@ export default class Filter extends Component<MapFilterSignature> {
     );
   }
 
-  get pinsFromCutoffTillRemembered() {
+  get pinsAfterRemembered() {
     if (!this.rememberedPin) {
-      return this.pinsTillRemembered; // This is weird case
+      return this.allPins; // This is weird case
     }
 
     const rememberedPinTimestamp = this.rememberedPin.timestamp;
 
-    return this.pinsTillRemembered.filter(
-      (pin) => pin.timestamp + CUTOFF >= rememberedPinTimestamp,
+    return this.allPins.filter(
+      (pin) => pin.timestamp >= rememberedPinTimestamp,
+    );
+  }
+
+  get pinsBeforeRememberedCutoff() {
+    if (!this.rememberedPin) {
+      return this.pinsBeforeRemembered; // This is weird case
+    }
+
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+
+    return this.pinsBeforeRemembered.filter(
+      (pin) => pin.timestamp + CUTOFF > rememberedPinTimestamp,
+    );
+  }
+
+  get pinsAfterRememberedCutoff() {
+    if (!this.rememberedPin) {
+      return this.pinsBeforeRemembered; // This is weird case
+    }
+
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+
+    return this.pinsAfterRemembered.filter(
+      (pin) => pin.timestamp < rememberedPinTimestamp + CUTOFF,
     );
   }
 
@@ -100,10 +125,10 @@ export default class Filter extends Component<MapFilterSignature> {
       ]);
   }
 
-  get visiblePolyline() {
+  get polylineBeforeRemembered() {
     const rememberedPinTimestamp = this.rememberedPin?.timestamp ?? 0;
 
-    return this.pinsFromCutoffTillRemembered
+    return this.pinsBeforeRememberedCutoff
       .map((element, index, array) => {
         if (index < array.length - 1) {
           return [element, array[index + 1]];
@@ -126,8 +151,9 @@ export default class Filter extends Component<MapFilterSignature> {
   <template>
     {{yield
       (hash
-        visiblePins=this.pinsFromCutoffTillRemembered
-        visiblePolyline=this.visiblePolyline
+        pinsBeforeRemembered=this.pinsBeforeRememberedCutoff
+        pinsAfterRemembered=this.pinsAfterRememberedCutoff
+        polylineBeforeRemembered=this.polylineBeforeRemembered
         completePolyline=this.completePolyline
         lastKnown=this.lastKnownPin
         rememberedPin=this.rememberedPin

@@ -20,6 +20,7 @@ import Loader from '../loader';
 import rememberedPin from './pin/remembered';
 import standardPin from './pin/standard';
 import lastKnownPin from './pin/last-known';
+import grayPin from './pin/gray';
 import { action } from '@ember/object';
 
 // TODO: Is there a better place?
@@ -65,7 +66,7 @@ export default class Map extends Component<Signature> {
     <Loader as |l|>
       <Filter @data={{l.result}} as |filtered|>
 
-        {{#if (isEmpty filtered.visiblePins)}}
+        {{#if (isEmpty filtered.pinsBeforeRemembered)}}
           <div class='w-full py-32 flex justify-center items-center'>
             <div class='flex flex-col items-center'>
               <Tray @size='32' />
@@ -93,7 +94,7 @@ export default class Map extends Component<Signature> {
                 @opacity={{0.75}}
               />
 
-              {{#each filtered.visiblePolyline as |line index|}}
+              {{#each filtered.polylineBeforeRemembered as |line index|}}
                 <layers.polyline
                   @locations={{line.locations}}
                   @color={{line.color}}
@@ -101,7 +102,7 @@ export default class Map extends Component<Signature> {
                 />
               {{/each}}
 
-              {{#each filtered.visiblePins as |pin index|}}
+              {{#each filtered.pinsBeforeRemembered as |pin index|}}
                 <standardPin @pin={{pin}} @layers={{layers}} />
               {{/each}}
 
@@ -109,6 +110,10 @@ export default class Map extends Component<Signature> {
                 @pin={{filtered.rememberedPin}}
                 @layers={{layers}}
               />
+
+              {{#each filtered.pinsAfterRemembered as |pin index|}}
+                <grayPin @pin={{pin}} @layers={{layers}} />
+              {{/each}}
 
               <lastKnownPin @pin={{filtered.lastKnown}} @layers={{layers}} />
 
