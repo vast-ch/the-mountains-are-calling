@@ -60,22 +60,20 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     this.settings.rememberedPin = timestamp;
   }
 
-  @action onIntersect(pin: Pin) {
-    this.settings.highlightedPin = pin.timestamp;
-  }
+  // @action onIntersect(pin: Pin) {
+  //   this.settings.highlightedPin = pin.timestamp;
+  // }
 
   <template>
-    <div
-      class='grid [grid-template-areas:"stack"] justify-items-center items-start'
-    >
-      <div class='w-4 pb-4 [grid-area:stack]'>
-        <div class='border-t-4 border-gray-400 h-full w-full'>
+    <div class=''>
+      <div class='flex w-full justify-center'>
+        <div class='border-t-4 border-gray-400 w-8'>
           {{! The peeking window has to live here in the DOM, otherwise it would overlay the scroll area and hinder scrolling}}
         </div>
       </div>
 
       <div
-        class='overflow-x-scroll snap-x snap-mandatory py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
+        class='overflow-x-scroll snap-x snap-mandatory py-2 w-full flex flex-row gap-x-4'
       >
         {{!
 
@@ -96,10 +94,6 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                   )
                 )
                 options=(hash behavior='smooth' inline='center')
-              }}
-              {{didIntersect
-                onEnter=(fn this.onIntersect point)
-                options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
               }}
               @class='{{getSunColor
                 point.timestamp
