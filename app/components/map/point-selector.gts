@@ -56,12 +56,12 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   // Note: Do not try to put more there or else: Attempted to rerender, but the Ember application has had an unrecoverable error occur during render. You should reload the application after fixing the cause of the error.
   snapAreaPadding = '[width:calc(50vw-3rem)]';
 
-  @action updateHighlightedPin(timestamp: number | undefined) {
+  @action updateRemembereddPin(timestamp: number | undefined) {
     this.settings.rememberedPin = timestamp;
   }
 
   // @action onIntersect(pin: Pin) {
-  //   this.settings.highlightedPin = pin.timestamp;
+  //   this.settings.rememberedPin = pin.timestamp;
   // }
 
   <template>
@@ -79,7 +79,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
           {{#each @data as |point index|}}
             <g.ToggleButton
               @isSelected={{eq point.timestamp this.settings.rememberedPin}}
-              @onChange={{fn this.updateHighlightedPin point.timestamp}}
+              @onChange={{fn this.updateRemembereddPin point.timestamp}}
               {{scrollIntoView
                 shouldScroll=(or
                   (eq point.timestamp this.settings.rememberedPin)

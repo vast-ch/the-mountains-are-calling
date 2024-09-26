@@ -17,7 +17,7 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
-import HighlightedPin from './highlighted-pin';
+import rememberedPin from './highlighted-pin';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
@@ -59,7 +59,7 @@ export default class Map extends Component<Signature> {
   }
 
   @action
-  updateHighlightedPin(timestamp: number) {
+  updaterememberedPin(timestamp: number) {
     this.settings.rememberedPin = timestamp;
   }
 
@@ -79,12 +79,12 @@ export default class Map extends Component<Signature> {
             </div>
           </div>
         {{else}}
-          {{#if filtered.highlightedPin}}
+          {{#if filtered.rememberedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
               class='w-full min-h-64 flex-1 border-2'
-              @lat={{filtered.highlightedPin.latitude}}
-              @lng={{filtered.highlightedPin.longitude}}
+              @lat={{filtered.rememberedPin.latitude}}
+              @lng={{filtered.rememberedPin.longitude}}
               @zoom={{this.settings.zoom}}
               as |layers|
             >
@@ -102,15 +102,15 @@ export default class Map extends Component<Signature> {
 
               {{#each filtered.pins as |pin index|}}
                 <layers.marker
-                  @onClick={{fn this.updateHighlightedPin pin.timestamp}}
+                  @onClick={{fn this.updaterememberedPin pin.timestamp}}
                   @lat={{pin.latitude}}
                   @lng={{pin.longitude}}
                   @icon={{pinStandard}}
                 />
               {{/each}}
 
-              <HighlightedPin
-                @pin={{filtered.highlightedPin}}
+              <rememberedPin
+                @pin={{filtered.rememberedPin}}
                 @layers={{layers}}
               />
 

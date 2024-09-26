@@ -14,7 +14,7 @@ interface MapFilterSignature {
         pins: Pin[];
         locations: any;
         lastKnown: Pin | undefined;
-        highlightedPin: Pin | undefined;
+        rememberedPin: Pin | undefined;
       },
     ];
   };
@@ -53,10 +53,10 @@ export default class Filter extends Component<MapFilterSignature> {
     return this.pins[this.pins.length - 1];
   }
 
-  get highlightedPin() {
-    const highlightedPinTimestamp = this.settings.highlightedPin;
+  get rememberedPin() {
+    const rememberedPinTimestamp = this.settings.rememberedPin;
 
-    return this.pins.find((p) => p.timestamp === highlightedPinTimestamp);
+    return this.pins.find((p) => p.timestamp === rememberedPinTimestamp);
   }
 
   <template>
@@ -65,7 +65,7 @@ export default class Filter extends Component<MapFilterSignature> {
         pins=this.pins
         locations=this.locations
         lastKnown=this.lastKnown
-        highlightedPin=this.highlightedPin
+        rememberedPin=this.rememberedPin
       )
     }}
   </template>

@@ -72,10 +72,6 @@ export default class SettingsService extends Service {
     });
   }
 
-  // ===== .highlightedPin =====
-  // This one exists to highlight given pin directly in the app
-  @tracked highlightedPin: number | undefined = undefined;
-
   // ===== .toggleAutoFastForward =====
   @action toggleAutoFastForward(newValue: boolean) {
     this.rememberedPin = newValue ? 'last' : undefined;

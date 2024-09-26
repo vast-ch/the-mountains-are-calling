@@ -28,14 +28,14 @@ const pinHighlighted = icon([], {
   shadowSize: [41, 41],
 });
 
-function pickHighlightedPin(
+function pickrememberedPin(
   points: Pin[],
-  highlightedPinTimestamp: number | undefined,
+  rememberedPinTimestamp: number | undefined,
 ): Pin | undefined {
-  return points.find((p) => p.timestamp === highlightedPinTimestamp);
+  return points.find((p) => p.timestamp === rememberedPinTimestamp);
 }
 
-function highlightedPinRelative(pin: Pin): string {
+function rememberedPinRelative(pin: Pin): string {
   return dayjs(pin.timestamp * 1000).fromNow();
 }
 
@@ -47,7 +47,7 @@ function timestampToHuman(timestamp: number) {
   return new Date(timestamp * 1000).toLocaleString();
 }
 
-interface HighlightedPinSignature {
+interface rememberedPinSignature {
   Args: {
     pin: Pin | undefined;
     layers: any;
@@ -55,7 +55,7 @@ interface HighlightedPinSignature {
   Element: HTMLDivElement;
 }
 
-export default class HighlightedPin extends Component<HighlightedPinSignature> {
+export default class rememberedPin extends Component<rememberedPinSignature> {
   @service declare settings: SettingsService;
 
   autoPanPadding = new Point(50, 50);
@@ -81,7 +81,7 @@ export default class HighlightedPin extends Component<HighlightedPinSignature> {
               </li>
               <li>
                 <CalendarHeart @size='18' class='inline mr-1' />
-                {{highlightedPinRelative pin}}
+                {{rememberedPinRelative pin}}
               </li>
               <li>
                 <Ruler @size='18' class='inline mr-1' />
