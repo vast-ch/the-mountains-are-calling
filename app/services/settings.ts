@@ -30,6 +30,8 @@ export default class SettingsService extends Service {
       dateTo: this.dateTomorrow,
       rememberedTimestamp: 'last',
       zoom: '15',
+      latitude: '46.686',
+      longitude: '7.858',
     };
   }
 
@@ -43,6 +45,8 @@ export default class SettingsService extends Service {
       dateTo: r['dateTo'] ?? d.dateTo,
       rememberedTimestamp: r['rememberedTimestamp'] ?? d.rememberedTimestamp,
       zoom: r['zoom'] ?? d.zoom,
+      latitude: r['latitude'] ?? d.latitude,
+      longitude: r['longitude'] ?? d.longitude,
     };
     return ret;
   }
@@ -53,6 +57,30 @@ export default class SettingsService extends Service {
 
   get dateTomorrow() {
     return dayjs().add(1, 'day').format(QP_FORMAT);
+  }
+
+  // ===== .latitude =====
+  get latitude(): number {
+    return Number.parseFloat(this.qp['latitude']);
+  }
+  set latitude(newLatitude: number) {
+    this.router.replaceWith({
+      queryParams: {
+        latitude: newLatitude,
+      },
+    });
+  }
+
+  // ===== .longitude =====
+  get longitude(): number {
+    return Number.parseFloat(this.qp['longitude']);
+  }
+  set longitude(newLongitude: number) {
+    this.router.replaceWith({
+      queryParams: {
+        longitude: newLongitude,
+      },
+    });
   }
 
   // ===== .zoom =====

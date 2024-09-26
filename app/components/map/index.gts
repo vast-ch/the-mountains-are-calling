@@ -50,12 +50,18 @@ const pinStandard = icon([], {
 export default class Map extends Component<Signature> {
   @service declare settings: SettingsService;
 
-  lat = 46.686;
-  lng = 7.858;
-
   @action
   zoomend(event: any) {
     this.settings.zoom = event.target.getZoom() as number;
+  }
+
+  @action
+  panned(event: any) {
+    const center = event.target.getCenter();
+
+    console.log(center);
+    this.settings.longitude = center.lng;
+    this.settings.latitude = center.lat;
   }
 
   <template>
@@ -77,9 +83,10 @@ export default class Map extends Component<Signature> {
           {{#if filtered.rememberedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
+              @onMoveend={{this.panned}}
               class='w-full min-h-64 flex-1 border-2'
-              @lat={{filtered.rememberedPin.latitude}}
-              @lng={{filtered.rememberedPin.longitude}}
+              @lat={{this.settings.latitude}}
+              @lng={{this.settings.longitude}}
               @zoom={{this.settings.zoom}}
               as |layers|
             >
