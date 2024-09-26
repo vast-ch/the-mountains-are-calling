@@ -6,7 +6,7 @@ import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 interface MapFilterSignature {
   Args: {
-    data: Pin[];
+    data: { data: Pin[] };
   };
   Blocks: {
     default: [
