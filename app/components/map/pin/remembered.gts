@@ -58,7 +58,7 @@ interface rememberedPinSignature {
 export default class rememberedPin extends Component<rememberedPinSignature> {
   @service declare settings: SettingsService;
 
-  autoPanPadding = new Point(50, 50);
+  // autoPanPadding = new Point(50, 50);
   <template>
     {{#let this.args.pin as |pin|}}
       {{#if pin}}
@@ -72,7 +72,7 @@ export default class rememberedPin extends Component<rememberedPinSignature> {
             {{! Settings this to true makes Safari cry }}
             @popupOpen={{false}}
             @closeOnClick={{false}}
-            @autoPanPadding={{this.autoPanPadding}}
+            {{!-- @autoPanPadding={{this.autoPanPadding}} --}}
           >
             <ul>
               <li>

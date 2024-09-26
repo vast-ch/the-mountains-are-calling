@@ -8,6 +8,8 @@ export default class IndexController extends Controller {
       dateTo: { type: 'string' as const },
       rememberedTimestamp: { type: 'string' as const },
       zoom: { type: 'string' as const },
+      latitude: { type: 'string' as const },
+      longitude: { type: 'string' as const },
     },
   ];
 
@@ -15,4 +17,6 @@ export default class IndexController extends Controller {
   dateTo: string | undefined;
   rememberedTimestamp: string | undefined;
   zoom: string | undefined;
+  latitude: string | undefined;
+  longitude: string | undefined;
 }
