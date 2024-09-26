@@ -66,11 +66,11 @@ export default class SettingsService extends Service {
       return 'last';
     }
 
-    return Number.parseInt(this.qp['rememberedPin'] as string);
+    return Number.parseInt(this.qp['rememberedPin']);
   }
-  set rememberedPin(newPin: number | undefined | 'last') {
+  set rememberedPin(newPin: number | 'last') {
     this.router.replaceWith({
-      queryParams: { rememberedPin: newPin ? newPin.toString() : undefined },
+      queryParams: { rememberedPin: newPin.toString() },
     });
   }
 
@@ -81,14 +81,14 @@ export default class SettingsService extends Service {
     this.dateTo = this.dateTomorrow;
   }
 
-  // ===== .autoFastForward =====
-  get autoFastForward(): boolean {
+  // ===== .isAutoFastForward =====
+  get isAutoFastForward(): boolean {
     return this.rememberedPin == 'last';
   }
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
-    return dayjs((this.qp['dateFrom'] as string) || this.dateToday);
+    return dayjs(this.qp['dateFrom']);
   }
   set dateFrom(newDate: string | dayjs.Dayjs) {
     let dateFrom;
@@ -111,7 +111,7 @@ export default class SettingsService extends Service {
 
   // ===== .dateTo =====
   get dateTo(): dayjs.Dayjs {
-    return dayjs((this.qp['dateTo'] as string) || this.dateTomorrow);
+    return dayjs(this.qp['dateTo']);
   }
   set dateTo(newDate: string | dayjs.Dayjs) {
     let dateTo;

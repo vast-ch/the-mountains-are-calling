@@ -61,12 +61,12 @@ export default class DateSelector extends Component<DateSelectorSignature> {
       {{/if}}
 
       <ToggleButton
-        @isSelected={{this.settings.autoFastForward}}
+        @isSelected={{this.settings.isAutoFastForward}}
         @onChange={{this.settings.toggleAutoFastForward}}
         @intent='primary'
         @size='lg'
       >
-        {{#if this.settings.autoFastForward}}
+        {{#if this.settings.isAutoFastForward}}
           <GpsFix />
         {{else}}
           <GpsSlash />

@@ -56,7 +56,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   // Note: Do not try to put more there or else: Attempted to rerender, but the Ember application has had an unrecoverable error occur during render. You should reload the application after fixing the cause of the error.
   snapAreaPadding = '[width:calc(50vw-3rem)]';
 
-  @action updateRemembereddPin(timestamp: number | undefined) {
+  @action updateRemembereddPin(timestamp: number) {
     this.settings.rememberedPin = timestamp;
   }
 
