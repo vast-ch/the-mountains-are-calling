@@ -23,19 +23,18 @@ interface MapFilterSignature {
   Element: HTMLDivElement;
 }
 
-type PinLocation = (number | undefined)[];
+type PinLocation = (number | undefined)[][];
 
 type Line = {
-  locations: PinLocation[];
+  locations: PinLocation;
   color: string;
 };
 
 const currentColour = new Color('#d946ef');
-export const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
+const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
 const colourRange = currentColour.range(oldColour);
 
 function colorGradient(value: number = 0, min: number, max: number) {
-  console.log(value, max);
   return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
 }
 
@@ -94,7 +93,11 @@ export default class Filter extends Component<MapFilterSignature> {
           return [element, array[index + 1]];
         }
       })
-      .filter((pair) => pair !== undefined);
+      .filter((pair) => pair !== undefined)
+      .map((elm) => [
+        [elm?.[0]?.latitude, elm?.[0]?.longitude],
+        [elm?.[1]?.latitude, elm?.[1]?.longitude],
+      ]);
   }
 
   get visiblePolyline() {

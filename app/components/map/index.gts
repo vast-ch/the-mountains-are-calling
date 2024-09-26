@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 // @ts-expect-error No TS stuff yet
 import LeafletMap from 'ember-leaflet/components/leaflet-map';
-import Filter, { oldColour } from './filter';
+import Filter from './filter';
 import Color from 'colorjs.io';
 import L, { LatLngBounds } from 'leaflet';
 import { isEmpty } from 'ember-truth-helpers';
@@ -88,7 +88,7 @@ export default class Map extends Component<Signature> {
 
               <layers.polyline
                 @locations={{filtered.completePolyline}}
-                @color={{oldColour}}
+                @color='#0a0'
                 @weight={{5}}
                 @opacity={{0.8}}
               />
