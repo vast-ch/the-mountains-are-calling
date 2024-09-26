@@ -39,7 +39,7 @@ const CUTOFF = 3 * 60 * 60;
 export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
-  get allPins(): Pin[] {
+  get allPins() {
     return this.args.data.data;
   }
 
@@ -51,27 +51,33 @@ export default class Filter extends Component<MapFilterSignature> {
     const rememberedPinTimestamp = this.settings.rememberedPin;
 
     if (rememberedPinTimestamp === 'last') {
-      return this.pinsTillRemembered.at(-1);
+      return this.allPins.at(-1);
     }
 
-    return this.pinsTillRemembered.find(
-      (p) => p.timestamp === rememberedPinTimestamp,
+    return (
+      this.allPins.find((p) => p.timestamp === rememberedPinTimestamp) || {
+        timestamp: undefined,
+      }
     );
   }
 
-  get pinsTillRemembered(): Pin[] {
-    const rememberedPinTimestamp = this.settings.rememberedPin;
-
-    if (rememberedPinTimestamp === 'last') {
-      return this.allPins;
+  get pinsTillRemembered() {
+    if (!this.rememberedPin) {
+      return this.allPins; // This is weird case
     }
+
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
 
     return this.allPins.filter(
       (pin) => pin.timestamp <= rememberedPinTimestamp,
     );
   }
 
-  get pinsFromCutoff(): Pin[] {
+  get pinsFromCutoffTillRemembered() {
+    if (!this.rememberedPin) {
+      return this.pinsTillRemembered; // This is weird case
+    }
+
     const rememberedPinTimestamp = this.rememberedPin.timestamp;
 
     return this.pinsTillRemembered.filter(
@@ -80,15 +86,9 @@ export default class Filter extends Component<MapFilterSignature> {
   }
 
   get polyline() {
-    const BEFORE = 3 * 60 * 60;
-    const rememberedPinTimestamp = this.settings.rememberedPin;
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
 
-    return this.pinsTillRemembered
-      .filter(
-        (pin) =>
-          pin.timestamp <= rememberedPinTimestamp &&
-          pin.timestamp + BEFORE >= rememberedPinTimestamp,
-      )
+    return this.pinsFromCutoffTillRemembered
       .map((element, index, array) => {
         if (index < array.length - 1) {
           return [element, array[index + 1]];
@@ -103,7 +103,7 @@ export default class Filter extends Component<MapFilterSignature> {
         color: colorGradient(
           elm[1].timestamp,
           rememberedPinTimestamp,
-          rememberedPinTimestamp - BEFORE,
+          rememberedPinTimestamp - CUTOFF,
         ),
       }));
   }
