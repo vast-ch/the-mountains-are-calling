@@ -67,42 +67,51 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   // }
 
   <template>
-    <div class=''>
-      <div class='flex w-full justify-center'>
+    <div>
+      {{! <div class='flex w-full justify-center'>
         <div class='w-8 text-center -mb-5 z-10'>
           📍
         </div>
-      </div>
+      </div> }}
 
       <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
         <ButtonGroup class='gap-x-2' as |g|>
           {{#each @data as |point index|}}
-            <g.ToggleButton
-              @isSelected={{eq
-                point.timestamp
-                this.settings.rememberedTimestamp
-              }}
-              @onChange={{fn this.updateRemembereddPin point}}
-              {{scrollIntoView
-                shouldScroll=(or
-                  (eq point.timestamp this.settings.rememberedTimestamp)
-                  (and
-                    (eq this.settings.rememberedTimestamp 'last')
-                    (eq index (sub (array @data.length 1)))
+            {{#let
+              (eq point.timestamp this.settings.rememberedTimestamp)
+              as |isSelected|
+            }}
+              <g.ToggleButton
+                @isSelected={{isSelected}}
+                @onChange={{fn this.updateRemembereddPin point}}
+                {{scrollIntoView
+                  shouldScroll=(or
+                    (eq point.timestamp this.settings.rememberedTimestamp)
+                    (and
+                      (eq this.settings.rememberedTimestamp 'last')
+                      (eq index (sub (array @data.length 1)))
+                    )
                   )
-                )
-                options=(hash behavior='smooth' inline='center')
-              }}
-              @class={{getSunColor
-                point.timestamp
-                point.latitude
-                point.longitude
-              }}
-            >
-              {{timestampToTime point.timestamp}}
-            </g.ToggleButton>
+                  options=(hash behavior='smooth' inline='center')
+                }}
+                @class='{{getSunColor
+                  point.timestamp
+                  point.latitude
+                  point.longitude
+                }}
+                relative
+                '
+              >
+                {{#if isSelected}}
+                  <span class='absolute mx-3 -mt-4'>
+                    📍
+                  </span>
+                {{/if}}
+                {{timestampToTime point.timestamp}}
+              </g.ToggleButton>
+            {{/let}}
           {{/each}}
         </ButtonGroup>
         <div><div class={{this.snapAreaPadding}}></div></div>
