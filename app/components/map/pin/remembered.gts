@@ -65,6 +65,7 @@ export default class rememberedPin extends Component<rememberedPinSignature> {
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
           @icon={{pinRemembered}}
+          @zIndexOffset={{1001}}
           as |marker|
         >
           <marker.popup
