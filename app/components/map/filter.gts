@@ -15,7 +15,7 @@ interface MapFilterSignature {
         pinsBeforeRemembered: Pin[];
         pinsAfterRemembered: Pin[];
         polylineBeforeRemembered: Line[];
-        completePolyline: PinLocation[];
+        polylineAfterRemembered: PinLocation[];
         lastKnown: Pin | undefined;
         rememberedPin: Pin | undefined;
       },
@@ -39,7 +39,7 @@ function colorGradient(value: number = 0, min: number, max: number) {
   return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
 }
 
-const CUTOFF = 3 * 60 * 60;
+const CUTOFF = 2 * 60 * 60;
 
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Filter extends Component<MapFilterSignature> {
@@ -111,20 +111,6 @@ export default class Filter extends Component<MapFilterSignature> {
     );
   }
 
-  get completePolyline() {
-    return this.allPins
-      .map((element, index, array) => {
-        if (index < array.length - 1) {
-          return [element, array[index + 1]];
-        }
-      })
-      .filter((pair) => pair !== undefined)
-      .map((elm) => [
-        [elm?.[0]?.latitude, elm?.[0]?.longitude],
-        [elm?.[1]?.latitude, elm?.[1]?.longitude],
-      ]);
-  }
-
   get polylineBeforeRemembered() {
     const rememberedPinTimestamp = this.rememberedPin?.timestamp ?? 0;
 
@@ -148,13 +134,27 @@ export default class Filter extends Component<MapFilterSignature> {
       }));
   }
 
+  get polylineAfterRemembered() {
+    return this.pinsAfterRememberedCutoff
+      .map((element, index, array) => {
+        if (index < array.length - 1) {
+          return [element, array[index + 1]];
+        }
+      })
+      .filter((pair) => pair !== undefined)
+      .map((elm) => [
+        [elm?.[0]?.latitude, elm?.[0]?.longitude],
+        [elm?.[1]?.latitude, elm?.[1]?.longitude],
+      ]);
+  }
+
   <template>
     {{yield
       (hash
         pinsBeforeRemembered=this.pinsBeforeRememberedCutoff
         pinsAfterRemembered=this.pinsAfterRememberedCutoff
         polylineBeforeRemembered=this.polylineBeforeRemembered
-        completePolyline=this.completePolyline
+        polylineAfterRemembered=this.polylineAfterRemembered
         lastKnown=this.lastKnownPin
         rememberedPin=this.rememberedPin
       )

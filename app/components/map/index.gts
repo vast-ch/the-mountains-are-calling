@@ -88,7 +88,7 @@ export default class Map extends Component<Signature> {
               />
 
               <layers.polyline
-                @locations={{filtered.completePolyline}}
+                @locations={{filtered.polylineAfterRemembered}}
                 @color='#aaa'
                 @weight={{5}}
                 @opacity={{0.75}}
