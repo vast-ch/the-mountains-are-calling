@@ -59,7 +59,6 @@ export default class Map extends Component<Signature> {
   panned(event: any) {
     const center = event.target.getCenter();
 
-    console.log(center);
     this.settings.longitude = center.lng;
     this.settings.latitude = center.lat;
   }
