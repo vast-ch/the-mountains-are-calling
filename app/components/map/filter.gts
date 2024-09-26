@@ -3,6 +3,7 @@ import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
+import Color from 'colorjs.io';
 
 interface MapFilterSignature {
   Args: {
@@ -12,13 +13,24 @@ interface MapFilterSignature {
     default: [
       yields: {
         pins: Pin[];
-        locations: any;
+        polyline: Location[];
         lastKnown: Pin | undefined;
         rememberedPin: Pin | undefined;
       },
     ];
   };
   Element: HTMLDivElement;
+}
+
+type Location = (number[] | undefined)[] | undefined;
+
+const currentColour = new Color('#d946ef');
+const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
+const colourRange = currentColour.range(oldColour);
+
+function colorGradient(value: number, min: number, max: number): string {
+  console.log(value, max);
+  return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
 }
 
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
@@ -38,15 +50,33 @@ export default class Filter extends Component<MapFilterSignature> {
     // });
   }
 
-  get locations(): ((number[] | undefined)[] | undefined)[] {
+  get polyline() {
+    const BEFORE = 3 * 60 * 60;
+    const rememberedPinTimestamp = this.settings.rememberedPin;
+
     return this.pins
-      .map((elm) => [elm.latitude, elm.longitude])
+      .filter(
+        (pin) =>
+          pin.timestamp <= rememberedPinTimestamp &&
+          pin.timestamp + BEFORE >= rememberedPinTimestamp,
+      )
       .map((element, index, array) => {
         if (index < array.length - 1) {
           return [element, array[index + 1]];
         }
       })
-      .filter((pair) => pair !== undefined);
+      .filter((pair) => pair !== undefined)
+      .map((elm) => ({
+        locations: [
+          [elm[0].latitude, elm[0].longitude],
+          [elm[1].latitude, elm[1].longitude],
+        ],
+        color: colorGradient(
+          elm[1].timestamp,
+          rememberedPinTimestamp,
+          rememberedPinTimestamp - BEFORE,
+        ),
+      }));
   }
 
   get lastKnown() {
@@ -66,7 +96,7 @@ export default class Filter extends Component<MapFilterSignature> {
     {{yield
       (hash
         pins=this.pins
-        locations=this.locations
+        polyline=this.polyline
         lastKnown=this.lastKnown
         rememberedPin=this.rememberedPin
       )

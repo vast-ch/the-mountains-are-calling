@@ -44,7 +44,6 @@ export default class SettingsService extends Service {
       rememberedPin: r['rememberedPin'] ?? d.rememberedPin,
       zoom: r['zoom'] ?? d.zoom,
     };
-    console.log(ret);
     return ret;
   }
 

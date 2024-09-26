@@ -17,7 +17,8 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
-import rememberedPin from './highlighted-pin';
+import rememberedPin from './pin/highlighted';
+import standardPin from './pin/standard';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
@@ -34,8 +35,8 @@ interface Signature {
 let oldColor = new Color('#dc2626');
 let newOldColor = oldColor.range('#84cc16');
 
-function colorGradient(index: number, max: number): string {
-  return newOldColor(index / max).toString({ format: 'hex' });
+function colorGradient(value: number, max: number): string {
+  return newOldColor(value / max).toString({ format: 'hex' });
 }
 
 const pinStandard = icon([], {
@@ -56,11 +57,6 @@ export default class Map extends Component<Signature> {
   @action
   zoomend(event: any) {
     this.settings.zoom = event.target.getZoom() as number;
-  }
-
-  @action
-  updaterememberedPin(timestamp: number) {
-    this.settings.rememberedPin = timestamp;
   }
 
   <template>
@@ -92,21 +88,21 @@ export default class Map extends Component<Signature> {
                 @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
 
-              {{#each filtered.locations as |line index|}}
+              {{#each filtered.polyline as |line index|}}
+                {{!-- {{log '---' filtered.recentPast}} --}}
+                {{!-- {{log filtered.polyline}} --}}
+                {{log line}}
                 <layers.polyline
-                  @locations={{line}}
-                  @color={{colorGradient index filtered.locations.length}}
-                  @weight='10'
+                  @locations={{line.locations}}
+                  @color={{line.color}}
+                  {{!-- @color={{colorGradient index filtered.locations.length}} --}}
+                  {{! @color='#d946ef' }}
+                  @weight='5'
                 />
               {{/each}}
 
               {{#each filtered.pins as |pin index|}}
-                <layers.marker
-                  @onClick={{fn this.updaterememberedPin pin.timestamp}}
-                  @lat={{pin.latitude}}
-                  @lng={{pin.longitude}}
-                  @icon={{pinStandard}}
-                />
+                <standardPin @pin={{pin}} @layers={{layers}} />
               {{/each}}
 
               <rememberedPin

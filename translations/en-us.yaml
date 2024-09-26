@@ -27,8 +27,6 @@ settings:
     label: Refresh interval
     description: In seconds, input zero to disable auto refresh
 map:
-  highlighted:
-    label: ⏰
   loading: Loading...
   accuracy: ± {value}
 error:
