@@ -56,7 +56,10 @@ export default class Filter extends Component<MapFilterSignature> {
   get rememberedPin() {
     const rememberedPinTimestamp = this.settings.rememberedPin;
 
-    return this.pins.find((p) => p.timestamp === rememberedPinTimestamp);
+    return (
+      this.pins.find((p) => p.timestamp === rememberedPinTimestamp) ||
+      this.pins.at(-1)
+    );
   }
 
   <template>
