@@ -34,10 +34,18 @@ export default class SettingsService extends Service {
   }
 
   get qp() {
-    return {
-      ...this.defaultQp,
-      ...this.router.currentRoute?.queryParams,
+    const r =
+      (this.router.currentRoute?.queryParams as typeof this.defaultQp) || {};
+    const d = this.defaultQp;
+
+    const ret = {
+      dateFrom: r['dateFrom'] ?? d.dateFrom,
+      dateTo: r['dateTo'] ?? d.dateTo,
+      rememberedPin: r['rememberedPin'] ?? d.rememberedPin,
+      zoom: r['zoom'] ?? d.zoom,
     };
+    console.log(ret);
+    return ret;
   }
 
   get dateToday() {
