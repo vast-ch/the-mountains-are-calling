@@ -19,17 +19,32 @@ export interface Pin {
   fixAge: number;
 }
 
-interface Dict<T> {
-  [key: string]: T;
-}
-
 const QP_FORMAT = 'YYYY-MM-DD';
 
 export default class SettingsService extends Service {
   @service declare router: RouterService;
 
-  get qp(): Dict<unknown> {
-    return this.router.currentRoute?.queryParams || {};
+  get defaultQp() {
+    return {
+      dateFrom: this.dateToday,
+      dateTo: this.dateTomorrow,
+      rememberedTimestamp: 'last',
+      zoom: '15',
+    };
+  }
+
+  get qp() {
+    const r =
+      (this.router.currentRoute?.queryParams as typeof this.defaultQp) || {};
+    const d = this.defaultQp;
+
+    const ret = {
+      dateFrom: r['dateFrom'] ?? d.dateFrom,
+      dateTo: r['dateTo'] ?? d.dateTo,
+      rememberedTimestamp: r['rememberedTimestamp'] ?? d.rememberedTimestamp,
+      zoom: r['zoom'] ?? d.zoom,
+    };
+    return ret;
   }
 
   get dateToday() {
@@ -40,11 +55,9 @@ export default class SettingsService extends Service {
     return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
-  defaultZoom = '15';
-
   // ===== .zoom =====
   get zoom(): number {
-    return Number.parseInt((this.qp['zoom'] as string) || this.defaultZoom);
+    return Number.parseInt(this.qp['zoom']);
   }
   set zoom(newZoom: number) {
     this.router.replaceWith({
@@ -54,56 +67,50 @@ export default class SettingsService extends Service {
     });
   }
 
-  // ===== .rememberedPin =====
-  // This one exists to persist selected pin to QP
-  get rememberedPin(): number | undefined | 'last' {
-    if (!this.qp['rememberedPin']) {
-      return undefined;
-    }
-    if (this.qp['rememberedPin'] === 'last') {
+  // ===== .rememberedTimestamp =====
+  get rememberedTimestamp(): number | 'last' {
+    if (this.qp['rememberedTimestamp'] === 'last') {
       return 'last';
     }
 
-    return Number.parseFloat(this.qp['rememberedPin'] as string);
+    return Number.parseInt(this.qp['rememberedTimestamp']);
   }
-  set rememberedPin(newPin: number | undefined | 'last') {
+  set rememberedTimestamp(newPin: number | undefined) {
     this.router.replaceWith({
-      queryParams: { rememberedPin: newPin ? newPin.toString() : undefined },
+      queryParams: { rememberedTimestamp: newPin ? newPin.toString() : newPin },
     });
   }
 
-  // ===== .highlightedPin =====
-  // This one exists to highlight given pin directly in the app
-  @tracked highlightedPin: number | undefined = undefined;
-
   // ===== .toggleAutoFastForward =====
-  @action toggleAutoFastForward(newValue: boolean) {
-    this.rememberedPin = newValue ? 'last' : undefined;
-    this.dateFrom = this.dateToday;
-    this.dateTo = this.dateTomorrow;
+  @action toggleAutoFastForward() {
+    this.rememberedTimestamp = undefined;
+    this.dateFrom = undefined;
+    this.dateTo = undefined;
   }
 
-  // ===== .autoFastForward =====
-  get autoFastForward(): boolean {
-    return this.rememberedPin == 'last';
+  // ===== .isAutoFastForward =====
+  get isAutoFastForward(): boolean {
+    return this.rememberedTimestamp == 'last';
   }
 
   // ===== .dateFrom =====
   get dateFrom(): dayjs.Dayjs {
-    return dayjs((this.qp['dateFrom'] as string) || this.dateToday);
+    return dayjs(this.qp['dateFrom']);
   }
-  set dateFrom(newDate: string | dayjs.Dayjs) {
+  set dateFrom(newDate: string | dayjs.Dayjs | undefined) {
     let dateFrom;
 
-    if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      dateFrom = dayjs(newDate || undefined);
-    } else {
-      dateFrom = newDate;
+    if (newDate !== undefined) {
+      if (typeof newDate === 'string') {
+        dateFrom = dayjs(newDate);
+      } else {
+        dateFrom = newDate;
+      }
+      dateFrom = dateFrom.startOf('day').format(QP_FORMAT);
     }
 
     this.router.transitionTo({
-      queryParams: { dateFrom: dateFrom.startOf('day').format(QP_FORMAT) },
+      queryParams: { dateFrom },
     });
   }
 
@@ -113,20 +120,22 @@ export default class SettingsService extends Service {
 
   // ===== .dateTo =====
   get dateTo(): dayjs.Dayjs {
-    return dayjs((this.qp['dateTo'] as string) || this.dateTomorrow);
+    return dayjs(this.qp['dateTo']);
   }
-  set dateTo(newDate: string | dayjs.Dayjs) {
+  set dateTo(newDate: string | dayjs.Dayjs | undefined) {
     let dateTo;
 
-    if (typeof newDate === 'string') {
-      // dayjs gives _current_ date _only_ for `dayjs(undefined)`, no `dayjs(null)`
-      dateTo = dayjs(newDate || undefined);
-    } else {
-      dateTo = newDate;
+    if (newDate !== undefined) {
+      if (typeof newDate === 'string') {
+        dateTo = dayjs(newDate);
+      } else {
+        dateTo = newDate;
+      }
+      dateTo = dateTo.startOf('day').format(QP_FORMAT);
     }
 
     this.router.transitionTo({
-      queryParams: { dateTo: dateTo.startOf('day').format(QP_FORMAT) },
+      queryParams: { dateTo },
     });
   }
 

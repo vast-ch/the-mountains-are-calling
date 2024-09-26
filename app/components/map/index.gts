@@ -17,10 +17,10 @@ import { icon } from 'ember-leaflet/helpers/icon';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import Loader from '../loader';
-import HighlightedPin from './highlighted-pin';
+import rememberedPin from './pin/remembered';
+import standardPin from './pin/standard';
+import lastKnownPin from './pin/last-known';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -34,8 +34,8 @@ interface Signature {
 let oldColor = new Color('#dc2626');
 let newOldColor = oldColor.range('#84cc16');
 
-function colorGradient(index: number, max: number): string {
-  return newOldColor(index / max).toString({ format: 'hex' });
+function colorGradient(value: number, max: number): string {
+  return newOldColor(value / max).toString({ format: 'hex' });
 }
 
 const pinStandard = icon([], {
@@ -55,12 +55,7 @@ export default class Map extends Component<Signature> {
 
   @action
   zoomend(event: any) {
-    this.settings.zoom = event.target.getZoom();
-  }
-
-  @action
-  updateHighlightedPin(timestamp: number) {
-    this.settings.rememberedPin = timestamp;
+    this.settings.zoom = event.target.getZoom() as number;
   }
 
   <template>
@@ -68,10 +63,10 @@ export default class Map extends Component<Signature> {
       <Filter @data={{l.result}} as |filtered|>
         <div class='flex flex-col gap-2 pb-2'>
           <DateSelector />
-          <PointSelector @data={{filtered.pins}} />
+          <PointSelector @data={{l.result.data}} />
         </div>
 
-        {{#if (isEmpty filtered.pins)}}
+        {{#if (isEmpty filtered.visiblePins)}}
           <div class='w-full py-32 flex justify-center items-center'>
             <div class='flex flex-col items-center'>
               <Tray @size='32' />
@@ -79,12 +74,12 @@ export default class Map extends Component<Signature> {
             </div>
           </div>
         {{else}}
-          {{#if filtered.highlightedPin}}
+          {{#if filtered.rememberedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
               class='w-full min-h-64 flex-1 border-2'
-              @lat={{filtered.highlightedPin.latitude}}
-              @lng={{filtered.highlightedPin.longitude}}
+              @lat={{filtered.rememberedPin.latitude}}
+              @lng={{filtered.rememberedPin.longitude}}
               @zoom={{this.settings.zoom}}
               as |layers|
             >
@@ -92,27 +87,31 @@ export default class Map extends Component<Signature> {
                 @url='https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg'
               />
 
-              {{#each filtered.locations as |line index|}}
+              <layers.polyline
+                @locations={{filtered.completePolyline}}
+                @color='#0a0'
+                @weight={{5}}
+                @opacity={{0.8}}
+              />
+
+              {{#each filtered.visiblePolyline as |line index|}}
                 <layers.polyline
-                  @locations={{line}}
-                  @color={{colorGradient index filtered.locations.length}}
-                  @weight='10'
+                  @locations={{line.locations}}
+                  @color={{line.color}}
+                  @weight='5'
                 />
               {{/each}}
 
-              {{#each filtered.pins as |pin index|}}
-                <layers.marker
-                  @onClick={{fn this.updateHighlightedPin pin.timestamp}}
-                  @lat={{pin.latitude}}
-                  @lng={{pin.longitude}}
-                  @icon={{pinStandard}}
-                />
+              {{#each filtered.visiblePins as |pin index|}}
+                <standardPin @pin={{pin}} @layers={{layers}} />
               {{/each}}
 
-              <HighlightedPin
-                @pin={{filtered.highlightedPin}}
+              <rememberedPin
+                @pin={{filtered.rememberedPin}}
                 @layers={{layers}}
               />
+
+              <lastKnownPin @pin={{filtered.lastKnown}} @layers={{layers}} />
 
             </LeafletMap>
           {{/if}}

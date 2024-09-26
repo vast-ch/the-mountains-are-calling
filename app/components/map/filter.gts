@@ -3,69 +3,134 @@ import { hash } from '@ember/helper';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
+import Color from 'colorjs.io';
 
 interface MapFilterSignature {
   Args: {
-    data: Pin[];
+    data: { data: Pin[] };
   };
   Blocks: {
     default: [
       yields: {
-        pins: Pin[];
-        locations: any;
+        visiblePins: Pin[];
+        visiblePolyline: Line[];
+        completePolyline: PinLocation[];
         lastKnown: Pin | undefined;
-        highlightedPin: Pin | undefined;
+        rememberedPin: Pin | undefined;
       },
     ];
   };
   Element: HTMLDivElement;
 }
 
+type PinLocation = (number | undefined)[][];
+
+type Line = {
+  locations: PinLocation;
+  color: string;
+};
+
+const currentColour = new Color('#d946ef');
+const oldColour = currentColour.clone().to('hsl').set({ s: 0 });
+const colourRange = currentColour.range(oldColour);
+
+function colorGradient(value: number = 0, min: number, max: number) {
+  return colourRange((value - min) / (max - min)).toString({ format: 'hex' });
+}
+
+const CUTOFF = 3 * 60 * 60;
+
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class Filter extends Component<MapFilterSignature> {
   @service declare settings: SettingsService;
 
-  get pins(): Pin[] {
-    // const dayStart = this.settings.dateFrom.valueOf() / 1000;
-    // const dayEnd = this.settings.dateTo.valueOf() / 1000;
-
-    // TODO: make it so it's not .data.data
+  get allPins() {
     return this.args.data.data;
-
-    // TODO: why filter here when Firebase can filter data?
-    // return this.args.data.data.filter((elm) => {
-    //   return elm.timestamp > dayStart && elm.timestamp < dayEnd;
-    // });
   }
 
-  get locations(): ((number[] | undefined)[] | undefined)[] {
-    return this.pins
-      .map((elm) => [elm.latitude, elm.longitude])
+  get lastKnownPin() {
+    return this.allPins.at(-1);
+  }
+
+  get rememberedPin() {
+    const rememberedTimestamp = this.settings.rememberedTimestamp;
+
+    if (rememberedTimestamp === 'last') {
+      return this.allPins.at(-1);
+    }
+
+    return this.allPins.find((p) => p.timestamp === rememberedTimestamp);
+  }
+
+  get pinsTillRemembered() {
+    if (!this.rememberedPin) {
+      return this.allPins; // This is weird case
+    }
+
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+
+    return this.allPins.filter(
+      (pin) => pin.timestamp <= rememberedPinTimestamp,
+    );
+  }
+
+  get pinsFromCutoffTillRemembered() {
+    if (!this.rememberedPin) {
+      return this.pinsTillRemembered; // This is weird case
+    }
+
+    const rememberedPinTimestamp = this.rememberedPin.timestamp;
+
+    return this.pinsTillRemembered.filter(
+      (pin) => pin.timestamp + CUTOFF >= rememberedPinTimestamp,
+    );
+  }
+
+  get completePolyline() {
+    return this.allPins
       .map((element, index, array) => {
         if (index < array.length - 1) {
           return [element, array[index + 1]];
         }
       })
-      .filter((pair) => pair !== undefined);
+      .filter((pair) => pair !== undefined)
+      .map((elm) => [
+        [elm?.[0]?.latitude, elm?.[0]?.longitude],
+        [elm?.[1]?.latitude, elm?.[1]?.longitude],
+      ]);
   }
 
-  get lastKnown() {
-    return this.pins[this.pins.length - 1];
-  }
+  get visiblePolyline() {
+    const rememberedPinTimestamp = this.rememberedPin?.timestamp ?? 0;
 
-  get highlightedPin() {
-    const highlightedPinTimestamp = this.settings.highlightedPin;
-
-    return this.pins.find((p) => p.timestamp === highlightedPinTimestamp);
+    return this.pinsFromCutoffTillRemembered
+      .map((element, index, array) => {
+        if (index < array.length - 1) {
+          return [element, array[index + 1]];
+        }
+      })
+      .filter((pair) => pair !== undefined)
+      .map((elm) => ({
+        locations: [
+          [elm?.[0]?.latitude, elm?.[0]?.longitude],
+          [elm?.[1]?.latitude, elm?.[1]?.longitude],
+        ],
+        color: colorGradient(
+          elm?.[1]?.timestamp,
+          rememberedPinTimestamp,
+          rememberedPinTimestamp - CUTOFF,
+        ),
+      }));
   }
 
   <template>
     {{yield
       (hash
-        pins=this.pins
-        locations=this.locations
-        lastKnown=this.lastKnown
-        highlightedPin=this.highlightedPin
+        visiblePins=this.pinsFromCutoffTillRemembered
+        visiblePolyline=this.visiblePolyline
+        completePolyline=this.completePolyline
+        lastKnown=this.lastKnownPin
+        rememberedPin=this.rememberedPin
       )
     }}
   </template>

@@ -6,13 +6,13 @@ export default class IndexController extends Controller {
     {
       dateFrom: { type: 'string' as const },
       dateTo: { type: 'string' as const },
-      rememberedPin: { type: 'string' as const },
+      rememberedTimestamp: { type: 'string' as const },
       zoom: { type: 'string' as const },
     },
   ];
 
-  @tracked dateFrom = '';
-  @tracked dateTo = '';
-  @tracked rememberedPin = 'last';
-  @tracked zoom = '';
+  dateFrom: string | undefined;
+  dateTo: string | undefined;
+  rememberedTimestamp: string | undefined;
+  zoom: string | undefined;
 }

@@ -56,57 +56,48 @@ export default class PointSelector extends Component<PointSelectorSignature> {
   // Note: Do not try to put more there or else: Attempted to rerender, but the Ember application has had an unrecoverable error occur during render. You should reload the application after fixing the cause of the error.
   snapAreaPadding = '[width:calc(50vw-3rem)]';
 
-  @action updateHighlightedPin(timestamp: number | undefined) {
-    this.settings.rememberedPin = timestamp;
+  @action updateRemembereddPin(timestamp: number) {
+    this.settings.rememberedTimestamp = timestamp;
   }
 
-  @action onIntersect(pin: Pin) {
-    this.settings.highlightedPin = pin.timestamp;
-  }
+  // @action onIntersect(pin: Pin) {
+  //   this.settings.rememberedPin = pin.timestamp;
+  // }
 
   <template>
-    <div
-      class='grid [grid-template-areas:"stack"] justify-items-center items-start'
-    >
-      <div class='w-4 pb-4 [grid-area:stack]'>
-        <div class='border-t-4 border-gray-400 h-full w-full'>
-          {{! The peeking window has to live here in the DOM, otherwise it would overlay the scroll area and hinder scrolling}}
+    <div class=''>
+      <div class='flex w-full justify-center'>
+        <div class='border-t-4 border-gray-400 w-8'>
+          {{! Center marker }}
         </div>
       </div>
 
-      <div
-        class='overflow-x-scroll snap-x snap-mandatory py-2 w-full [grid-area:stack] flex flex-row gap-x-4'
-      >
-        {{!
-
-        }}
+      <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
-        <ButtonGroup as |g|>
+        <ButtonGroup class='gap-x-4' as |g|>
           {{#each @data as |point index|}}
             <g.ToggleButton
-              @isSelected={{eq point.timestamp this.settings.rememberedPin}}
-              @onChange={{fn this.updateHighlightedPin point.timestamp}}
+              @isSelected={{eq
+                point.timestamp
+                this.settings.rememberedTimestamp
+              }}
+              @onChange={{fn this.updateRemembereddPin point.timestamp}}
               {{scrollIntoView
                 shouldScroll=(or
-                  (eq point.timestamp this.settings.rememberedPin)
+                  (eq point.timestamp this.settings.rememberedTimestamp)
                   (and
-                    (eq this.settings.rememberedPin 'last')
+                    (eq this.settings.rememberedTimestamp 'last')
                     (eq index (sub (array @data.length 1)))
                   )
                 )
                 options=(hash behavior='smooth' inline='center')
               }}
-              {{didIntersect
-                onEnter=(fn this.onIntersect point)
-                options=(hash rootMargin='0% -49% 0% -49%' threshold=0)
-              }}
-              @class='{{getSunColor
+              @class={{getSunColor
                 point.timestamp
                 point.latitude
                 point.longitude
               }}
-               snap-center mx-4'
             >
               {{timestampToTime point.timestamp}}
             </g.ToggleButton>

@@ -6,6 +6,7 @@
     // work with TypeScript.
     "skipLibCheck": true,
     "baseUrl": ".",
+    "target": "ES2022",
     "paths": {
       "the-mountains-are-calling/tests/*": ["tests/*"],
       "the-mountains-are-calling/*": ["app/*"],
