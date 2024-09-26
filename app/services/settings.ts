@@ -19,17 +19,25 @@ export interface Pin {
   fixAge: number;
 }
 
-interface Dict<T> {
-  [key: string]: T;
-}
-
 const QP_FORMAT = 'YYYY-MM-DD';
 
 export default class SettingsService extends Service {
   @service declare router: RouterService;
 
-  get qp(): Dict<unknown> {
-    return this.router.currentRoute?.queryParams || {};
+  get defaultQp() {
+    return {
+      dateFrom: this.dateToday,
+      dateTo: this.dateTomorrow,
+      rememberedPin: 'last',
+      zoom: '15',
+    };
+  }
+
+  get qp() {
+    return {
+      ...this.defaultQp,
+      ...this.router.currentRoute?.queryParams,
+    };
   }
 
   get dateToday() {
@@ -40,11 +48,9 @@ export default class SettingsService extends Service {
     return dayjs().add(1, 'day').format(QP_FORMAT);
   }
 
-  defaultZoom = '15';
-
   // ===== .zoom =====
   get zoom(): number {
-    return Number.parseInt((this.qp['zoom'] as string) || this.defaultZoom);
+    return Number.parseInt(this.qp['zoom']);
   }
   set zoom(newZoom: number) {
     this.router.replaceWith({
@@ -55,16 +61,12 @@ export default class SettingsService extends Service {
   }
 
   // ===== .rememberedPin =====
-  // This one exists to persist selected pin to QP
-  get rememberedPin(): number | undefined | 'last' {
-    if (!this.qp['rememberedPin']) {
-      return undefined;
-    }
+  get rememberedPin(): number | 'last' {
     if (this.qp['rememberedPin'] === 'last') {
       return 'last';
     }
 
-    return Number.parseFloat(this.qp['rememberedPin'] as string);
+    return Number.parseInt(this.qp['rememberedPin'] as string);
   }
   set rememberedPin(newPin: number | undefined | 'last') {
     this.router.replaceWith({

@@ -11,8 +11,8 @@ export default class IndexController extends Controller {
     },
   ];
 
-  @tracked dateFrom = '';
-  @tracked dateTo = '';
-  @tracked rememberedPin = 'last';
-  @tracked zoom = '';
+  dateFrom: string | undefined;
+  dateTo: string | undefined;
+  rememberedPin: string | undefined;
+  zoom: string | undefined;
 }
