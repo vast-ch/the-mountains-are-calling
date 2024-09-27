@@ -259,6 +259,19 @@ export default class SettingsService extends Service {
     }
     this._hasOneDaySelection = Boolean(newValue).toString();
   }
+
+  // ===== .lastKnownEmoji =====
+  @trackedInLocalStorage({
+    keyName: 'lastKnownEmoji',
+    defaultValue: '🦄',
+  })
+  declare _lastKnownEmoji: string;
+  get lastKnownEmoji() {
+    return this._lastKnownEmoji;
+  }
+  set lastKnownEmoji(newValue: string) {
+    this._lastKnownEmoji = newValue;
+  }
 }
 
 // Don't remove this declaration: this is what enables TypeScript to resolve

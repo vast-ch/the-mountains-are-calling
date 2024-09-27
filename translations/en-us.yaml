@@ -26,6 +26,9 @@ settings:
   refresh-interval:
     label: Refresh interval
     description: In seconds, input zero to disable auto refresh
+  last-known-emoji:
+    label: Last known location emoji
+    description: What will be displayed on last known location pin
 map:
   loading: Loading...
   accuracy: ± {value}
