@@ -40,6 +40,7 @@ export default class standardPin extends Component<standardPinSignature> {
     {{#let this.args.pin as |pin|}}
       {{#if pin}}
         <@layers.marker
+          @zIndexOffset={{999}}
           @onClick={{fn this.updateQueryParams pin}}
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
