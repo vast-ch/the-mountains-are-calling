@@ -16,7 +16,7 @@ const INACCURACY_COLOURS = [
   '#b91c1c', // red-700
 ];
 
-export default function accuracyToColour(accuracy: number) {
+export default function accuracyToColour(accuracy: number = MAX_INACCURACY) {
   const cappedAccuracy = Math.min(accuracy, MAX_INACCURACY);
 
   const index = Math.floor(
