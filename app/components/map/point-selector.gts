@@ -19,33 +19,29 @@ import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { eq, or, and } from 'ember-truth-helpers';
 import { array } from '@ember/helper';
 
+// TODO: This should just work(tm), but for some reason the import resolved in gts and ts is different
+// Follow: https://discord.com/channels/480462759797063690/484421406659182603/1289116823509274643
+// import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
+import Color from 'colorjs.io';
+
+const MAX_INACCURACY = 1500;
+const goodPrecisionColour = new Color('#84cc16');
+const badPrecisionColour = new Color('#991b1b');
+const colourRange = goodPrecisionColour.range(badPrecisionColour);
+
+function accuracyToColour(accuracy: number) {
+  return colourRange(
+    Math.min(accuracy, MAX_INACCURACY) / MAX_INACCURACY,
+  ).toString({
+    format: 'hex',
+  });
+}
+
 interface PointSelectorSignature {
   Args: {
     data: any[];
   };
   Element: HTMLDivElement;
-}
-
-const COLORS = [
-  'border-amber-950',
-  'border-amber-900',
-  'border-amber-800',
-  'border-amber-700',
-  'border-amber-600',
-  'border-amber-500',
-  'border-amber-400',
-  'border-amber-300',
-  'border-amber-200',
-];
-
-function getSunColor(timestamp: number, latitude: number, longitude: number) {
-  const now = new Date(timestamp * 1000);
-  const calc = SunCalc.getPosition(now, latitude, longitude);
-  const l = COLORS.length;
-
-  const i = Math.floor(((calc.altitude + 1) / 2) * l) - 1;
-
-  return COLORS[i];
 }
 
 export default class PointSelector extends Component<PointSelectorSignature> {
@@ -86,13 +82,7 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                   )
                   options=(hash behavior='smooth' inline='center')
                 }}
-                @class='{{getSunColor
-                  point.timestamp
-                  point.latitude
-                  point.longitude
-                }}
-                relative
-                '
+                @class='relative border-[{{accuracyToColour point.accuracy}}]'
               >
                 {{#if isSelected}}
                   <img
