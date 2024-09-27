@@ -10,8 +10,7 @@ import { hash } from '@ember/helper';
 import { ToggleButton } from '@frontile/buttons';
 // import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
 // import SkipForward from 'ember-phosphor-icons/components/ph-skip-forward';
-import GpsFix from 'ember-phosphor-icons/components/ph-gps-fix';
-import GpsSlash from 'ember-phosphor-icons/components/ph-gps-slash';
+import MapPin from 'ember-phosphor-icons/components/ph-map-pin';
 
 interface DateSelectorSignature {
   Args: {};
@@ -66,11 +65,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @intent='primary'
         @size='lg'
       >
-        {{#if this.settings.isAutoFastForward}}
-          <GpsFix />
-        {{else}}
-          <GpsSlash />
-        {{/if}}
+        <MapPin />
       </ToggleButton>
 
       {{!-- <Button

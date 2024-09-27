@@ -7,45 +7,24 @@ import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
 import { fn, hash } from '@ember/helper';
-//@ts-expect-error No TS yet
-import SunCalc from 'suncalc';
 //@ts-ignore No TS stuff yet
 import { action } from '@ember/object';
-//@ts-expect-error No TS yet
-import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 //@ts-expect-error No TS yet
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { eq, or, and } from 'ember-truth-helpers';
 import { array } from '@ember/helper';
+import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
+import { Button } from '@frontile/buttons';
+import { on } from '@ember/modifier';
+import rememberedPin from './pin/remembered';
 
 interface PointSelectorSignature {
   Args: {
     data: any[];
+    rememberedPin: Pin | undefined;
   };
   Element: HTMLDivElement;
-}
-
-const COLORS = [
-  'border-amber-950',
-  'border-amber-900',
-  'border-amber-800',
-  'border-amber-700',
-  'border-amber-600',
-  'border-amber-500',
-  'border-amber-400',
-  'border-amber-300',
-  'border-amber-200',
-];
-
-function getSunColor(timestamp: number, latitude: number, longitude: number) {
-  const now = new Date(timestamp * 1000);
-  const calc = SunCalc.getPosition(now, latitude, longitude);
-  const l = COLORS.length;
-
-  const i = Math.floor(((calc.altitude + 1) / 2) * l) - 1;
-
-  return COLORS[i];
 }
 
 export default class PointSelector extends Component<PointSelectorSignature> {
@@ -62,58 +41,38 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     this.settings.longitude = pin.longitude;
   }
 
-  // @action onIntersect(pin: Pin) {
-  //   this.settings.rememberedPin = pin.timestamp;
-  // }
-
   <template>
     <div>
-      {{! <div class='flex w-full justify-center'>
-        <div class='w-8 text-center -mb-5 z-10'>
-          📍
-        </div>
-      </div> }}
-
       <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
-        <ButtonGroup class='gap-x-2' as |g|>
+        <div class='gap-x-2 flex'>
           {{#each @data as |point index|}}
             {{#let
-              (eq point.timestamp this.settings.rememberedTimestamp)
+              (eq point.timestamp @rememberedPin.timestamp)
               as |isSelected|
             }}
-              <g.ToggleButton
-                @isSelected={{isSelected}}
-                @onChange={{fn this.updateRemembereddPin point}}
+              <Button
+                {{on 'click' (fn this.updateRemembereddPin point)}}
                 {{scrollIntoView
-                  shouldScroll=(or
-                    (eq point.timestamp this.settings.rememberedTimestamp)
-                    (and
-                      (eq this.settings.rememberedTimestamp 'last')
-                      (eq index (sub (array @data.length 1)))
-                    )
-                  )
+                  shouldScroll=(eq point.timestamp @rememberedPin.timestamp)
                   options=(hash behavior='smooth' inline='center')
                 }}
-                @class='{{getSunColor
-                  point.timestamp
-                  point.latitude
-                  point.longitude
-                }}
-                relative
-                '
+                @class='relative {{if isSelected "ring ring-offset-2"}}'
+                style='background-color: {{accuracyToColour point.accuracy}}'
               >
                 {{#if isSelected}}
-                  <span class='absolute mx-3 -mt-4'>
-                    📍
-                  </span>
+                  <img
+                    src='/images/pin-remembered.svg'
+                    class='absolute mx-3 -mt-4 w-5 aspect-square'
+                  />
                 {{/if}}
                 {{timestampToTime point.timestamp}}
-              </g.ToggleButton>
+              </Button>
             {{/let}}
           {{/each}}
-        </ButtonGroup>
+        </div>
+
         <div><div class={{this.snapAreaPadding}}></div></div>
 
       </div>

@@ -123,7 +123,10 @@ export default class Map extends Component<Signature> {
 
         <div class='flex flex-col gap-2 pt-2'>
           <DateSelector />
-          <PointSelector @data={{l.result.data}} />
+          <PointSelector
+            @data={{l.result.data}}
+            @rememberedPin={{filtered.rememberedPin}}
+          />
         </div>
 
         <Interval
