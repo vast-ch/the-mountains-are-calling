@@ -17,10 +17,12 @@ import { array } from '@ember/helper';
 import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
 import { Button } from '@frontile/buttons';
 import { on } from '@ember/modifier';
+import rememberedPin from './pin/remembered';
 
 interface PointSelectorSignature {
   Args: {
     data: any[];
+    rememberedPin: Pin | undefined;
   };
   Element: HTMLDivElement;
 }
@@ -47,19 +49,13 @@ export default class PointSelector extends Component<PointSelectorSignature> {
         <div class='gap-x-2 flex'>
           {{#each @data as |point index|}}
             {{#let
-              (eq point.timestamp this.settings.rememberedTimestamp)
+              (eq point.timestamp @rememberedPin.timestamp)
               as |isSelected|
             }}
               <Button
                 {{on 'click' (fn this.updateRemembereddPin point)}}
                 {{scrollIntoView
-                  shouldScroll=(or
-                    (eq point.timestamp this.settings.rememberedTimestamp)
-                    (and
-                      (eq this.settings.rememberedTimestamp 'last')
-                      (eq index (sub (array @data.length 1)))
-                    )
-                  )
+                  shouldScroll=(eq point.timestamp @rememberedPin.timestamp)
                   options=(hash behavior='smooth' inline='center')
                 }}
                 @class='relative {{if isSelected "ring ring-offset-2"}}'
