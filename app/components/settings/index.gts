@@ -77,6 +77,15 @@ export default class Settings extends Component<SettingsSignature> {
         @description={{t 'settings.refresh-interval.description'}}
         @onChange={{set this.settings 'refreshInterval'}}
       />
+
+      <Input
+        @value={{this.settings.lastKnownEmoji}}
+        @type='string'
+        name='lastKnownEmoji'
+        @label={{t 'settings.last-known-emoji.label'}}
+        @description={{t 'settings.last-known-emoji.description'}}
+        @onChange={{set this.settings 'lastKnownEmoji'}}
+      />
     </div>
   </template>
 }
