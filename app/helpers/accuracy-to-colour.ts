@@ -1,4 +1,3 @@
-import { helper } from '@ember/component/helper';
 import Color from 'colorjs.io';
 
 const MAX_INACCURACY = 1500;
