@@ -7,35 +7,16 @@ import { sub } from 'ember-math-helpers/helpers/sub';
 import { ButtonGroup } from '@frontile/buttons';
 
 import { fn, hash } from '@ember/helper';
-//@ts-expect-error No TS yet
-import SunCalc from 'suncalc';
 //@ts-ignore No TS stuff yet
 import { action } from '@ember/object';
-//@ts-expect-error No TS yet
-import didIntersect from 'ember-scroll-modifiers/modifiers/did-intersect';
 //@ts-expect-error No TS yet
 import scrollIntoView from 'ember-scroll-modifiers/modifiers/scroll-into-view';
 import type { Pin } from 'the-mountains-are-calling/services/settings';
 import { eq, or, and } from 'ember-truth-helpers';
 import { array } from '@ember/helper';
-
-// TODO: This should just work(tm), but for some reason the import resolved in gts and ts is different
-// Follow: https://discord.com/channels/480462759797063690/484421406659182603/1289116823509274643
-// import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
-import Color from 'colorjs.io';
-
-const MAX_INACCURACY = 1500;
-const goodPrecisionColour = new Color('#84cc16');
-const badPrecisionColour = new Color('#991b1b');
-const colourRange = goodPrecisionColour.range(badPrecisionColour);
-
-function accuracyToColour(accuracy: number) {
-  return colourRange(
-    Math.min(accuracy, MAX_INACCURACY) / MAX_INACCURACY,
-  ).toString({
-    format: 'hex',
-  });
-}
+import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
+import { Button } from '@frontile/buttons';
+import { on } from '@ember/modifier';
 
 interface PointSelectorSignature {
   Args: {
@@ -63,15 +44,14 @@ export default class PointSelector extends Component<PointSelectorSignature> {
       <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
-        <ButtonGroup class='gap-x-2' as |g|>
+        <div class='gap-x-2 flex'>
           {{#each @data as |point index|}}
             {{#let
               (eq point.timestamp this.settings.rememberedTimestamp)
               as |isSelected|
             }}
-              <g.ToggleButton
-                @isSelected={{isSelected}}
-                @onChange={{fn this.updateRemembereddPin point}}
+              <Button
+                {{on 'click' (fn this.updateRemembereddPin point)}}
                 {{scrollIntoView
                   shouldScroll=(or
                     (eq point.timestamp this.settings.rememberedTimestamp)
@@ -82,7 +62,8 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                   )
                   options=(hash behavior='smooth' inline='center')
                 }}
-                @class='relative border-[{{accuracyToColour point.accuracy}}]'
+                @class='relative {{if isSelected "ring ring-offset-2"}}'
+                style='background-color: {{accuracyToColour point.accuracy}}'
               >
                 {{#if isSelected}}
                   <img
@@ -91,10 +72,11 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                   />
                 {{/if}}
                 {{timestampToTime point.timestamp}}
-              </g.ToggleButton>
+              </Button>
             {{/let}}
           {{/each}}
-        </ButtonGroup>
+        </div>
+
         <div><div class={{this.snapAreaPadding}}></div></div>
 
       </div>
