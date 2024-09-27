@@ -62,18 +62,8 @@ export default class PointSelector extends Component<PointSelectorSignature> {
     this.settings.longitude = pin.longitude;
   }
 
-  // @action onIntersect(pin: Pin) {
-  //   this.settings.rememberedPin = pin.timestamp;
-  // }
-
   <template>
     <div>
-      {{! <div class='flex w-full justify-center'>
-        <div class='w-8 text-center -mb-5 z-10'>
-          📍
-        </div>
-      </div> }}
-
       <div class='overflow-x-scroll py-2 w-full flex flex-row'>
         <div><div class={{this.snapAreaPadding}}></div></div>
 
@@ -105,9 +95,10 @@ export default class PointSelector extends Component<PointSelectorSignature> {
                 '
               >
                 {{#if isSelected}}
-                  <span class='absolute mx-3 -mt-4'>
-                    📍
-                  </span>
+                  <img
+                    src='/images/pin-remembered.svg'
+                    class='absolute mx-3 -mt-4 w-5 aspect-square'
+                  />
                 {{/if}}
                 {{timestampToTime point.timestamp}}
               </g.ToggleButton>
