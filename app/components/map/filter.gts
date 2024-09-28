@@ -111,6 +111,10 @@ export default class Filter extends Component<MapFilterSignature> {
     );
   }
 
+  get pinsAfterRememberedCutoffExcluding() {
+    return this.pinsAfterRememberedCutoff.slice(1);
+  }
+
   get polylineBeforeRemembered() {
     const rememberedPinTimestamp = this.rememberedPin?.timestamp ?? 0;
 
@@ -152,7 +156,7 @@ export default class Filter extends Component<MapFilterSignature> {
     {{yield
       (hash
         pinsBeforeRemembered=this.pinsBeforeRememberedCutoff
-        pinsAfterRemembered=this.pinsAfterRememberedCutoff
+        pinsAfterRemembered=this.pinsAfterRememberedCutoffExcluding
         polylineBeforeRemembered=this.polylineBeforeRemembered
         polylineAfterRemembered=this.polylineAfterRemembered
         lastKnown=this.lastKnownPin
