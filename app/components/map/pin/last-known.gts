@@ -5,6 +5,7 @@ import { divIcon } from 'ember-leaflet/helpers/div-icon';
 import accuracyToColour from 'the-mountains-are-calling/helpers/accuracy-to-colour';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
 import { service } from '@ember/service';
+import MapPinPopup from './popup';
 
 interface lastKnownPinSignature {
   Args: {
@@ -33,6 +34,7 @@ export default class lastKnownPin extends Component<lastKnownPinSignature> {
       `,
       iconSize: [32, 32],
       iconAnchor: [16, 38],
+      popupAnchor: [0, -25],
     });
   }
 
@@ -44,7 +46,10 @@ export default class lastKnownPin extends Component<lastKnownPinSignature> {
           @lat={{pin.latitude}}
           @lng={{pin.longitude}}
           @icon={{this.pinLastKnown}}
-        />
+          as |marker|
+        >
+          <MapPinPopup @marker={{marker}} @pin={{@pin}} />
+        </@layers.marker>
       {{/if}}
     {{/let}}
   </template>
