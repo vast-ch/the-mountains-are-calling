@@ -31,10 +31,10 @@ export default class DateSelector extends Component<DateSelectorSignature> {
 
       {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
       <Input
-        @value={{this.settings.dateFromShort}}
+        @value={{this.settings.dateFilterShort}}
         @type='date'
         name='date'
-        @onChange={{set this.settings 'date'}}
+        @onChange={{set this.settings 'dateFilter'}}
         @classes={{hash base='flex-1'}}
         @size='lg'
       />

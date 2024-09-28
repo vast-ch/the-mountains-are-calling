@@ -1,16 +1,12 @@
 import type { Dayjs } from 'dayjs';
 
-export function firebaseQuery(
-  deviceUrl: string = '',
-  dateFrom: Dayjs,
-  dateTo: Dayjs,
-) {
+export function firebaseQuery(deviceUrl: string = '', dateFilter: Dayjs) {
   const cacheOptions = {};
   const headers = new Headers();
   const queryParams = new URLSearchParams({
     orderBy: '"created_at"',
-    startAt: dateFrom.unix().toString(),
-    endAt: dateTo.unix().toString(),
+    startAt: dateFilter.unix().toString(),
+    endAt: dateFilter.add(1, 'days').unix().toString(),
   }).toString();
 
   return {
