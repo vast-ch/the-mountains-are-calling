@@ -53,10 +53,11 @@ export default class Map extends Component<Signature> {
 
   @action
   zoomend(event: any) {
-    // This is important
     this.settings.zoom = event.target.getZoom() as number;
+  }
 
-    // This as well, don't be smart-ass
+  @action
+  panned(event: any) {
     const center = event.target.getCenter();
     this.settings.longitude = center.lng;
     this.settings.latitude = center.lat;
@@ -77,6 +78,7 @@ export default class Map extends Component<Signature> {
           {{#if filtered.rememberedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
+              @onMoveend={{this.panned}}
               class='w-full min-h-64 flex-1 border-2'
               @lat={{this.settings.latitude}}
               @lng={{this.settings.longitude}}
