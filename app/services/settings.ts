@@ -63,7 +63,7 @@ export default class SettingsService extends Service {
   get latitude(): number {
     return Number.parseFloat(this.qp['latitude']);
   }
-  set latitude(newLatitude: number) {
+  set latitude(newLatitude: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         latitude: newLatitude,
@@ -75,7 +75,7 @@ export default class SettingsService extends Service {
   get longitude(): number {
     return Number.parseFloat(this.qp['longitude']);
   }
-  set longitude(newLongitude: number) {
+  set longitude(newLongitude: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         longitude: newLongitude,
@@ -87,7 +87,7 @@ export default class SettingsService extends Service {
   get zoom(): number {
     return Number.parseInt(this.qp['zoom']);
   }
-  set zoom(newZoom: number) {
+  set zoom(newZoom: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         zoom: newZoom,
@@ -114,6 +114,9 @@ export default class SettingsService extends Service {
     this.rememberedTimestamp = undefined;
     this.dateFrom = undefined;
     this.dateTo = undefined;
+    this.zoom = undefined;
+    this.latitude = undefined;
+    this.longitude = undefined;
   }
 
   // ===== .isAutoFastForward =====
