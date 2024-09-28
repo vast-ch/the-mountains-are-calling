@@ -1,0 +1,104 @@
+import Component from '@glimmer/component';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
+import { formatNumber, t } from 'ember-intl';
+//@ts-ignore No TS
+import { icon } from 'ember-leaflet/helpers/icon';
+import { service } from '@ember/service';
+import type SettingsService from 'the-mountains-are-calling/services/settings';
+import dayjs from 'dayjs';
+import { Point } from 'leaflet';
+import duration from 'dayjs/plugin/duration';
+import Calendar from 'ember-phosphor-icons/components/ph-calendar';
+import CalendarHeart from 'ember-phosphor-icons/components/ph-calendar-heart';
+import Ruler from 'ember-phosphor-icons/components/ph-ruler';
+import Mountains from 'ember-phosphor-icons/components/ph-mountains';
+import BatteryHigh from 'ember-phosphor-icons/components/ph-battery-high';
+import Speedometer from 'ember-phosphor-icons/components/ph-speedometer';
+import ClockUser from 'ember-phosphor-icons/components/ph-clock-user';
+
+// TODO: Is there a better place?
+dayjs.extend(duration);
+
+function rememberedPinRelative(pin: Pin): string {
+  return dayjs(pin.timestamp * 1000).fromNow();
+}
+
+function fixAgeRelative(diff: number): string {
+  return dayjs.duration(diff, 'seconds').format('HH:mm:ss');
+}
+
+function timestampToHuman(timestamp: number) {
+  return new Date(timestamp * 1000).toLocaleString();
+}
+
+interface rememberedPinSignature {
+  Args: {
+    pin: Pin | undefined;
+    marker: any;
+  };
+  Element: HTMLDivElement;
+}
+
+export default class MapPinPopup extends Component<rememberedPinSignature> {
+  <template>
+    {{#if @pin}}
+      <@marker.popup
+        {{! Settings this to true makes Safari cry }}
+        @popupOpen={{false}}
+        @closeOnClick={{false}}
+        {{!-- @autoPanPadding={{this.autoPanPadding}} --}}
+      >
+        <ul>
+          <li>
+            <Calendar @size='18' class='inline mr-1' />
+            {{timestampToHuman @pin.timestamp}}
+          </li>
+          <li>
+            <CalendarHeart @size='18' class='inline mr-1' />
+            {{rememberedPinRelative @pin}}
+          </li>
+          <li>
+            <Ruler @size='18' class='inline mr-1' />
+            {{t
+              'map.accuracy'
+              value=(formatNumber
+                @pin.accuracy style='unit' unit='meter' maximumFractionDigits=0
+              )
+            }}
+          </li>
+          <li>
+            <Mountains @size='18' class='inline mr-1' />
+            {{formatNumber
+              @pin.altitude
+              style='unit'
+              unit='meter'
+              maximumFractionDigits=0
+            }}
+          </li>
+          <li>
+            <BatteryHigh @size='18' class='inline mr-1' />
+            {{formatNumber
+              @pin.battery
+              style='unit'
+              unit='percent'
+              maximumFractionDigits=0
+            }}
+          </li>
+          <li>
+            <Speedometer @size='18' class='inline mr-1' />
+            {{formatNumber
+              @pin.velocity
+              style='unit'
+              unit='kilometer-per-hour'
+              maximumFractionDigits=0
+            }}
+          </li>
+          <li>
+            <ClockUser @size='18' class='inline mr-1' />
+            {{fixAgeRelative @pin.fixAge}}
+          </li>
+        </ul>
+      </@marker.popup>
+    {{/if}}
+  </template>
+}
