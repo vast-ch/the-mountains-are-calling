@@ -27,11 +27,7 @@ export default class Loader extends Component<Signature> {
 
   get request() {
     return this.store.request(
-      firebaseQuery(
-        this.settings.deviceUrl,
-        this.settings.dateFrom,
-        this.settings.dateTo,
-      ),
+      firebaseQuery(this.settings.deviceUrl, this.settings.dateFilter),
     );
   }
 

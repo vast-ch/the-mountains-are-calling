@@ -22,6 +22,7 @@ import standardPin from './pin/standard';
 import lastKnownPin from './pin/last-known';
 import grayPin from './pin/gray';
 import { action } from '@ember/object';
+import type { Pin } from 'the-mountains-are-calling/services/settings';
 
 // TODO: Is there a better place?
 dayjs.extend(relativeTime);
@@ -53,14 +54,37 @@ export default class Map extends Component<Signature> {
 
   @action
   zoomend(event: any) {
-    // This is important
     this.settings.zoom = event.target.getZoom() as number;
 
-    // This as well, don't be smart-ass
+    // This feels weird, but if we don't do moveend()
+    // then we need to persist location on zoomend
+    // otherwise the map pans to last pin location
+    // on zoomend, which is annoying.
     const center = event.target.getCenter();
     this.settings.longitude = center.lng;
     this.settings.latitude = center.lat;
   }
+
+  @action
+  moveend(event: any) {
+    // TODO: If enabled, this *in some cases* causes infinite loop
+    // I think it's because the user moves map, which changes the QPs
+    // which causes the map to fly somewhere and that *sometimes*
+    // triggers moveend() again.
+    // My suspicion here is that it's because leaflet calculates the center
+    // position incorrectly.
+    // const center = event.target.getCenter();
+    // this.settings.longitude = center.lng;
+    // this.settings.latitude = center.lat;
+  }
+
+  getLatitude = (lastKnown: Pin | undefined) => {
+    return this.settings.latitude ?? lastKnown?.latitude;
+  };
+
+  getLongitude = (lastKnown: Pin | undefined) => {
+    return this.settings.longitude ?? lastKnown?.longitude;
+  };
 
   <template>
     <Loader as |l|>
@@ -77,9 +101,10 @@ export default class Map extends Component<Signature> {
           {{#if filtered.rememberedPin}}
             <LeafletMap
               @onZoomend={{this.zoomend}}
+              @onMoveend={{this.moveend}}
               class='w-full min-h-64 flex-1 border-2'
-              @lat={{this.settings.latitude}}
-              @lng={{this.settings.longitude}}
+              @lat={{this.getLatitude filtered.lastKnown}}
+              @lng={{this.getLongitude filtered.lastKnown}}
               @zoom={{this.settings.zoom}}
               as |layers|
             >

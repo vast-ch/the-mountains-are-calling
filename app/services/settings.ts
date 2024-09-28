@@ -26,8 +26,7 @@ export default class SettingsService extends Service {
 
   get defaultQp() {
     return {
-      dateFrom: this.dateToday,
-      dateTo: this.dateTomorrow,
+      dateFilter: this.dateToday,
       rememberedTimestamp: 'last',
       zoom: '15',
       latitude: '46.686',
@@ -41,8 +40,7 @@ export default class SettingsService extends Service {
     const d = this.defaultQp;
 
     const ret = {
-      dateFrom: r['dateFrom'] ?? d.dateFrom,
-      dateTo: r['dateTo'] ?? d.dateTo,
+      dateFilter: r['dateFilter'] ?? d.dateFilter,
       rememberedTimestamp: r['rememberedTimestamp'] ?? d.rememberedTimestamp,
       zoom: r['zoom'] ?? d.zoom,
       latitude: r['latitude'] ?? d.latitude,
@@ -55,15 +53,11 @@ export default class SettingsService extends Service {
     return dayjs().format(QP_FORMAT);
   }
 
-  get dateTomorrow() {
-    return dayjs().add(1, 'day').format(QP_FORMAT);
-  }
-
   // ===== .latitude =====
   get latitude(): number {
     return Number.parseFloat(this.qp['latitude']);
   }
-  set latitude(newLatitude: number) {
+  set latitude(newLatitude: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         latitude: newLatitude,
@@ -75,7 +69,7 @@ export default class SettingsService extends Service {
   get longitude(): number {
     return Number.parseFloat(this.qp['longitude']);
   }
-  set longitude(newLongitude: number) {
+  set longitude(newLongitude: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         longitude: newLongitude,
@@ -87,7 +81,7 @@ export default class SettingsService extends Service {
   get zoom(): number {
     return Number.parseInt(this.qp['zoom']);
   }
-  set zoom(newZoom: number) {
+  set zoom(newZoom: number | undefined) {
     this.router.replaceWith({
       queryParams: {
         zoom: newZoom,
@@ -112,8 +106,17 @@ export default class SettingsService extends Service {
   // ===== .toggleAutoFastForward =====
   @action toggleAutoFastForward() {
     this.rememberedTimestamp = undefined;
-    this.dateFrom = undefined;
-    this.dateTo = undefined;
+    this.dateFilter = undefined;
+    this.zoom = undefined;
+    this.latitude = undefined;
+    this.longitude = undefined;
+  }
+
+  @action changeDateFilter(newDate: string) {
+    this.dateFilter = newDate;
+    this.latitude = undefined;
+    this.longitude = undefined;
+    this.rememberedTimestamp = undefined;
   }
 
   // ===== .isAutoFastForward =====
@@ -121,73 +124,35 @@ export default class SettingsService extends Service {
     return this.rememberedTimestamp == 'last';
   }
 
-  // ===== .dateFrom =====
-  get dateFrom(): dayjs.Dayjs {
-    return dayjs(this.qp['dateFrom']);
+  // ===== .dateFilter =====
+  get dateFilter(): dayjs.Dayjs {
+    return dayjs(this.qp['dateFilter']);
   }
-  set dateFrom(newDate: string | dayjs.Dayjs | undefined) {
-    let dateFrom;
+  set dateFilter(newDate: string | dayjs.Dayjs | undefined) {
+    let dateFilter;
 
     if (newDate !== undefined) {
       if (typeof newDate === 'string') {
-        dateFrom = dayjs(newDate);
+        dateFilter = dayjs(newDate);
       } else {
-        dateFrom = newDate;
+        dateFilter = newDate;
       }
-      dateFrom = dateFrom.startOf('day').format(QP_FORMAT);
+      dateFilter = dateFilter.startOf('day').format(QP_FORMAT);
     }
 
     this.router.transitionTo({
-      queryParams: { dateFrom },
+      queryParams: { dateFilter },
     });
   }
 
-  get dateFromShort() {
-    return this.dateFrom.format('YYYY-MM-DD');
-  }
-
-  // ===== .dateTo =====
-  get dateTo(): dayjs.Dayjs {
-    return dayjs(this.qp['dateTo']);
-  }
-  set dateTo(newDate: string | dayjs.Dayjs | undefined) {
-    let dateTo;
-
-    if (newDate !== undefined) {
-      if (typeof newDate === 'string') {
-        dateTo = dayjs(newDate);
-      } else {
-        dateTo = newDate;
-      }
-      dateTo = dateTo.startOf('day').format(QP_FORMAT);
-    }
-
-    this.router.transitionTo({
-      queryParams: { dateTo },
-    });
-  }
-
-  get dateToShort() {
-    return this.dateTo.format('YYYY-MM-DD');
-  }
-
-  // ===== .date ======
-  // Getter is shorthand for dateFrom
-  // Setter will set dateFrom to current value and dateTo to +1 day
-  get date() {
-    return this.dateFrom;
-  }
-  set date(newDate: string | dayjs.Dayjs) {
-    const value = dayjs(newDate);
-    this.dateFrom = value;
-    this.dateTo = value.add(1, 'day').startOf('day');
+  get dateFilterShort() {
+    return this.dateFilter.format('YYYY-MM-DD');
   }
 
   // ===== .addDays() =====
   @action
   addDays(amount: number) {
-    this.dateFrom = this.dateFrom.add(amount, 'days');
-    this.dateTo = this.dateTo.add(amount, 'days');
+    this.dateFilter = this.dateFilter.add(amount, 'days');
   }
 
   // ===== .providerId =====
@@ -241,23 +206,6 @@ export default class SettingsService extends Service {
   }
   set isAccuracyVisible(newValue: boolean) {
     this._isAccuracyVisible = Boolean(newValue).toString();
-  }
-
-  // ===== .hasOneDaySelection =====
-  @trackedInLocalStorage({
-    keyName: 'hasOneDaySelection',
-    defaultValue: 'true',
-  })
-  declare _hasOneDaySelection: string;
-  get hasOneDaySelection() {
-    return this._hasOneDaySelection === 'true';
-  }
-  set hasOneDaySelection(newValue: boolean) {
-    // When we're going to "one day seleciton" we need to sync from&to dates
-    if (newValue === true) {
-      this.date = this.dateFrom;
-    }
-    this._hasOneDaySelection = Boolean(newValue).toString();
   }
 
   // ===== .lastKnownEmoji =====

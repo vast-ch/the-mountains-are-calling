@@ -4,8 +4,7 @@ import { tracked } from '@glimmer/tracking';
 export default class IndexController extends Controller {
   queryParams = [
     {
-      dateFrom: { type: 'string' as const },
-      dateTo: { type: 'string' as const },
+      dateFilter: { type: 'string' as const },
       rememberedTimestamp: { type: 'string' as const },
       zoom: { type: 'string' as const },
       latitude: { type: 'string' as const },
@@ -13,8 +12,7 @@ export default class IndexController extends Controller {
     },
   ];
 
-  dateFrom: string | undefined;
-  dateTo: string | undefined;
+  dateFilter: string | undefined;
   rememberedTimestamp: string | undefined;
   zoom: string | undefined;
   latitude: string | undefined;

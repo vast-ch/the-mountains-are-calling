@@ -2,10 +2,7 @@ import Component from '@glimmer/component';
 import { Button } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { Input } from '@frontile/forms';
-import set from 'ember-set-helper/helpers/set';
 import { hash } from '@ember/helper';
 import { ToggleButton } from '@frontile/buttons';
 // import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
@@ -29,35 +26,15 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         <SkipBack />
       </Button> --}}
 
-      {{#if this.settings.hasOneDaySelection}}
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-        <Input
-          @value={{this.settings.dateFromShort}}
-          @type='date'
-          name='date'
-          @onChange={{set this.settings 'date'}}
-          @classes={{hash base='flex-1'}}
-          @size='lg'
-        />
-      {{else}}
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-
-        <Input
-          @value={{this.settings.dateFromShort}}
-          @type='date'
-          name='dateFrom'
-          @onChange={{set this.settings 'dateFrom'}}
-          @classes={{hash base='grow'}}
-        />
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-        <Input
-          @value={{this.settings.dateToShort}}
-          @type='date'
-          name='dateTo'
-          @onChange={{set this.settings 'dateTo'}}
-          @classes={{hash base='grow'}}
-        />
-      {{/if}}
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
+      <Input
+        @value={{this.settings.dateFilterShort}}
+        @type='date'
+        name='date'
+        @onChange={{this.settings.changeDateFilter}}
+        @classes={{hash base='flex-1'}}
+        @size='lg'
+      />
 
       <ToggleButton
         @isSelected={{this.settings.isAutoFastForward}}
