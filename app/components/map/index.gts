@@ -55,11 +55,25 @@ export default class Map extends Component<Signature> {
   @action
   zoomend(event: any) {
     this.settings.zoom = event.target.getZoom() as number;
+
+    // This feels weird, but if we don't do moveend()
+    // then we need to persist location on zoomend
+    // otherwise the map pans to last pin location
+    // on zoomend, which is annoying.
+    const center = event.target.getCenter();
+    this.settings.longitude = center.lng;
+    this.settings.latitude = center.lat;
   }
 
   @action
   moveend(event: any) {
-    const center = event.target.getCenter();
+    // TODO: If enabled, this *in some cases* causes infinite loop
+    // I think it's because the user moves map, which changes the QPs
+    // which causes the map to fly somewhere and that *sometimes*
+    // triggers moveend() again.
+    // My suspicion here is that it's because leaflet calculates the center
+    // position incorrectly.
+    // const center = event.target.getCenter();
     // this.settings.longitude = center.lng;
     // this.settings.latitude = center.lat;
   }
