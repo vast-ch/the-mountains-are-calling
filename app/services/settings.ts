@@ -112,6 +112,13 @@ export default class SettingsService extends Service {
     this.longitude = undefined;
   }
 
+  @action changeDateFilter(newDate: string) {
+    this.dateFilter = newDate;
+    this.latitude = undefined;
+    this.longitude = undefined;
+    this.rememberedTimestamp = undefined;
+  }
+
   // ===== .isAutoFastForward =====
   get isAutoFastForward(): boolean {
     return this.rememberedTimestamp == 'last';

@@ -2,10 +2,7 @@ import Component from '@glimmer/component';
 import { Button } from '@frontile/buttons';
 import { inject as service } from '@ember/service';
 import type SettingsService from 'the-mountains-are-calling/services/settings';
-import { fn } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { Input } from '@frontile/forms';
-import set from 'ember-set-helper/helpers/set';
 import { hash } from '@ember/helper';
 import { ToggleButton } from '@frontile/buttons';
 // import SkipBack from 'ember-phosphor-icons/components/ph-skip-back';
@@ -34,7 +31,7 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         @value={{this.settings.dateFilterShort}}
         @type='date'
         name='date'
-        @onChange={{set this.settings 'dateFilter'}}
+        @onChange={{this.settings.changeDateFilter}}
         @classes={{hash base='flex-1'}}
         @size='lg'
       />
