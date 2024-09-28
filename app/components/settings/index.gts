@@ -51,14 +51,6 @@ export default class Settings extends Component<SettingsSignature> {
       />
 
       <Checkbox
-        @checked={{this.settings.hasOneDaySelection}}
-        name='hasOneDaySelection'
-        @label={{t 'settings.has-one-day-selection.label'}}
-        @description={{t 'settings.has-one-day-selection.description'}}
-        @onChange={{set this.settings 'hasOneDaySelection'}}
-      />
-
-      <Checkbox
         @checked={{this.settings.isAccuracyVisible}}
         name='isAccuracyVisible'
         @label={{t 'settings.is-accuracy-visible.label'}}

@@ -29,35 +29,15 @@ export default class DateSelector extends Component<DateSelectorSignature> {
         <SkipBack />
       </Button> --}}
 
-      {{#if this.settings.hasOneDaySelection}}
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-        <Input
-          @value={{this.settings.dateFromShort}}
-          @type='date'
-          name='date'
-          @onChange={{set this.settings 'date'}}
-          @classes={{hash base='flex-1'}}
-          @size='lg'
-        />
-      {{else}}
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-
-        <Input
-          @value={{this.settings.dateFromShort}}
-          @type='date'
-          name='dateFrom'
-          @onChange={{set this.settings 'dateFrom'}}
-          @classes={{hash base='grow'}}
-        />
-        {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
-        <Input
-          @value={{this.settings.dateToShort}}
-          @type='date'
-          name='dateTo'
-          @onChange={{set this.settings 'dateTo'}}
-          @classes={{hash base='grow'}}
-        />
-      {{/if}}
+      {{! template-lint-disable no-unknown-arguments-for-builtin-components require-input-label }}
+      <Input
+        @value={{this.settings.dateFromShort}}
+        @type='date'
+        name='date'
+        @onChange={{set this.settings 'date'}}
+        @classes={{hash base='flex-1'}}
+        @size='lg'
+      />
 
       <ToggleButton
         @isSelected={{this.settings.isAutoFastForward}}

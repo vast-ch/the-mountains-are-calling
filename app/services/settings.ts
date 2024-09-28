@@ -246,23 +246,6 @@ export default class SettingsService extends Service {
     this._isAccuracyVisible = Boolean(newValue).toString();
   }
 
-  // ===== .hasOneDaySelection =====
-  @trackedInLocalStorage({
-    keyName: 'hasOneDaySelection',
-    defaultValue: 'true',
-  })
-  declare _hasOneDaySelection: string;
-  get hasOneDaySelection() {
-    return this._hasOneDaySelection === 'true';
-  }
-  set hasOneDaySelection(newValue: boolean) {
-    // When we're going to "one day seleciton" we need to sync from&to dates
-    if (newValue === true) {
-      this.date = this.dateFrom;
-    }
-    this._hasOneDaySelection = Boolean(newValue).toString();
-  }
-
   // ===== .lastKnownEmoji =====
   @trackedInLocalStorage({
     keyName: 'lastKnownEmoji',
